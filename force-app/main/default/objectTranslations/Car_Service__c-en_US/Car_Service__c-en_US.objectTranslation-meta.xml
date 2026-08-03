@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Car Service</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Car Services</value>
+    </caseValues>
+    <startsWith>Consonant</startsWith>
+    <validationRules>
+        <errorMessage><!-- The Car field is required and cannot be left blank. --></errorMessage>
+        <name>Car_Field_Required</name>
+    </validationRules>
+</CustomObjectTranslation>

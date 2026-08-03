@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Car_Field_Required</fullName>
+    <active>true</active>
+    <errorConditionFormula>ISBLANK(Car__c)</errorConditionFormula>
+    <errorMessage>The Car field is required and cannot be left blank.</errorMessage>
+</ValidationRule>
