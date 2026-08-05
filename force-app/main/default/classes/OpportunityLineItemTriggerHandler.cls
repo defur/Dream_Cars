@@ -8,6 +8,10 @@ public class OpportunityLineItemTriggerHandler extends TriggerHandler {
         validateAndSetQuantity(Trigger.new);
     }
 
+    protected override String getHandlerName() {
+    return 'OpportunityLineItemTriggerHandler';
+}
+
     private void validateAndSetQuantity(List<OpportunityLineItem> items) {
         for (OpportunityLineItem oli : items) {
             if (oli.Quantity == null) {

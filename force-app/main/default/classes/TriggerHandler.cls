@@ -1,14 +1,21 @@
 public virtual class TriggerHandler {
 
-    public enum TriggerContext {
-        BEFORE_INSERT, BEFORE_UPDATE, BEFORE_DELETE,
-        AFTER_INSERT, AFTER_UPDATE, AFTER_DELETE, AFTER_UNDELETE
-    }
-
     public static Boolean isTriggerDisabled = false;
 
+    protected virtual String getHandlerName() {
+        return 'TriggerHandler';
+    }
+
+    private Boolean isDisabledByMetadata() {
+        Trigger_Setting__mdt setting = Trigger_Setting__mdt.getInstance(getHandlerName());
+        if (setting == null) {
+            return false;
+        }
+        return setting.Is_Enabled__c == false;
+    }
+
     public void run() {
-        if (isTriggerDisabled) {
+        if (isTriggerDisabled || isDisabledByMetadata()) {
             return;
         }
 
