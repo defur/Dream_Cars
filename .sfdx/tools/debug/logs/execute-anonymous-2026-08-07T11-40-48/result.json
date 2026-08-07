@@ -1,0 +1,10 @@
+{
+  "compiled": true,
+  "success": false,
+  "line": 77,
+  "column": 1,
+  "compileProblem": null,
+  "exceptionMessage": "System.TypeException: Test.getStandardPricebookId() can only be called from test methods",
+  "exceptionStackTrace": "(System Code)\nAnonymousBlock: line 16, column 1\nAnonymousBlock: line 16, column 1",
+  "executedAt": "2026-08-07T11:40:48.168Z"
+}

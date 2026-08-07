@@ -33,46 +33,48 @@ public class OpportunityTriggerHandler extends TriggerHandler {
             }
         }
 
-        if (relevantOppIds.isEmpty()) {
-            return;
-        }
-
-        Map<Id, Set<String>> carTypesByOppId = new Map<Id, Set<String>>();
-        for (OpportunityLineItem oli : [
-            SELECT OpportunityId, PricebookEntry.Product2.Condition__c
-            FROM OpportunityLineItem
-            WHERE OpportunityId IN :relevantOppIds
-        ]) {
-            if (oli.PricebookEntry.Product2.Condition__c == null) {
-                continue;
-            }
-            if (!carTypesByOppId.containsKey(oli.OpportunityId)) {
-                carTypesByOppId.put(oli.OpportunityId, new Set<String>());
-            }
-            carTypesByOppId.get(oli.OpportunityId).add(oli.PricebookEntry.Product2.Condition__c);
-        }
-
-        Set<String> affectedKeys = new Set<String>();
-        for (Id oppId : relevantOppIds) {
-            Opportunity opp = (Opportunity) Trigger.newMap.get(oppId);
-            Opportunity oldOpp = oldMap.get(oppId);
-            Set<String> carTypes = carTypesByOppId.get(oppId);
-            if (carTypes == null) {
-                continue;
-            }
-            for (String carType : carTypes) {
-                if (opp.CloseDate != null) {
-                    affectedKeys.add(buildKey(opp.CloseDate, carType));
+        if (!relevantOppIds.isEmpty()) {
+            Map<Id, Set<String>> carTypesByOppId = new Map<Id, Set<String>>();
+            for (OpportunityLineItem oli : [
+                SELECT OpportunityId, PricebookEntry.Product2.Condition__c
+                FROM OpportunityLineItem
+                WHERE OpportunityId IN :relevantOppIds
+            ]) {
+                if (oli.PricebookEntry.Product2.Condition__c == null) {
+                    continue;
                 }
-                if (oldOpp.CloseDate != null && oldOpp.CloseDate != opp.CloseDate) {
-                    affectedKeys.add(buildKey(oldOpp.CloseDate, carType));
+                if (!carTypesByOppId.containsKey(oli.OpportunityId)) {
+                    carTypesByOppId.put(oli.OpportunityId, new Set<String>());
+                }
+                carTypesByOppId.get(oli.OpportunityId).add(oli.PricebookEntry.Product2.Condition__c);
+            }
+
+            Set<String> affectedKeys = new Set<String>();
+            for (Id oppId : relevantOppIds) {
+                Opportunity opp = (Opportunity) Trigger.newMap.get(oppId);
+                Opportunity oldOpp = oldMap.get(oppId);
+                Set<String> carTypes = carTypesByOppId.get(oppId);
+                if (carTypes == null) {
+                    continue;
+                }
+                for (String carType : carTypes) {
+                    if (opp.CloseDate != null) {
+                        affectedKeys.add(buildKey(opp.CloseDate, carType));
+                    }
+                    if (oldOpp.CloseDate != null && oldOpp.CloseDate != opp.CloseDate) {
+                        affectedKeys.add(buildKey(oldOpp.CloseDate, carType));
+                    }
                 }
             }
+
+            if (!affectedKeys.isEmpty()) {
+                PlannedSalesService.recalculateForKeys(affectedKeys);
+            }
         }
 
-        if (!affectedKeys.isEmpty()) {
-            PlannedSalesService.recalculateForKeys(affectedKeys);
-        }
+        // Новая часть для Task 2.3
+        CarStatusService.handleStageChange(newList, oldMap);
+        
     }
 
     private void captureKeysForDeletedOpportunities(List<Opportunity> deletedOpps) {

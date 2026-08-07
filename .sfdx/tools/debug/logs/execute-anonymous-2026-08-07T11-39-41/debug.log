@@ -1,0 +1,151 @@
+67.0 APEX_CODE,FINEST;APEX_PROFILING,INFO;VISUALFORCE,FINER
+Execute Anonymous: // Чистим, если что-то осталось от прошлых тестов
+Execute Anonymous: Account acc = new Account(
+Execute Anonymous:     Name = 'DEBUG Account',
+Execute Anonymous:     BillingStreet = '1 Test', BillingCity = 'Test', BillingCountry = 'Germany'
+Execute Anonymous: );
+Execute Anonymous: insert acc;
+Execute Anonymous: 
+Execute Anonymous: Product2 prod = new Product2(
+Execute Anonymous:     Name = 'DEBUG Car', IsActive = true,
+Execute Anonymous:     Brand__c = 'Toyota', Model__c = 'Corolla',
+Execute Anonymous:     VIN_Number__c = 'DEBUGVIN123456789', Condition__c = 'New', Mileage__c = 0
+Execute Anonymous: );
+Execute Anonymous: insert prod;
+Execute Anonymous: 
+Execute Anonymous: PricebookEntry pbe = new PricebookEntry(
+Execute Anonymous:     Pricebook2Id = Test.getStandardPricebookId(),
+Execute Anonymous:     Product2Id = prod.Id, UnitPrice = 20000, IsActive = true
+Execute Anonymous: );
+Execute Anonymous: insert pbe;
+Execute Anonymous: 
+Execute Anonymous: Opportunity opp1 = new Opportunity(
+Execute Anonymous:     Name = 'DEBUG Opp1', AccountId = acc.Id,
+Execute Anonymous:     StageName = 'Prospecting', CloseDate = Date.today().addDays(5)
+Execute Anonymous: );
+Execute Anonymous: insert opp1;
+Execute Anonymous: 
+Execute Anonymous: OpportunityLineItem li1 = new OpportunityLineItem(
+Execute Anonymous:     OpportunityId = opp1.Id, PricebookEntryId = pbe.Id, UnitPrice = 20000
+Execute Anonymous: );
+Execute Anonymous: insert li1;
+Execute Anonymous: 
+Execute Anonymous: opp1.StageName = 'Contract Sent';
+Execute Anonymous: update opp1;
+Execute Anonymous: 
+Execute Anonymous: // ПРОВЕРКА 1: что реально сохранилось на машине после Contract Sent
+Execute Anonymous: Product2 checkProd = [SELECT Car_Status__c, Reserved_Sold_Opportunity__c FROM Product2 WHERE Id = :prod.Id];
+Execute Anonymous: System.debug('=== ПРОВЕРКА 1: статус машины после Contract Sent ===');
+Execute Anonymous: System.debug('Car_Status__c = ' + checkProd.Car_Status__c);
+Execute Anonymous: System.debug('Reserved_Sold_Opportunity__c = ' + checkProd.Reserved_Sold_Opportunity__c);
+Execute Anonymous: System.debug('opp1.Id (для сравнения) = ' + opp1.Id);
+Execute Anonymous: 
+Execute Anonymous: Opportunity opp2 = new Opportunity(
+Execute Anonymous:     Name = 'DEBUG Opp2', AccountId = acc.Id,
+Execute Anonymous:     StageName = 'Prospecting', CloseDate = Date.today().addDays(20)
+Execute Anonymous: );
+Execute Anonymous: insert opp2;
+Execute Anonymous: 
+Execute Anonymous: OpportunityLineItem li2 = new OpportunityLineItem(
+Execute Anonymous:     OpportunityId = opp2.Id, PricebookEntryId = pbe.Id, UnitPrice = 20000
+Execute Anonymous: );
+Execute Anonymous: insert li2;
+Execute Anonymous: 
+Execute Anonymous: // ПРОВЕРКА 2: появился ли конфликт на opp2
+Execute Anonymous: Opportunity checkOpp2 = [SELECT Has_Car_Conflict__c FROM Opportunity WHERE Id = :opp2.Id];
+Execute Anonymous: System.debug('=== ПРОВЕРКА 2: конфликт на opp2 ===');
+Execute Anonymous: System.debug('Has_Car_Conflict__c = ' + checkOpp2.Has_Car_Conflict__c);
+13:34:44.121 (121315767)|USER_INFO|[EXTERNAL]|005gK000064ym2n|tktn78+123.a423ce970227@agentforce.com|(GMT+02:00) Central European Summer Time (Europe/Berlin)|GMT+02:00
+13:34:44.121 (121357568)|EXECUTION_STARTED
+13:34:44.121 (121424195)|CODE_UNIT_STARTED|[EXTERNAL]|execute_anonymous_apex
+13:34:44.121 (121977838)|VARIABLE_SCOPE_BEGIN|[2]|acc|Account|true|false
+13:34:44.121 (122097182)|VARIABLE_SCOPE_BEGIN|[54]|checkOpp2|Opportunity|true|false
+13:34:44.121 (122131949)|VARIABLE_SCOPE_BEGIN|[36]|checkProd|Product2|true|false
+13:34:44.121 (122176623)|VARIABLE_SCOPE_BEGIN|[27]|li1|OpportunityLineItem|true|false
+13:34:44.121 (122183682)|VARIABLE_SCOPE_BEGIN|[48]|li2|OpportunityLineItem|true|false
+13:34:44.121 (122190082)|VARIABLE_SCOPE_BEGIN|[21]|opp1|Opportunity|true|false
+13:34:44.121 (122196185)|VARIABLE_SCOPE_BEGIN|[42]|opp2|Opportunity|true|false
+13:34:44.121 (122226350)|VARIABLE_SCOPE_BEGIN|[15]|pbe|PricebookEntry|true|false
+13:34:44.121 (122244715)|VARIABLE_SCOPE_BEGIN|[8]|prod|Product2|true|false
+13:34:44.121 (122590334)|HEAP_ALLOCATE|[95]|Bytes:3
+13:34:44.121 (122765807)|HEAP_ALLOCATE|[100]|Bytes:152
+13:34:44.121 (122800380)|HEAP_ALLOCATE|[417]|Bytes:408
+13:34:44.121 (122830369)|HEAP_ALLOCATE|[430]|Bytes:408
+13:34:44.121 (122875678)|HEAP_ALLOCATE|[317]|Bytes:6
+13:34:44.121 (122937838)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:104
+13:34:44.121 (123460750)|STATEMENT_EXECUTE|[1]
+13:34:44.121 (123463621)|STATEMENT_EXECUTE|[2]
+13:34:44.121 (123620801)|HEAP_ALLOCATE|[2]|Bytes:4
+13:34:44.121 (123885501)|HEAP_ALLOCATE|[3]|Bytes:13
+13:34:44.121 (124168545)|VARIABLE_ASSIGNMENT|[2]|this.Name|"DEBUG Account"|0x49591855
+13:34:44.121 (124178360)|HEAP_ALLOCATE|[4]|Bytes:6
+13:34:44.121 (124459492)|VARIABLE_ASSIGNMENT|[2]|this.BillingStreet|"1 Test"|0x49591855
+13:34:44.121 (124478577)|HEAP_ALLOCATE|[4]|Bytes:4
+13:34:44.121 (124500115)|VARIABLE_ASSIGNMENT|[2]|this.BillingCity|"Test"|0x49591855
+13:34:44.121 (124504745)|HEAP_ALLOCATE|[4]|Bytes:7
+13:34:44.121 (124520376)|VARIABLE_ASSIGNMENT|[2]|this.BillingCountry|"Germany"|0x49591855
+13:34:44.121 (124650542)|VARIABLE_ASSIGNMENT|[2]|acc|{"Name":"DEBUG Account","BillingStreet":"1 Test","BillingCity":"Test","BillingCountry":"Germany"}|0x49591855
+13:34:44.121 (124657754)|STATEMENT_EXECUTE|[6]
+13:34:44.121 (124726889)|HEAP_ALLOCATE|[68]|Bytes:5
+13:34:44.121 (124793819)|HEAP_ALLOCATE|[74]|Bytes:5
+13:34:44.121 (124801826)|HEAP_ALLOCATE|[82]|Bytes:7
+13:34:44.121 (124931439)|HEAP_ALLOCATE|[6]|Bytes:8
+13:34:44.121 (125069882)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:8
+13:34:44.121 (194090842)|CODE_UNIT_STARTED|[EXTERNAL]|DuplicateDetector
+13:34:44.121 (230015962)|CODE_UNIT_FINISHED|DuplicateDetector
+13:34:44.121 (294755851)|STATEMENT_EXECUTE|[8]
+13:34:44.121 (294814126)|HEAP_ALLOCATE|[8]|Bytes:4
+13:34:44.121 (294948174)|HEAP_ALLOCATE|[9]|Bytes:9
+13:34:44.121 (295036743)|VARIABLE_ASSIGNMENT|[8]|this.Name|"DEBUG Car"|0x4ac834f9
+13:34:44.121 (295068905)|VARIABLE_ASSIGNMENT|[8]|this.IsActive|true|0x4ac834f9
+13:34:44.121 (295072590)|HEAP_ALLOCATE|[10]|Bytes:6
+13:34:44.121 (295098790)|VARIABLE_ASSIGNMENT|[8]|this.Brand__c|"Toyota"|0x4ac834f9
+13:34:44.121 (295101892)|HEAP_ALLOCATE|[10]|Bytes:7
+13:34:44.121 (295111982)|VARIABLE_ASSIGNMENT|[8]|this.Model__c|"Corolla"|0x4ac834f9
+13:34:44.121 (295114772)|HEAP_ALLOCATE|[11]|Bytes:17
+13:34:44.121 (295125122)|VARIABLE_ASSIGNMENT|[8]|this.VIN_Number__c|"DEBUGVIN123456789"|0x4ac834f9
+13:34:44.121 (295128200)|HEAP_ALLOCATE|[11]|Bytes:3
+13:34:44.121 (295138869)|VARIABLE_ASSIGNMENT|[8]|this.Condition__c|"New"|0x4ac834f9
+13:34:44.121 (295255756)|HEAP_ALLOCATE|[8]|Bytes:28
+13:34:44.121 (295258612)|HEAP_ALLOCATE|[8]|Bytes:28
+13:34:44.121 (295278310)|VARIABLE_ASSIGNMENT|[8]|this.Mileage__c|0|0x4ac834f9
+13:34:44.121 (295366019)|VARIABLE_ASSIGNMENT|[8]|prod|{"Name":"DEBUG Car","IsActive":true,"Brand__c":"Toyota","Model__c":"Corolla","VIN_Number__c":"DEBUGVIN123456789","Condition__c":"New","Mileage__c":0}|0x4ac834f9
+13:34:44.121 (295371280)|STATEMENT_EXECUTE|[13]
+13:34:44.121 (295404027)|HEAP_ALLOCATE|[13]|Bytes:8
+13:34:44.121 (295446261)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:8
+13:34:44.121 (347809753)|CODE_UNIT_STARTED|[EXTERNAL]|Validation:Product2:new
+13:34:44.121 (347951302)|CODE_UNIT_FINISHED|Validation:Product2:new
+13:34:44.121 (377797401)|STATEMENT_EXECUTE|[15]
+13:34:44.121 (377886786)|HEAP_ALLOCATE|[15]|Bytes:4
+13:34:44.121 (378179544)|HEAP_ALLOCATE|[16]|Bytes:5
+13:34:44.121 (378288101)|HEAP_ALLOCATE|[16]|Bytes:118
+13:34:44.121 (378326368)|SYSTEM_METHOD_ENTRY|[1]|Test.Test()
+13:34:44.121 (378331175)|STATEMENT_EXECUTE|[1]
+13:34:44.121 (378347684)|SYSTEM_METHOD_EXIT|[1]|Test
+13:34:44.121 (378392254)|METHOD_ENTRY|[16]||System.Test.getStandardPricebookId()
+13:34:44.121 (380045140)|METHOD_EXIT|[16]||System.Test.getStandardPricebookId()
+13:34:44.121 (380344962)|FATAL_ERROR|System.TypeException: Test.getStandardPricebookId() can only be called from test methods
+
+(System Code)
+AnonymousBlock: line 16, column 1
+AnonymousBlock: line 16, column 1
+13:34:44.380 (380402503)|CUMULATIVE_LIMIT_USAGE
+13:34:44.380 (380402503)|LIMIT_USAGE_FOR_NS|(default)|
+  Number of SOQL queries: 0 out of 100
+  Number of query rows: 0 out of 50000
+  Number of SOSL queries: 0 out of 20
+  Number of DML statements: 2 out of 150
+  Number of Publish Immediate DML: 0 out of 150
+  Number of DML rows: 2 out of 10000
+  Maximum CPU time: 0 out of 10000
+  Maximum heap size: 0 out of 6000000
+  Number of callouts: 0 out of 100
+  Number of Email Invocations: 0 out of 10
+  Number of future calls: 0 out of 50
+  Number of queueable jobs added to the queue: 0 out of 50
+  Number of Mobile Apex push calls: 0 out of 10
+
+13:34:44.380 (380402503)|CUMULATIVE_LIMIT_USAGE_END
+
+13:34:44.121 (380511252)|CODE_UNIT_FINISHED|execute_anonymous_apex
+13:34:44.121 (380523340)|EXECUTION_FINISHED
