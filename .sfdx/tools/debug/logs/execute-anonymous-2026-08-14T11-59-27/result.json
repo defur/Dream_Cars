@@ -1,0 +1,10 @@
+{
+  "compiled": true,
+  "success": false,
+  "line": 37,
+  "column": 1,
+  "compileProblem": null,
+  "exceptionMessage": "System.DmlException: Update failed. First exception on row 0 with id 006gK00000MbxR3QAJ; first error: CANNOT_INSERT_UPDATE_ACTIVATE_ENTITY, OpportunityTrigger: execution of AfterUpdate\n\ncaused by: PlannedSalesService.PlannedSalesServiceException: Failed to update Planned Sales: Update failed: duplicate value found: Unique_Key_Stored__c duplicates value on record with id: a07gK00000k8oH6QAI; duplicate value found: Unique_Key_Stored__c duplicates value on record with id: a07gK00000k8oH6QAI\n\nClass.PlannedSalesService.updateSafely: line 96, column 1\nClass.PlannedSalesService.recalculate: line 69, column 1\nClass.PlannedSalesService.recalculateForKeys: line 28, column 1\nClass.OpportunityTriggerHandler.afterUpdate: line 71, column 1\nClass.TriggerHandler.run: line 31, column 1\nTrigger.OpportunityTrigger: line 2, column 1: []",
+  "exceptionStackTrace": "AnonymousBlock: line 37, column 1",
+  "executedAt": "2026-08-14T11:59:27.159Z"
+}

@@ -1,0 +1,1361 @@
+67.0 APEX_CODE,FINEST;APEX_PROFILING,INFO;VISUALFORCE,FINER
+Execute Anonymous: Account acc = new Account(
+Execute Anonymous:     Name = 'DEBUG3 Account',
+Execute Anonymous:     BillingStreet = '1 Test', BillingCity = 'Test', BillingCountry = 'Germany'
+Execute Anonymous: );
+Execute Anonymous: insert acc;
+Execute Anonymous: 
+Execute Anonymous: Product2 prod = new Product2(
+Execute Anonymous:     Name = 'DEBUG3 Car', IsActive = true,
+Execute Anonymous:     Brand__c = 'Toyota', Model__c = 'Corolla',
+Execute Anonymous:     VIN_Number__c = 'DEBUG3VIN123456789', Condition__c = 'New', Mileage__c = 0
+Execute Anonymous: );
+Execute Anonymous: insert prod;
+Execute Anonymous: 
+Execute Anonymous: Id standardPbId = [SELECT Id FROM Pricebook2 WHERE IsStandard = true LIMIT 1].Id;
+Execute Anonymous: 
+Execute Anonymous: PricebookEntry pbe = new PricebookEntry(
+Execute Anonymous:     Pricebook2Id = standardPbId,
+Execute Anonymous:     Product2Id = prod.Id, UnitPrice = 20000, IsActive = true
+Execute Anonymous: );
+Execute Anonymous: insert pbe;
+Execute Anonymous: 
+Execute Anonymous: Opportunity opp = new Opportunity(
+Execute Anonymous:     Name = 'DEBUG3 Opp', AccountId = acc.Id,
+Execute Anonymous:     StageName = 'Prospecting', CloseDate = Date.today().addDays(5)
+Execute Anonymous: );
+Execute Anonymous: insert opp;
+Execute Anonymous: 
+Execute Anonymous: OpportunityLineItem li = new OpportunityLineItem(
+Execute Anonymous:     OpportunityId = opp.Id, PricebookEntryId = pbe.Id, UnitPrice = 20000
+Execute Anonymous: );
+Execute Anonymous: insert li;
+Execute Anonymous: 
+Execute Anonymous: opp.StageName = 'Close Won';
+Execute Anonymous: 
+Execute Anonymous: try {
+Execute Anonymous:     update opp;
+Execute Anonymous:     System.debug('=== UPDATE УСПЕШЕН ===');
+Execute Anonymous: } catch (Exception e) {
+Execute Anonymous:     System.debug('=== UPDATE УПАЛ С ОШИБКОЙ ===');
+Execute Anonymous:     System.debug(e.getMessage());
+Execute Anonymous: }
+Execute Anonymous: 
+Execute Anonymous: Product2 checkProd = [SELECT Car_Status__c, RecordTypeId FROM Product2 WHERE Id = :prod.Id];
+Execute Anonymous: System.debug('Car_Status__c = ' + checkProd.Car_Status__c);
+Execute Anonymous: 
+Execute Anonymous: PricebookEntry checkPbe = [SELECT IsActive FROM PricebookEntry WHERE Id = :pbe.Id];
+Execute Anonymous: System.debug('PricebookEntry IsActive = ' + checkPbe.IsActive);
+23:13:38.74 (74413883)|USER_INFO|[EXTERNAL]|005gK000064ym2n|tktn78+123.a423ce970227@agentforce.com|(GMT+02:00) Central European Summer Time (Europe/Berlin)|GMT+02:00
+23:13:38.74 (74452520)|EXECUTION_STARTED
+23:13:38.74 (74481406)|CODE_UNIT_STARTED|[EXTERNAL]|execute_anonymous_apex
+23:13:38.74 (74742387)|VARIABLE_SCOPE_BEGIN|[1]|acc|Account|true|false
+23:13:38.74 (74812075)|VARIABLE_SCOPE_BEGIN|[46]|checkPbe|PricebookEntry|true|false
+23:13:38.74 (74829597)|VARIABLE_SCOPE_BEGIN|[43]|checkProd|Product2|true|false
+23:13:38.74 (74861050)|VARIABLE_SCOPE_BEGIN|[28]|li|OpportunityLineItem|true|false
+23:13:38.74 (74875437)|VARIABLE_SCOPE_BEGIN|[22]|opp|Opportunity|true|false
+23:13:38.74 (74882678)|VARIABLE_SCOPE_BEGIN|[16]|pbe|PricebookEntry|true|false
+23:13:38.74 (74896356)|VARIABLE_SCOPE_BEGIN|[7]|prod|Product2|true|false
+23:13:38.74 (74915797)|VARIABLE_SCOPE_BEGIN|[14]|standardPbId|Id|false|false
+23:13:38.74 (75070491)|HEAP_ALLOCATE|[95]|Bytes:3
+23:13:38.74 (75131628)|HEAP_ALLOCATE|[100]|Bytes:152
+23:13:38.74 (75147738)|HEAP_ALLOCATE|[417]|Bytes:408
+23:13:38.74 (75176996)|HEAP_ALLOCATE|[430]|Bytes:408
+23:13:38.74 (75205464)|HEAP_ALLOCATE|[317]|Bytes:6
+23:13:38.74 (75237659)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:88
+23:13:38.74 (75482632)|STATEMENT_EXECUTE|[1]
+23:13:38.74 (75490871)|STATEMENT_EXECUTE|[1]
+23:13:38.74 (75522719)|HEAP_ALLOCATE|[1]|Bytes:4
+23:13:38.74 (75609945)|HEAP_ALLOCATE|[2]|Bytes:14
+23:13:38.74 (75803062)|VARIABLE_ASSIGNMENT|[1]|this.Name|"DEBUG3 Account"|0x767dc3f4
+23:13:38.74 (75810146)|HEAP_ALLOCATE|[3]|Bytes:6
+23:13:38.74 (76029753)|VARIABLE_ASSIGNMENT|[1]|this.BillingStreet|"1 Test"|0x767dc3f4
+23:13:38.74 (76036738)|HEAP_ALLOCATE|[3]|Bytes:4
+23:13:38.74 (76058519)|VARIABLE_ASSIGNMENT|[1]|this.BillingCity|"Test"|0x767dc3f4
+23:13:38.74 (76063583)|HEAP_ALLOCATE|[3]|Bytes:7
+23:13:38.74 (76088210)|VARIABLE_ASSIGNMENT|[1]|this.BillingCountry|"Germany"|0x767dc3f4
+23:13:38.74 (76162057)|VARIABLE_ASSIGNMENT|[1]|acc|{"Name":"DEBUG3 Account","BillingStreet":"1 Test","BillingCity":"Test","BillingCountry":"Germany"}|0x767dc3f4
+23:13:38.74 (76167238)|STATEMENT_EXECUTE|[5]
+23:13:38.74 (76195325)|HEAP_ALLOCATE|[68]|Bytes:5
+23:13:38.74 (76249169)|HEAP_ALLOCATE|[74]|Bytes:5
+23:13:38.74 (76259232)|HEAP_ALLOCATE|[82]|Bytes:7
+23:13:38.74 (76304061)|HEAP_ALLOCATE|[5]|Bytes:8
+23:13:38.74 (76354824)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:8
+23:13:38.74 (100090131)|CODE_UNIT_STARTED|[EXTERNAL]|DuplicateDetector
+23:13:38.74 (150481931)|CODE_UNIT_FINISHED|DuplicateDetector
+23:13:38.74 (196207848)|STATEMENT_EXECUTE|[7]
+23:13:38.74 (196295178)|HEAP_ALLOCATE|[7]|Bytes:4
+23:13:38.74 (196399243)|HEAP_ALLOCATE|[8]|Bytes:10
+23:13:38.74 (196523752)|VARIABLE_ASSIGNMENT|[7]|this.Name|"DEBUG3 Car"|0x66d605a
+23:13:38.74 (196587458)|VARIABLE_ASSIGNMENT|[7]|this.IsActive|true|0x66d605a
+23:13:38.74 (196593725)|HEAP_ALLOCATE|[9]|Bytes:6
+23:13:38.74 (196640779)|VARIABLE_ASSIGNMENT|[7]|this.Brand__c|"Toyota"|0x66d605a
+23:13:38.74 (196645084)|HEAP_ALLOCATE|[9]|Bytes:7
+23:13:38.74 (196676578)|VARIABLE_ASSIGNMENT|[7]|this.Model__c|"Corolla"|0x66d605a
+23:13:38.74 (196683167)|HEAP_ALLOCATE|[10]|Bytes:18
+23:13:38.74 (196707940)|VARIABLE_ASSIGNMENT|[7]|this.VIN_Number__c|"DEBUG3VIN123456789"|0x66d605a
+23:13:38.74 (196713913)|HEAP_ALLOCATE|[10]|Bytes:3
+23:13:38.74 (196737293)|VARIABLE_ASSIGNMENT|[7]|this.Condition__c|"New"|0x66d605a
+23:13:38.74 (196832498)|HEAP_ALLOCATE|[7]|Bytes:28
+23:13:38.74 (196837942)|HEAP_ALLOCATE|[7]|Bytes:28
+23:13:38.74 (196871419)|VARIABLE_ASSIGNMENT|[7]|this.Mileage__c|0|0x66d605a
+23:13:38.74 (196954139)|VARIABLE_ASSIGNMENT|[7]|prod|{"Name":"DEBUG3 Car","IsActive":true,"Brand__c":"Toyota","Model__c":"Corolla","VIN_Number__c":"DEBUG3VIN123456789","Condition__c":"New","Mileage__c":0}|0x66d605a
+23:13:38.74 (196961639)|STATEMENT_EXECUTE|[12]
+23:13:38.74 (196986711)|HEAP_ALLOCATE|[12]|Bytes:8
+23:13:38.74 (197026884)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:8
+23:13:38.74 (237494999)|CODE_UNIT_STARTED|[EXTERNAL]|Validation:Product2:new
+23:13:38.74 (237572600)|CODE_UNIT_FINISHED|Validation:Product2:new
+23:13:38.74 (268161788)|STATEMENT_EXECUTE|[14]
+23:13:38.74 (268181885)|HEAP_ALLOCATE|[14]|Bytes:57
+23:13:38.74 (268242826)|HEAP_ALLOCATE|[14]|Bytes:4
+23:13:38.74 (280964127)|HEAP_ALLOCATE|[14]|Bytes:8
+23:13:38.74 (281000720)|HEAP_ALLOCATE|[14]|Bytes:29
+23:13:38.74 (281125502)|HEAP_ALLOCATE|[14]|Bytes:8
+23:13:38.74 (281154222)|HEAP_ALLOCATE|[14]|Bytes:36
+23:13:38.74 (281233444)|HEAP_ALLOCATE|[14]|Bytes:8
+23:13:38.74 (281516258)|VARIABLE_ASSIGNMENT|[14]|standardPbId|"01sgK000007udzeQAA"
+23:13:38.74 (281525902)|STATEMENT_EXECUTE|[16]
+23:13:38.74 (281564604)|HEAP_ALLOCATE|[16]|Bytes:4
+23:13:38.74 (281843046)|VARIABLE_ASSIGNMENT|[16]|this.Pricebook2Id|"01sgK000007udzeQAA"|0x4be12655
+23:13:38.74 (281918539)|VARIABLE_ASSIGNMENT|[16]|this.Product2Id|"01tgK00000DkRSLQA3"|0x4be12655
+23:13:38.74 (281947188)|HEAP_ALLOCATE|[16]|Bytes:28
+23:13:38.74 (281986695)|VARIABLE_ASSIGNMENT|[16]|this.UnitPrice|20000|0x4be12655
+23:13:38.74 (282018052)|VARIABLE_ASSIGNMENT|[16]|this.IsActive|true|0x4be12655
+23:13:38.74 (282079505)|VARIABLE_ASSIGNMENT|[16]|pbe|{"Pricebook2Id":"01sgK000007udzeQAA","Product2Id":"01tgK00000DkRSLQA3","UnitPrice":20000,"IsActive":true}|0x4be12655
+23:13:38.74 (282125483)|STATEMENT_EXECUTE|[20]
+23:13:38.74 (282151895)|HEAP_ALLOCATE|[20]|Bytes:8
+23:13:38.74 (282195258)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:8
+23:13:38.74 (326608728)|STATEMENT_EXECUTE|[22]
+23:13:38.74 (326689138)|HEAP_ALLOCATE|[22]|Bytes:4
+23:13:38.74 (326837546)|HEAP_ALLOCATE|[23]|Bytes:10
+23:13:38.74 (326969084)|VARIABLE_ASSIGNMENT|[22]|this.Name|"DEBUG3 Opp"|0x7ceeeded
+23:13:38.74 (327315055)|VARIABLE_ASSIGNMENT|[22]|this.AccountId|"001gK00001LElIbQAL"|0x7ceeeded
+23:13:38.74 (327324676)|HEAP_ALLOCATE|[24]|Bytes:11
+23:13:38.74 (327353636)|VARIABLE_ASSIGNMENT|[22]|this.StageName|"Prospecting"|0x7ceeeded
+23:13:38.74 (327515086)|HEAP_ALLOCATE|[24]|Bytes:4
+23:13:38.74 (327565387)|HEAP_ALLOCATE|[24]|Bytes:4
+23:13:38.74 (327610714)|VARIABLE_ASSIGNMENT|[22]|this.CloseDate|"2026-08-19T00:00:00.000Z"|0x7ceeeded
+23:13:38.74 (327706663)|VARIABLE_ASSIGNMENT|[22]|opp|{"Name":"DEBUG3 Opp","AccountId":"001gK00001LElIbQAL","StageName":"Prospecting","CloseDate":"2026-08-19T00:00:00.000Z"}|0x7ceeeded
+23:13:38.74 (327712674)|STATEMENT_EXECUTE|[26]
+23:13:38.74 (327734715)|HEAP_ALLOCATE|[26]|Bytes:8
+23:13:38.74 (327775303)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:8
+23:13:38.74 (346922951)|CODE_UNIT_STARTED|[EXTERNAL]|Validation:Opportunity:new
+23:13:38.74 (347006528)|CODE_UNIT_FINISHED|Validation:Opportunity:new
+23:13:38.74 (391983830)|CODE_UNIT_STARTED|[EXTERNAL]|Workflow:Opportunity
+23:13:38.74 (392068037)|CODE_UNIT_FINISHED|Workflow:Opportunity
+23:13:38.74 (395396984)|STATEMENT_EXECUTE|[28]
+23:13:38.74 (395460801)|HEAP_ALLOCATE|[28]|Bytes:4
+23:13:38.74 (395750877)|VARIABLE_ASSIGNMENT|[28]|this.OpportunityId|"006gK00000MdU3BQAV"|0x739c73af
+23:13:38.74 (395809126)|VARIABLE_ASSIGNMENT|[28]|this.PricebookEntryId|"01ugK000004vH3RQAU"|0x739c73af
+23:13:38.74 (395838063)|HEAP_ALLOCATE|[28]|Bytes:28
+23:13:38.74 (395871002)|VARIABLE_ASSIGNMENT|[28]|this.UnitPrice|20000|0x739c73af
+23:13:38.74 (395975025)|VARIABLE_ASSIGNMENT|[28]|li|{"OpportunityId":"006gK00000MdU3BQAV","PricebookEntryId":"01ugK000004vH3RQAU","UnitPrice":20000}|0x739c73af
+23:13:38.74 (395980601)|STATEMENT_EXECUTE|[31]
+23:13:38.74 (396007615)|HEAP_ALLOCATE|[31]|Bytes:8
+23:13:38.74 (396049762)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:8
+23:13:38.74 (417200435)|CODE_UNIT_STARTED|[EXTERNAL]|01qgK000005f1A9|OpportunityLineItemTrigger on OpportunityLineItem trigger event BeforeInsert|__sfdc_trigger/OpportunityLineItemTrigger
+23:13:38.74 (417261716)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:8
+23:13:38.74 (417386514)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:4
+23:13:38.74 (417424352)|VARIABLE_SCOPE_BEGIN|[1]|this|OpportunityLineItemTrigger|true|false
+23:13:38.74 (417534209)|VARIABLE_ASSIGNMENT|[1]|this|{}|0x836b8e7
+23:13:38.74 (417566203)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:4
+23:13:38.74 (417574978)|VARIABLE_SCOPE_BEGIN|[1]|this|OpportunityLineItemTrigger|true|false
+23:13:38.74 (417594471)|VARIABLE_ASSIGNMENT|[1]|this|{}|0x836b8e7
+23:13:38.74 (417600689)|STATEMENT_EXECUTE|[1]
+23:13:38.74 (417601683)|STATEMENT_EXECUTE|[2]
+23:13:38.74 (420472843)|VARIABLE_SCOPE_BEGIN|[3]|TriggerHandler.isTriggerDisabled|Boolean|false|true
+23:13:38.74 (420533084)|HEAP_ALLOCATE|[2]|Bytes:9
+23:13:38.74 (420591567)|METHOD_ENTRY|[1]|01pgK00000E80Ar|OpportunityLineItemTriggerHandler.OpportunityLineItemTriggerHandler()
+23:13:38.74 (420597415)|STATEMENT_EXECUTE|[1]
+23:13:38.74 (420602522)|STATEMENT_EXECUTE|[1]
+23:13:38.74 (420625505)|METHOD_EXIT|[1]|OpportunityLineItemTriggerHandler
+23:13:38.74 (420633999)|HEAP_ALLOCATE|[2]|Bytes:4
+23:13:38.74 (420672502)|CONSTRUCTOR_ENTRY|[2]|01pgK00000E80Ar|<init>()|OpportunityLineItemTriggerHandler
+23:13:38.74 (420725548)|VARIABLE_SCOPE_BEGIN|[1]|this|OpportunityLineItemTriggerHandler|true|false
+23:13:38.74 (420791630)|VARIABLE_ASSIGNMENT|[1]|this|{}|0x6cef8c29
+23:13:38.74 (420800283)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:27
+23:13:38.74 (420813184)|METHOD_ENTRY|[1]|01pgK00000E80At|TriggerHandler.TriggerHandler()
+23:13:38.74 (420815795)|STATEMENT_EXECUTE|[1]
+23:13:38.74 (420817390)|STATEMENT_EXECUTE|[1]
+23:13:38.74 (420818346)|STATEMENT_EXECUTE|[3]
+23:13:38.74 (420833709)|HEAP_ALLOCATE|[3]|Bytes:5
+23:13:38.74 (420854689)|VARIABLE_ASSIGNMENT|[3]|TriggerHandler.isTriggerDisabled|false
+23:13:38.74 (420861020)|METHOD_EXIT|[1]|TriggerHandler
+23:13:38.74 (420867594)|CONSTRUCTOR_ENTRY|[EXTERNAL]|01pgK00000E80At|<init>()|TriggerHandler
+23:13:38.74 (420880034)|VARIABLE_SCOPE_BEGIN|[1]|this|TriggerHandler|true|false
+23:13:38.74 (420899488)|VARIABLE_ASSIGNMENT|[1]|this|{}|0x6cef8c29
+23:13:38.74 (420905756)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:6
+23:13:38.74 (423189964)|STATEMENT_EXECUTE|[1]
+23:13:38.74 (423226106)|CONSTRUCTOR_EXIT|[EXTERNAL]|01pgK00000E80At|<init>()|TriggerHandler
+23:13:38.74 (423238638)|STATEMENT_EXECUTE|[1]
+23:13:38.74 (423243589)|CONSTRUCTOR_EXIT|[2]|01pgK00000E80Ar|<init>()|OpportunityLineItemTriggerHandler
+23:13:38.74 (423312648)|METHOD_ENTRY|[2]|01pgK00000E80At|TriggerHandler.run()
+23:13:38.74 (423333751)|VARIABLE_SCOPE_BEGIN|[17]|this|TriggerHandler|true|false
+23:13:38.74 (423402495)|VARIABLE_ASSIGNMENT|[17]|this|{}|0x6cef8c29
+23:13:38.74 (423409521)|STATEMENT_EXECUTE|[17]
+23:13:38.74 (423424385)|METHOD_ENTRY|[18]|01pgK00000E80At|TriggerHandler.isDisabledByMetadata()
+23:13:38.74 (423472226)|VARIABLE_SCOPE_BEGIN|[9]|this|TriggerHandler|true|false
+23:13:38.74 (423658082)|VARIABLE_ASSIGNMENT|[9]|this|{}|0x6cef8c29
+23:13:38.74 (423662820)|STATEMENT_EXECUTE|[9]
+23:13:38.74 (423663596)|STATEMENT_EXECUTE|[10]
+23:13:38.74 (423690492)|METHOD_ENTRY|[10]|01pgK00000E80Ar|OpportunityLineItemTriggerHandler.getHandlerName()
+23:13:38.74 (423704110)|VARIABLE_SCOPE_BEGIN|[11]|this|OpportunityLineItemTriggerHandler|true|false
+23:13:38.74 (423722360)|VARIABLE_ASSIGNMENT|[11]|this|{}|0x6cef8c29
+23:13:38.74 (423726591)|STATEMENT_EXECUTE|[11]
+23:13:38.74 (423727323)|STATEMENT_EXECUTE|[12]
+23:13:38.74 (423734062)|HEAP_ALLOCATE|[12]|Bytes:33
+23:13:38.74 (423747218)|METHOD_EXIT|[10]|01pgK00000E80Ar|OpportunityLineItemTriggerHandler.getHandlerName()
+23:13:38.74 (425654137)|VARIABLE_SCOPE_BEGIN|[10]|setting|Trigger_Setting__mdt|true|false
+23:13:38.74 (425847296)|VARIABLE_ASSIGNMENT|[10]|setting|{"IsProtected":false,"Label":"OpportunityLineItemT (13 more) ...","MasterLabel":"OpportunityLineItemT (13 more) ...","Is_Enabled__c":true,"SystemModstamp":"2026-08-04T22:43:35.000Z","Language":"en_US","ManageableState":"U","QualifiedApiName":"OpportunityLineItemT (13 more) ...","Id":"m00gK00001C8hoL","DeveloperName":"OpportunityLineItemT (13 more) ..."}|0x6bf4f144
+23:13:38.74 (425883049)|STATEMENT_EXECUTE|[11]
+23:13:38.74 (425884550)|STATEMENT_EXECUTE|[14]
+23:13:38.74 (425946788)|METHOD_EXIT|[18]|01pgK00000E80At|TriggerHandler.isDisabledByMetadata()
+23:13:38.74 (425955918)|STATEMENT_EXECUTE|[18]
+23:13:38.74 (426024013)|STATEMENT_EXECUTE|[22]
+23:13:38.74 (426025465)|STATEMENT_EXECUTE|[23]
+23:13:38.74 (426045255)|METHOD_ENTRY|[23]|01pgK00000E80Ar|OpportunityLineItemTriggerHandler.beforeInsert()
+23:13:38.74 (426086907)|VARIABLE_SCOPE_BEGIN|[3]|this|OpportunityLineItemTriggerHandler|true|false
+23:13:38.74 (426149457)|VARIABLE_ASSIGNMENT|[3]|this|{}|0x6cef8c29
+23:13:38.74 (426155361)|STATEMENT_EXECUTE|[3]
+23:13:38.74 (426156117)|STATEMENT_EXECUTE|[4]
+23:13:38.74 (426222949)|METHOD_ENTRY|[4]|01pgK00000E80Ar|OpportunityLineItemTriggerHandler.validateAndSetQuantity(List<OpportunityLineItem>)
+23:13:38.74 (426254067)|VARIABLE_SCOPE_BEGIN|[15]|this|OpportunityLineItemTriggerHandler|true|false
+23:13:38.74 (426275860)|VARIABLE_ASSIGNMENT|[15]|this|{}|0x6cef8c29
+23:13:38.74 (426285527)|VARIABLE_SCOPE_BEGIN|[15]|items|List<OpportunityLineItem>|true|false
+23:13:38.74 (426781004)|VARIABLE_ASSIGNMENT|[15]|items|[{"IsDeleted":false,"UnitPrice":20000.00,"Product2Id":"01tgK00000DkRSLQA3","OpportunityId":"006gK00000MdU3BQAV","PricebookEntryId":"01ugK000004vH3RQAU"}]|0x1fc70abb
+23:13:38.74 (426789704)|STATEMENT_EXECUTE|[15]
+23:13:38.74 (426988319)|HEAP_ALLOCATE|[16]|Bytes:5
+23:13:38.74 (427012772)|HEAP_ALLOCATE|[16]|Bytes:4
+23:13:38.74 (427021844)|VARIABLE_SCOPE_BEGIN|[16]|oli|OpportunityLineItem|true|false
+23:13:38.74 (427189878)|VARIABLE_ASSIGNMENT|[16]|oli|{"IsDeleted":false,"UnitPrice":20000.00,"Product2Id":"01tgK00000DkRSLQA3","OpportunityId":"006gK00000MdU3BQAV","PricebookEntryId":"01ugK000004vH3RQAU"}|0x4999f104
+23:13:38.74 (427195386)|STATEMENT_EXECUTE|[16]
+23:13:38.74 (427203986)|STATEMENT_EXECUTE|[17]
+23:13:38.74 (427204992)|STATEMENT_EXECUTE|[18]
+23:13:38.74 (427225213)|HEAP_ALLOCATE|[18]|Bytes:28
+23:13:38.74 (427233869)|HEAP_ALLOCATE|[18]|Bytes:28
+23:13:38.74 (427446776)|VARIABLE_ASSIGNMENT|[18]|this.Quantity|1|0x4999f104
+23:13:38.74 (427460251)|HEAP_ALLOCATE|[16]|Bytes:5
+23:13:38.74 (427477520)|VARIABLE_ASSIGNMENT|[16]|oli|null|
+23:13:38.74 (427487694)|METHOD_EXIT|[4]|01pgK00000E80Ar|OpportunityLineItemTriggerHandler.validateAndSetQuantity(List<OpportunityLineItem>)
+23:13:38.74 (427494024)|METHOD_EXIT|[23]|01pgK00000E80Ar|OpportunityLineItemTriggerHandler.beforeInsert()
+23:13:38.74 (427499505)|METHOD_EXIT|[2]|01pgK00000E80At|TriggerHandler.run()
+23:13:38.427 (427510189)|CUMULATIVE_LIMIT_USAGE
+23:13:38.427 (427510189)|LIMIT_USAGE_FOR_NS|(default)|
+  Number of SOQL queries: 1 out of 100
+  Number of query rows: 1 out of 50000
+  Number of SOSL queries: 0 out of 20
+  Number of DML statements: 5 out of 150
+  Number of Publish Immediate DML: 0 out of 150
+  Number of DML rows: 5 out of 10000
+  Maximum CPU time: 0 out of 10000
+  Maximum heap size: 0 out of 6000000
+  Number of callouts: 0 out of 100
+  Number of Email Invocations: 0 out of 10
+  Number of future calls: 0 out of 50
+  Number of queueable jobs added to the queue: 0 out of 50
+  Number of Mobile Apex push calls: 0 out of 10
+
+23:13:38.427 (427510189)|CUMULATIVE_LIMIT_USAGE_END
+
+23:13:38.74 (427807169)|CODE_UNIT_FINISHED|OpportunityLineItemTrigger on OpportunityLineItem trigger event BeforeInsert|__sfdc_trigger/OpportunityLineItemTrigger
+23:13:38.74 (506012824)|CODE_UNIT_STARTED|[EXTERNAL]|Validation:Opportunity:006gK00000MdU3B
+23:13:38.74 (506068970)|CODE_UNIT_FINISHED|Validation:Opportunity:006gK00000MdU3B
+23:13:38.74 (525671953)|CODE_UNIT_STARTED|[EXTERNAL]|01qgK000005f2PZ|OpportunityTrigger on Opportunity trigger event AfterUpdate|__sfdc_trigger/OpportunityTrigger
+23:13:38.74 (525782145)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:8
+23:13:38.74 (525848238)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:8
+23:13:38.74 (525978735)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:4
+23:13:38.74 (526019908)|VARIABLE_SCOPE_BEGIN|[1]|this|OpportunityTrigger|true|false
+23:13:38.74 (526142289)|VARIABLE_ASSIGNMENT|[1]|this|{}|0x5acbbe4
+23:13:38.74 (526171822)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:4
+23:13:38.74 (526180546)|VARIABLE_SCOPE_BEGIN|[1]|this|OpportunityTrigger|true|false
+23:13:38.74 (526197928)|VARIABLE_ASSIGNMENT|[1]|this|{}|0x5acbbe4
+23:13:38.74 (526203742)|STATEMENT_EXECUTE|[1]
+23:13:38.74 (526204788)|STATEMENT_EXECUTE|[2]
+23:13:38.74 (527547068)|VARIABLE_SCOPE_BEGIN|[7]|OpportunityTriggerHandler.keysFromDeletedOpportunities|Set<String>|true|true
+23:13:38.74 (527572016)|HEAP_ALLOCATE|[2]|Bytes:16
+23:13:38.74 (527608122)|METHOD_ENTRY|[1]|01pgK00000E864z|OpportunityTriggerHandler.OpportunityTriggerHandler()
+23:13:38.74 (527613257)|STATEMENT_EXECUTE|[1]
+23:13:38.74 (527616788)|STATEMENT_EXECUTE|[1]
+23:13:38.74 (528879175)|HEAP_ALLOCATE|[7]|Bytes:5
+23:13:38.74 (528897375)|STATEMENT_EXECUTE|[7]
+23:13:38.74 (528915948)|HEAP_ALLOCATE|[7]|Bytes:4
+23:13:38.74 (529082260)|VARIABLE_ASSIGNMENT|[7]|OpportunityTriggerHandler.keysFromDeletedOpportunities|[]|0x4cb49e3d
+23:13:38.74 (529113337)|METHOD_EXIT|[1]|OpportunityTriggerHandler
+23:13:38.74 (529121885)|HEAP_ALLOCATE|[2]|Bytes:4
+23:13:38.74 (529141941)|CONSTRUCTOR_ENTRY|[2]|01pgK00000E864z|<init>()|OpportunityTriggerHandler
+23:13:38.74 (529187878)|VARIABLE_SCOPE_BEGIN|[1]|this|OpportunityTriggerHandler|true|false
+23:13:38.74 (529256850)|VARIABLE_ASSIGNMENT|[1]|this|{}|0x2ca76fd4
+23:13:38.74 (529276773)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:5
+23:13:38.74 (529288678)|CONSTRUCTOR_ENTRY|[EXTERNAL]|01pgK00000E80At|<init>()|TriggerHandler
+23:13:38.74 (529303477)|VARIABLE_SCOPE_BEGIN|[1]|this|TriggerHandler|true|false
+23:13:38.74 (529348321)|VARIABLE_ASSIGNMENT|[1]|this|{}|0x2ca76fd4
+23:13:38.74 (529371754)|STATEMENT_EXECUTE|[1]
+23:13:38.74 (529376032)|CONSTRUCTOR_EXIT|[EXTERNAL]|01pgK00000E80At|<init>()|TriggerHandler
+23:13:38.74 (529382624)|STATEMENT_EXECUTE|[1]
+23:13:38.74 (529386783)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:5
+23:13:38.74 (529393430)|CONSTRUCTOR_EXIT|[2]|01pgK00000E864z|<init>()|OpportunityTriggerHandler
+23:13:38.74 (529420171)|METHOD_ENTRY|[2]|01pgK00000E80At|TriggerHandler.run()
+23:13:38.74 (529426088)|VARIABLE_SCOPE_BEGIN|[17]|this|TriggerHandler|true|false
+23:13:38.74 (529443528)|VARIABLE_ASSIGNMENT|[17]|this|{}|0x2ca76fd4
+23:13:38.74 (529448778)|STATEMENT_EXECUTE|[17]
+23:13:38.74 (529456724)|METHOD_ENTRY|[18]|01pgK00000E80At|TriggerHandler.isDisabledByMetadata()
+23:13:38.74 (529466966)|VARIABLE_SCOPE_BEGIN|[9]|this|TriggerHandler|true|false
+23:13:38.74 (529481528)|VARIABLE_ASSIGNMENT|[9]|this|{}|0x2ca76fd4
+23:13:38.74 (529485582)|STATEMENT_EXECUTE|[9]
+23:13:38.74 (529486251)|STATEMENT_EXECUTE|[10]
+23:13:38.74 (529507012)|METHOD_ENTRY|[10]|01pgK00000E864z|OpportunityTriggerHandler.getHandlerName()
+23:13:38.74 (529514793)|VARIABLE_SCOPE_BEGIN|[3]|this|OpportunityTriggerHandler|true|false
+23:13:38.74 (529529477)|VARIABLE_ASSIGNMENT|[3]|this|{}|0x2ca76fd4
+23:13:38.74 (529536744)|HEAP_ALLOCATE|[4]|Bytes:5
+23:13:38.74 (529540157)|STATEMENT_EXECUTE|[3]
+23:13:38.74 (529540789)|STATEMENT_EXECUTE|[4]
+23:13:38.74 (529544614)|HEAP_ALLOCATE|[4]|Bytes:25
+23:13:38.74 (529552178)|METHOD_EXIT|[10]|01pgK00000E864z|OpportunityTriggerHandler.getHandlerName()
+23:13:38.74 (529734645)|VARIABLE_SCOPE_BEGIN|[10]|setting|Trigger_Setting__mdt|true|false
+23:13:38.74 (529788703)|VARIABLE_ASSIGNMENT|[10]|setting|{"IsProtected":false,"Label":"OpportunityTriggerHa (5 more) ...","MasterLabel":"OpportunityTriggerHa (5 more) ...","Is_Enabled__c":true,"SystemModstamp":"2026-08-04T22:43:49.000Z","Language":"en_US","ManageableState":"U","QualifiedApiName":"OpportunityTriggerHa (5 more) ...","Id":"m00gK00001C8Efu","DeveloperName":"OpportunityTriggerHa (5 more) ..."}|0x6e171e5f
+23:13:38.74 (529795813)|STATEMENT_EXECUTE|[11]
+23:13:38.74 (529796808)|STATEMENT_EXECUTE|[14]
+23:13:38.74 (529811690)|METHOD_EXIT|[18]|01pgK00000E80At|TriggerHandler.isDisabledByMetadata()
+23:13:38.74 (529816703)|STATEMENT_EXECUTE|[18]
+23:13:38.74 (529855782)|STATEMENT_EXECUTE|[30]
+23:13:38.74 (529856563)|STATEMENT_EXECUTE|[31]
+23:13:38.74 (529867449)|METHOD_ENTRY|[31]|01pgK00000E864z|OpportunityTriggerHandler.afterUpdate()
+23:13:38.74 (529902260)|VARIABLE_SCOPE_BEGIN|[20]|this|OpportunityTriggerHandler|true|false
+23:13:38.74 (529923828)|VARIABLE_ASSIGNMENT|[20]|this|{}|0x2ca76fd4
+23:13:38.74 (529933565)|HEAP_ALLOCATE|[21]|Bytes:5
+23:13:38.74 (529937306)|STATEMENT_EXECUTE|[20]
+23:13:38.74 (529938130)|STATEMENT_EXECUTE|[21]
+23:13:38.74 (530058099)|VARIABLE_SCOPE_BEGIN|[21]|oldMap|Map<Id,Opportunity>|true|false
+23:13:38.74 (530989910)|VARIABLE_ASSIGNMENT|[21]|oldMap|{"006gK00000MdU3BQAV":{"LastModifiedDate":"2026-08-14T21:13:38.000Z","IsDeleted":false,"AccountId":"001gK00001LElIbQAL","HasOpportunityLineItem":false,"StageName":"Prospecting","Has_Car_Conflict__c":false,"Probability":10,"ForecastCategory":"Pipeline","IsClosed":false,"CloseDate":"2026-08-19T00:00:00.000Z","Name":"DEBUG3 Opp","SystemModstamp":"2026-08-14T21:13:38.000Z","HasOpenActivity":false,"CreatedById":"005gK000064ym2nQAA","OwnerId":"005gK000064ym2nQAA","IsWon":false,"CreatedDate":"2026-08-14T21:13:38.000Z","HasOverdueTask":false,"Id":"006gK00000MdU3BQAV","ForecastCategoryName":"Pipeline","IsPrivate":false,"LastModifiedById":"005gK000064ym2nQAA"}}|0x1174360a
+23:13:38.74 (531006289)|STATEMENT_EXECUTE|[22]
+23:13:38.74 (531066334)|VARIABLE_SCOPE_BEGIN|[22]|newList|List<Opportunity>|true|false
+23:13:38.74 (531430128)|VARIABLE_ASSIGNMENT|[22]|newList|[{"LastModifiedDate":"2026-08-14T21:13:39.000Z","AccountId":"001gK00001LElIbQAL","HasOpportunityLineItem":true,"ForecastCategory":"Pipeline","IsClosed":false,"CloseDate":"2026-08-19T00:00:00.000Z","Name":"DEBUG3 Opp","HasOpenActivity":false,"TotalOpportunityQuantity":1.00,"LastAmountChangedHistoryId":"008gK00000e1ldmQAA","ExpectedRevenue":2000.00,"CreatedById":"005gK000064ym2nQAA","OwnerId":"005gK000064ym2nQAA","IsWon":false,"IsDeleted":false,"StageName":"Prospecting","Has_Car_Conflict__c":false,"Amount":20000.00,"Probability":10,"SystemModstamp":"2026-08-14T21:13:39.000Z","CreatedDate":"2026-08-14T21:13:38.000Z","HasOverdueTask":false,"Pricebook2Id":"01sgK000007udzeQAA","Id":"006gK00000MdU3BQAV","ForecastCategoryName":"Pipeline","IsPrivate":false,"LastModifiedById":"005gK000064ym2nQAA"}]|0x71f7ea76
+23:13:38.74 (531439687)|STATEMENT_EXECUTE|[24]
+23:13:38.74 (531452089)|HEAP_ALLOCATE|[24]|Bytes:4
+23:13:38.74 (531514054)|VARIABLE_SCOPE_BEGIN|[24]|relevantOppIds|Set<Id>|true|false
+23:13:38.74 (531542940)|VARIABLE_ASSIGNMENT|[24]|relevantOppIds|[]|0x27c4f7f1
+23:13:38.74 (531717115)|HEAP_ALLOCATE|[25]|Bytes:5
+23:13:38.74 (531739150)|VARIABLE_SCOPE_BEGIN|[25]|opp|Opportunity|true|false
+23:13:38.74 (531974681)|VARIABLE_ASSIGNMENT|[25]|opp|{"LastModifiedDate":"2026-08-14T21:13:39.000Z","AccountId":"001gK00001LElIbQAL","HasOpportunityLineItem":true,"ForecastCategory":"Pipeline","IsClosed":false,"CloseDate":"2026-08-19T00:00:00.000Z","Name":"DEBUG3 Opp","HasOpenActivity":false,"TotalOpportunityQuantity":1.00,"LastAmountChangedHistoryId":"008gK00000e1ldmQAA","ExpectedRevenue":2000.00,"CreatedById":"005gK000064ym2nQAA","OwnerId":"005gK000064ym2nQAA","IsWon":false,"IsDeleted":false,"StageName":"Prospecting","Has_Car_Conflict__c":false,"Amount":20000.00,"Probability":10,"SystemModstamp":"2026-08-14T21:13:39.000Z","CreatedDate":"2026-08-14T21:13:38.000Z","HasOverdueTask":false,"Pricebook2Id":"01sgK000007udzeQAA","Id":"006gK00000MdU3BQAV","ForecastCategoryName":"Pipeline","IsPrivate":false,"LastModifiedById":"005gK000064ym2nQAA"}|0xe4a1059
+23:13:38.74 (531984834)|STATEMENT_EXECUTE|[25]
+23:13:38.74 (531985713)|STATEMENT_EXECUTE|[26]
+23:13:38.74 (532051499)|VARIABLE_SCOPE_BEGIN|[26]|oldOpp|Opportunity|true|false
+23:13:38.74 (532306337)|VARIABLE_ASSIGNMENT|[26]|oldOpp|{"LastModifiedDate":"2026-08-14T21:13:38.000Z","IsDeleted":false,"AccountId":"001gK00001LElIbQAL","HasOpportunityLineItem":false,"StageName":"Prospecting","Has_Car_Conflict__c":false,"Probability":10,"ForecastCategory":"Pipeline","IsClosed":false,"CloseDate":"2026-08-19T00:00:00.000Z","Name":"DEBUG3 Opp","SystemModstamp":"2026-08-14T21:13:38.000Z","HasOpenActivity":false,"CreatedById":"005gK000064ym2nQAA","OwnerId":"005gK000064ym2nQAA","IsWon":false,"CreatedDate":"2026-08-14T21:13:38.000Z","HasOverdueTask":false,"Id":"006gK00000MdU3BQAV","ForecastCategoryName":"Pipeline","IsPrivate":false,"LastModifiedById":"005gK000064ym2nQAA"}|0x1bc8e28f
+23:13:38.74 (532314901)|STATEMENT_EXECUTE|[27]
+23:13:38.74 (532334038)|HEAP_ALLOCATE|[27]|Bytes:9
+23:13:38.74 (532363753)|VARIABLE_SCOPE_BEGIN|[27]|becameClosedWon|Boolean|false|false
+23:13:38.74 (532370348)|HEAP_ALLOCATE|[27]|Bytes:5
+23:13:38.74 (532386321)|VARIABLE_ASSIGNMENT|[27]|becameClosedWon|false
+23:13:38.74 (532389358)|STATEMENT_EXECUTE|[28]
+23:13:38.74 (532396518)|VARIABLE_SCOPE_BEGIN|[28]|wasClosedWon|Boolean|false|false
+23:13:38.74 (532400636)|HEAP_ALLOCATE|[28]|Bytes:5
+23:13:38.74 (532408908)|VARIABLE_ASSIGNMENT|[28]|wasClosedWon|false
+23:13:38.74 (532411713)|STATEMENT_EXECUTE|[29]
+23:13:38.74 (532416638)|VARIABLE_SCOPE_BEGIN|[29]|closeDateChangedWhileWon|Boolean|false|false
+23:13:38.74 (532420800)|HEAP_ALLOCATE|[29]|Bytes:5
+23:13:38.74 (532427484)|VARIABLE_ASSIGNMENT|[29]|closeDateChangedWhileWon|false
+23:13:38.74 (532431747)|STATEMENT_EXECUTE|[31]
+23:13:38.74 (532441597)|HEAP_ALLOCATE|[25]|Bytes:5
+23:13:38.74 (532456273)|VARIABLE_ASSIGNMENT|[25]|opp|null|
+23:13:38.74 (532479836)|STATEMENT_EXECUTE|[36]
+23:13:38.74 (532480882)|STATEMENT_EXECUTE|[76]
+23:13:38.74 (533188760)|VARIABLE_SCOPE_BEGIN|[4]|CarStatusService.soldRecordTypeId|Id|false|true
+23:13:38.74 (533207091)|HEAP_ALLOCATE|[76]|Bytes:25
+23:13:38.74 (533213743)|HEAP_ALLOCATE|[76]|Bytes:36
+23:13:38.74 (533234183)|METHOD_ENTRY|[1]|01pgK00000EI74b|CarStatusService.CarStatusService()
+23:13:38.74 (533238167)|STATEMENT_EXECUTE|[1]
+23:13:38.74 (533240873)|STATEMENT_EXECUTE|[1]
+23:13:38.74 (533247568)|HEAP_ALLOCATE|[76]|Bytes:5
+23:13:38.74 (533250628)|STATEMENT_EXECUTE|[3]
+23:13:38.74 (533262483)|METHOD_EXIT|[1]|CarStatusService
+23:13:38.74 (533287484)|METHOD_ENTRY|[76]|01pgK00000EI74b|CarStatusService.handleStageChange(List<Opportunity>, Map<Id,Opportunity>)
+23:13:38.74 (533337225)|VARIABLE_SCOPE_BEGIN|[20]|newOpps|List<Opportunity>|true|false
+23:13:38.74 (533763427)|VARIABLE_ASSIGNMENT|[20]|newOpps|[{"LastModifiedDate":"2026-08-14T21:13:39.000Z","AccountId":"001gK00001LElIbQAL","HasOpportunityLineItem":true,"ForecastCategory":"Pipeline","IsClosed":false,"CloseDate":"2026-08-19T00:00:00.000Z","Name":"DEBUG3 Opp","HasOpenActivity":false,"TotalOpportunityQuantity":1.00,"LastAmountChangedHistoryId":"008gK00000e1ldmQAA","ExpectedRevenue":2000.00,"CreatedById":"005gK000064ym2nQAA","OwnerId":"005gK000064ym2nQAA","IsWon":false,"IsDeleted":false,"StageName":"Prospecting","Has_Car_Conflict__c":false,"Amount":20000.00,"Probability":10,"SystemModstamp":"2026-08-14T21:13:39.000Z","CreatedDate":"2026-08-14T21:13:38.000Z","HasOverdueTask":false,"Pricebook2Id":"01sgK000007udzeQAA","Id":"006gK00000MdU3BQAV","ForecastCategoryName":"Pipeline","IsPrivate":false,"LastModifiedById":"005gK000064ym2nQAA"}]|0x71f7ea76
+23:13:38.74 (533796858)|VARIABLE_SCOPE_BEGIN|[20]|oldMap|Map<Id,Opportunity>|true|false
+23:13:38.74 (534156367)|VARIABLE_ASSIGNMENT|[20]|oldMap|{"006gK00000MdU3BQAV":{"LastModifiedDate":"2026-08-14T21:13:38.000Z","IsDeleted":false,"AccountId":"001gK00001LElIbQAL","HasOpportunityLineItem":false,"StageName":"Prospecting","Has_Car_Conflict__c":false,"Probability":10,"ForecastCategory":"Pipeline","IsClosed":false,"CloseDate":"2026-08-19T00:00:00.000Z","Name":"DEBUG3 Opp","SystemModstamp":"2026-08-14T21:13:38.000Z","HasOpenActivity":false,"CreatedById":"005gK000064ym2nQAA","OwnerId":"005gK000064ym2nQAA","IsWon":false,"CreatedDate":"2026-08-14T21:13:38.000Z","HasOverdueTask":false,"Id":"006gK00000MdU3BQAV","ForecastCategoryName":"Pipeline","IsPrivate":false,"LastModifiedById":"005gK000064ym2nQAA"}}|0x1174360a
+23:13:38.74 (534186068)|HEAP_ALLOCATE|[23]|Bytes:5
+23:13:38.74 (534194363)|STATEMENT_EXECUTE|[20]
+23:13:38.74 (534195444)|STATEMENT_EXECUTE|[23]
+23:13:38.74 (534204615)|HEAP_ALLOCATE|[23]|Bytes:4
+23:13:38.74 (534255805)|VARIABLE_SCOPE_BEGIN|[23]|oppIdsToProcess|Set<Id>|true|false
+23:13:38.74 (534294629)|VARIABLE_ASSIGNMENT|[23]|oppIdsToProcess|[]|0x68e0c7e2
+23:13:38.74 (534334653)|HEAP_ALLOCATE|[24]|Bytes:5
+23:13:38.74 (534352612)|VARIABLE_SCOPE_BEGIN|[24]|opp|Opportunity|true|false
+23:13:38.74 (534819822)|VARIABLE_ASSIGNMENT|[24]|opp|{"LastModifiedDate":"2026-08-14T21:13:39.000Z","AccountId":"001gK00001LElIbQAL","HasOpportunityLineItem":true,"ForecastCategory":"Pipeline","IsClosed":false,"CloseDate":"2026-08-19T00:00:00.000Z","Name":"DEBUG3 Opp","HasOpenActivity":false,"TotalOpportunityQuantity":1.00,"LastAmountChangedHistoryId":"008gK00000e1ldmQAA","ExpectedRevenue":2000.00,"CreatedById":"005gK000064ym2nQAA","OwnerId":"005gK000064ym2nQAA","IsWon":false,"IsDeleted":false,"StageName":"Prospecting","Has_Car_Conflict__c":false,"Amount":20000.00,"Probability":10,"SystemModstamp":"2026-08-14T21:13:39.000Z","CreatedDate":"2026-08-14T21:13:38.000Z","HasOverdueTask":false,"Pricebook2Id":"01sgK000007udzeQAA","Id":"006gK00000MdU3BQAV","ForecastCategoryName":"Pipeline","IsPrivate":false,"LastModifiedById":"005gK000064ym2nQAA"}|0xe4a1059
+23:13:38.74 (534831226)|STATEMENT_EXECUTE|[24]
+23:13:38.74 (534832348)|STATEMENT_EXECUTE|[25]
+23:13:38.74 (534870875)|VARIABLE_SCOPE_BEGIN|[25]|oldOpp|Opportunity|true|false
+23:13:38.74 (535105071)|VARIABLE_ASSIGNMENT|[25]|oldOpp|{"LastModifiedDate":"2026-08-14T21:13:38.000Z","IsDeleted":false,"AccountId":"001gK00001LElIbQAL","HasOpportunityLineItem":false,"StageName":"Prospecting","Has_Car_Conflict__c":false,"Probability":10,"ForecastCategory":"Pipeline","IsClosed":false,"CloseDate":"2026-08-19T00:00:00.000Z","Name":"DEBUG3 Opp","SystemModstamp":"2026-08-14T21:13:38.000Z","HasOpenActivity":false,"CreatedById":"005gK000064ym2nQAA","OwnerId":"005gK000064ym2nQAA","IsWon":false,"CreatedDate":"2026-08-14T21:13:38.000Z","HasOverdueTask":false,"Id":"006gK00000MdU3BQAV","ForecastCategoryName":"Pipeline","IsPrivate":false,"LastModifiedById":"005gK000064ym2nQAA"}|0x1bc8e28f
+23:13:38.74 (535127409)|STATEMENT_EXECUTE|[26]
+23:13:38.74 (535136924)|HEAP_ALLOCATE|[24]|Bytes:5
+23:13:38.74 (535154119)|VARIABLE_ASSIGNMENT|[24]|opp|null|
+23:13:38.74 (535169915)|STATEMENT_EXECUTE|[31]
+23:13:38.74 (535170807)|STATEMENT_EXECUTE|[32]
+23:13:38.74 (535185107)|METHOD_EXIT|[76]|01pgK00000EI74b|CarStatusService.handleStageChange(List<Opportunity>, Map<Id,Opportunity>)
+23:13:38.74 (535196987)|METHOD_EXIT|[31]|01pgK00000E864z|OpportunityTriggerHandler.afterUpdate()
+23:13:38.74 (535204524)|METHOD_EXIT|[2]|01pgK00000E80At|TriggerHandler.run()
+23:13:38.535 (535218982)|CUMULATIVE_LIMIT_USAGE
+23:13:38.535 (535218982)|LIMIT_USAGE_FOR_NS|(default)|
+  Number of SOQL queries: 1 out of 100
+  Number of query rows: 1 out of 50000
+  Number of SOSL queries: 0 out of 20
+  Number of DML statements: 5 out of 150
+  Number of Publish Immediate DML: 0 out of 150
+  Number of DML rows: 5 out of 10000
+  Maximum CPU time: 0 out of 10000
+  Maximum heap size: 0 out of 6000000
+  Number of callouts: 0 out of 100
+  Number of Email Invocations: 0 out of 10
+  Number of future calls: 0 out of 50
+  Number of queueable jobs added to the queue: 0 out of 50
+  Number of Mobile Apex push calls: 0 out of 10
+
+23:13:38.535 (535218982)|CUMULATIVE_LIMIT_USAGE_END
+
+23:13:38.74 (535454909)|CODE_UNIT_FINISHED|OpportunityTrigger on Opportunity trigger event AfterUpdate|__sfdc_trigger/OpportunityTrigger
+23:13:38.74 (535737903)|CODE_UNIT_STARTED|[EXTERNAL]|Workflow:Opportunity
+23:13:38.74 (535764112)|CODE_UNIT_FINISHED|Workflow:Opportunity
+23:13:38.74 (540471929)|STATEMENT_EXECUTE|[33]
+23:13:38.74 (540628406)|VARIABLE_ASSIGNMENT|[33]|this.StageName|"Close Won"|0x7ceeeded
+23:13:38.74 (540639934)|STATEMENT_EXECUTE|[35]
+23:13:38.74 (540640822)|STATEMENT_EXECUTE|[35]
+23:13:38.74 (540641466)|STATEMENT_EXECUTE|[36]
+23:13:38.74 (540682284)|HEAP_ALLOCATE|[36]|Bytes:8
+23:13:38.74 (540723389)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:8
+23:13:38.74 (559113338)|CODE_UNIT_STARTED|[EXTERNAL]|Validation:Opportunity:006gK00000MdU3B
+23:13:38.74 (559171101)|CODE_UNIT_FINISHED|Validation:Opportunity:006gK00000MdU3B
+23:13:38.74 (573827601)|CODE_UNIT_STARTED|[EXTERNAL]|01qgK000005f2PZ|OpportunityTrigger on Opportunity trigger event AfterUpdate|__sfdc_trigger/OpportunityTrigger
+23:13:38.74 (573883478)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:8
+23:13:38.74 (573928028)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:8
+23:13:38.74 (574008605)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:4
+23:13:38.74 (574043181)|VARIABLE_SCOPE_BEGIN|[1]|this|OpportunityTrigger|true|false
+23:13:38.74 (574197506)|VARIABLE_ASSIGNMENT|[1]|this|{}|0x12adc87d
+23:13:38.74 (574234623)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:4
+23:13:38.74 (574242908)|VARIABLE_SCOPE_BEGIN|[1]|this|OpportunityTrigger|true|false
+23:13:38.74 (574259609)|VARIABLE_ASSIGNMENT|[1]|this|{}|0x12adc87d
+23:13:38.74 (574265069)|STATEMENT_EXECUTE|[1]
+23:13:38.74 (574266390)|STATEMENT_EXECUTE|[2]
+23:13:38.74 (574270531)|HEAP_ALLOCATE|[2]|Bytes:4
+23:13:38.74 (574293483)|CONSTRUCTOR_ENTRY|[2]|01pgK00000E864z|<init>()|OpportunityTriggerHandler
+23:13:38.74 (574740278)|VARIABLE_SCOPE_BEGIN|[1]|this|OpportunityTriggerHandler|true|false
+23:13:38.74 (574788925)|VARIABLE_ASSIGNMENT|[1]|this|{}|0x5006e49d
+23:13:38.74 (574810581)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:5
+23:13:38.74 (574819482)|CONSTRUCTOR_ENTRY|[EXTERNAL]|01pgK00000E80At|<init>()|TriggerHandler
+23:13:38.74 (574827335)|VARIABLE_SCOPE_BEGIN|[1]|this|TriggerHandler|true|false
+23:13:38.74 (574841928)|VARIABLE_ASSIGNMENT|[1]|this|{}|0x5006e49d
+23:13:38.74 (574862979)|STATEMENT_EXECUTE|[1]
+23:13:38.74 (574867594)|CONSTRUCTOR_EXIT|[EXTERNAL]|01pgK00000E80At|<init>()|TriggerHandler
+23:13:38.74 (574876552)|STATEMENT_EXECUTE|[1]
+23:13:38.74 (574879831)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:5
+23:13:38.74 (574886095)|CONSTRUCTOR_EXIT|[2]|01pgK00000E864z|<init>()|OpportunityTriggerHandler
+23:13:38.74 (574901379)|METHOD_ENTRY|[2]|01pgK00000E80At|TriggerHandler.run()
+23:13:38.74 (574907497)|VARIABLE_SCOPE_BEGIN|[17]|this|TriggerHandler|true|false
+23:13:38.74 (574922616)|VARIABLE_ASSIGNMENT|[17]|this|{}|0x5006e49d
+23:13:38.74 (574927426)|STATEMENT_EXECUTE|[17]
+23:13:38.74 (574935814)|METHOD_ENTRY|[18]|01pgK00000E80At|TriggerHandler.isDisabledByMetadata()
+23:13:38.74 (574941249)|VARIABLE_SCOPE_BEGIN|[9]|this|TriggerHandler|true|false
+23:13:38.74 (574953940)|VARIABLE_ASSIGNMENT|[9]|this|{}|0x5006e49d
+23:13:38.74 (574957306)|STATEMENT_EXECUTE|[9]
+23:13:38.74 (574957951)|STATEMENT_EXECUTE|[10]
+23:13:38.74 (574962429)|METHOD_ENTRY|[10]|01pgK00000E864z|OpportunityTriggerHandler.getHandlerName()
+23:13:38.74 (574971817)|VARIABLE_SCOPE_BEGIN|[3]|this|OpportunityTriggerHandler|true|false
+23:13:38.74 (574983442)|VARIABLE_ASSIGNMENT|[3]|this|{}|0x5006e49d
+23:13:38.74 (574989096)|HEAP_ALLOCATE|[4]|Bytes:5
+23:13:38.74 (574992341)|STATEMENT_EXECUTE|[3]
+23:13:38.74 (574993085)|STATEMENT_EXECUTE|[4]
+23:13:38.74 (575000922)|METHOD_EXIT|[10]|01pgK00000E864z|OpportunityTriggerHandler.getHandlerName()
+23:13:38.74 (575162618)|VARIABLE_SCOPE_BEGIN|[10]|setting|Trigger_Setting__mdt|true|false
+23:13:38.74 (575229277)|VARIABLE_ASSIGNMENT|[10]|setting|{"IsProtected":false,"Label":"OpportunityTriggerHa (5 more) ...","MasterLabel":"OpportunityTriggerHa (5 more) ...","Is_Enabled__c":true,"SystemModstamp":"2026-08-04T22:43:49.000Z","Language":"en_US","ManageableState":"U","QualifiedApiName":"OpportunityTriggerHa (5 more) ...","Id":"m00gK00001C8Efu","DeveloperName":"OpportunityTriggerHa (5 more) ..."}|0xa63b752
+23:13:38.74 (575235926)|STATEMENT_EXECUTE|[11]
+23:13:38.74 (575236749)|STATEMENT_EXECUTE|[14]
+23:13:38.74 (575252551)|METHOD_EXIT|[18]|01pgK00000E80At|TriggerHandler.isDisabledByMetadata()
+23:13:38.74 (575257438)|STATEMENT_EXECUTE|[18]
+23:13:38.74 (575276677)|STATEMENT_EXECUTE|[30]
+23:13:38.74 (575277468)|STATEMENT_EXECUTE|[31]
+23:13:38.74 (575284667)|METHOD_ENTRY|[31]|01pgK00000E864z|OpportunityTriggerHandler.afterUpdate()
+23:13:38.74 (575300552)|VARIABLE_SCOPE_BEGIN|[20]|this|OpportunityTriggerHandler|true|false
+23:13:38.74 (575319097)|VARIABLE_ASSIGNMENT|[20]|this|{}|0x5006e49d
+23:13:38.74 (575328712)|HEAP_ALLOCATE|[21]|Bytes:5
+23:13:38.74 (575332823)|STATEMENT_EXECUTE|[20]
+23:13:38.74 (575333640)|STATEMENT_EXECUTE|[21]
+23:13:38.74 (575359904)|VARIABLE_SCOPE_BEGIN|[21]|oldMap|Map<Id,Opportunity>|true|false
+23:13:38.74 (575817610)|VARIABLE_ASSIGNMENT|[21]|oldMap|{"006gK00000MdU3BQAV":{"LastModifiedDate":"2026-08-14T21:13:39.000Z","AccountId":"001gK00001LElIbQAL","HasOpportunityLineItem":true,"ForecastCategory":"Pipeline","IsClosed":false,"CloseDate":"2026-08-19T00:00:00.000Z","Name":"DEBUG3 Opp","HasOpenActivity":false,"TotalOpportunityQuantity":1.00,"LastAmountChangedHistoryId":"008gK00000e1ldmQAA","ExpectedRevenue":2000.00,"CreatedById":"005gK000064ym2nQAA","OwnerId":"005gK000064ym2nQAA","IsWon":false,"IsDeleted":false,"StageName":"Prospecting","Has_Car_Conflict__c":false,"Amount":20000.00,"Probability":10,"SystemModstamp":"2026-08-14T21:13:39.000Z","CreatedDate":"2026-08-14T21:13:38.000Z","HasOverdueTask":false,"Pricebook2Id":"01sgK000007udzeQAA","Id":"006gK00000MdU3BQAV","ForecastCategoryName":"Pipeline","IsPrivate":false,"LastModifiedById":"005gK000064ym2nQAA"}}|0x3c54f5ef
+23:13:38.74 (575826969)|STATEMENT_EXECUTE|[22]
+23:13:38.74 (575856263)|VARIABLE_SCOPE_BEGIN|[22]|newList|List<Opportunity>|true|false
+23:13:38.74 (576209897)|VARIABLE_ASSIGNMENT|[22]|newList|[{"LastModifiedDate":"2026-08-14T21:13:39.000Z","AccountId":"001gK00001LElIbQAL","HasOpportunityLineItem":true,"ForecastCategory":"Omitted","IsClosed":false,"CloseDate":"2026-08-19T00:00:00.000Z","Name":"DEBUG3 Opp","HasOpenActivity":false,"TotalOpportunityQuantity":1.00,"LastAmountChangedHistoryId":"008gK00000e1ldmQAA","ExpectedRevenue":0.00,"CreatedById":"005gK000064ym2nQAA","OwnerId":"005gK000064ym2nQAA","IsWon":false,"IsDeleted":false,"StageName":"Close Won","Has_Car_Conflict__c":false,"Amount":20000.00,"Probability":0,"SystemModstamp":"2026-08-14T21:13:39.000Z","LastStageChangeDate":"2026-08-14T21:13:39.000Z","CreatedDate":"2026-08-14T21:13:38.000Z","HasOverdueTask":false,"Pricebook2Id":"01sgK000007udzeQAA","Id":"006gK00000MdU3BQAV","ForecastCategoryName":"Omitted","IsPrivate":false,"LastModifiedById":"005gK000064ym2nQAA"}]|0x40463c38
+23:13:38.74 (576219687)|STATEMENT_EXECUTE|[24]
+23:13:38.74 (576230133)|HEAP_ALLOCATE|[24]|Bytes:4
+23:13:38.74 (576251955)|VARIABLE_SCOPE_BEGIN|[24]|relevantOppIds|Set<Id>|true|false
+23:13:38.74 (576280603)|VARIABLE_ASSIGNMENT|[24]|relevantOppIds|[]|0x27030aa1
+23:13:38.74 (576326425)|HEAP_ALLOCATE|[25]|Bytes:5
+23:13:38.74 (576347533)|VARIABLE_SCOPE_BEGIN|[25]|opp|Opportunity|true|false
+23:13:38.74 (576589718)|VARIABLE_ASSIGNMENT|[25]|opp|{"LastModifiedDate":"2026-08-14T21:13:39.000Z","AccountId":"001gK00001LElIbQAL","HasOpportunityLineItem":true,"ForecastCategory":"Omitted","IsClosed":false,"CloseDate":"2026-08-19T00:00:00.000Z","Name":"DEBUG3 Opp","HasOpenActivity":false,"TotalOpportunityQuantity":1.00,"LastAmountChangedHistoryId":"008gK00000e1ldmQAA","ExpectedRevenue":0.00,"CreatedById":"005gK000064ym2nQAA","OwnerId":"005gK000064ym2nQAA","IsWon":false,"IsDeleted":false,"StageName":"Close Won","Has_Car_Conflict__c":false,"Amount":20000.00,"Probability":0,"SystemModstamp":"2026-08-14T21:13:39.000Z","LastStageChangeDate":"2026-08-14T21:13:39.000Z","CreatedDate":"2026-08-14T21:13:38.000Z","HasOverdueTask":false,"Pricebook2Id":"01sgK000007udzeQAA","Id":"006gK00000MdU3BQAV","ForecastCategoryName":"Omitted","IsPrivate":false,"LastModifiedById":"005gK000064ym2nQAA"}|0x30cde034
+23:13:38.74 (576598793)|STATEMENT_EXECUTE|[25]
+23:13:38.74 (576599628)|STATEMENT_EXECUTE|[26]
+23:13:38.74 (576622306)|VARIABLE_SCOPE_BEGIN|[26]|oldOpp|Opportunity|true|false
+23:13:38.74 (576815036)|VARIABLE_ASSIGNMENT|[26]|oldOpp|{"LastModifiedDate":"2026-08-14T21:13:39.000Z","AccountId":"001gK00001LElIbQAL","HasOpportunityLineItem":true,"ForecastCategory":"Pipeline","IsClosed":false,"CloseDate":"2026-08-19T00:00:00.000Z","Name":"DEBUG3 Opp","HasOpenActivity":false,"TotalOpportunityQuantity":1.00,"LastAmountChangedHistoryId":"008gK00000e1ldmQAA","ExpectedRevenue":2000.00,"CreatedById":"005gK000064ym2nQAA","OwnerId":"005gK000064ym2nQAA","IsWon":false,"IsDeleted":false,"StageName":"Prospecting","Has_Car_Conflict__c":false,"Amount":20000.00,"Probability":10,"SystemModstamp":"2026-08-14T21:13:39.000Z","CreatedDate":"2026-08-14T21:13:38.000Z","HasOverdueTask":false,"Pricebook2Id":"01sgK000007udzeQAA","Id":"006gK00000MdU3BQAV","ForecastCategoryName":"Pipeline","IsPrivate":false,"LastModifiedById":"005gK000064ym2nQAA"}|0x2bad804f
+23:13:38.74 (576822810)|STATEMENT_EXECUTE|[27]
+23:13:38.74 (576849327)|VARIABLE_SCOPE_BEGIN|[27]|becameClosedWon|Boolean|false|false
+23:13:38.74 (576854870)|HEAP_ALLOCATE|[27]|Bytes:5
+23:13:38.74 (576885485)|VARIABLE_ASSIGNMENT|[27]|becameClosedWon|true
+23:13:38.74 (576889331)|STATEMENT_EXECUTE|[28]
+23:13:38.74 (576894660)|VARIABLE_SCOPE_BEGIN|[28]|wasClosedWon|Boolean|false|false
+23:13:38.74 (576898674)|HEAP_ALLOCATE|[28]|Bytes:5
+23:13:38.74 (576905994)|VARIABLE_ASSIGNMENT|[28]|wasClosedWon|false
+23:13:38.74 (576908900)|STATEMENT_EXECUTE|[29]
+23:13:38.74 (577012154)|VARIABLE_SCOPE_BEGIN|[29]|closeDateChangedWhileWon|Boolean|false|false
+23:13:38.74 (577019984)|HEAP_ALLOCATE|[29]|Bytes:5
+23:13:38.74 (577030792)|VARIABLE_ASSIGNMENT|[29]|closeDateChangedWhileWon|false
+23:13:38.74 (577035808)|STATEMENT_EXECUTE|[31]
+23:13:38.74 (577036837)|STATEMENT_EXECUTE|[32]
+23:13:38.74 (577076593)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:4
+23:13:38.74 (577119509)|HEAP_ALLOCATE|[25]|Bytes:5
+23:13:38.74 (577135057)|VARIABLE_ASSIGNMENT|[25]|opp|null|
+23:13:38.74 (577145207)|STATEMENT_EXECUTE|[36]
+23:13:38.74 (577146006)|STATEMENT_EXECUTE|[37]
+23:13:38.74 (577162069)|HEAP_ALLOCATE|[37]|Bytes:4
+23:13:38.74 (577170867)|VARIABLE_SCOPE_BEGIN|[37]|carTypesByOppId|Map<Id,Set<String>>|true|false
+23:13:38.74 (577184092)|VARIABLE_ASSIGNMENT|[37]|carTypesByOppId|{}|0x3a0111d4
+23:13:38.74 (577189035)|HEAP_ALLOCATE|[38]|Bytes:114
+23:13:38.74 (577196091)|HEAP_ALLOCATE|[38]|Bytes:4
+23:13:38.74 (577199935)|HEAP_ALLOCATE|[38]|Bytes:7
+23:13:38.74 (613859016)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:8
+23:13:38.74 (614103973)|HEAP_ALLOCATE|[38]|Bytes:54
+23:13:38.74 (614119931)|HEAP_ALLOCATE|[38]|Bytes:8
+23:13:38.74 (614141546)|SYSTEM_METHOD_ENTRY|[7]|QueryLocatorIterator.QueryLocatorIterator()
+23:13:38.74 (614144359)|STATEMENT_EXECUTE|[7]
+23:13:38.74 (614156536)|SYSTEM_METHOD_EXIT|[7]|QueryLocatorIterator
+23:13:38.74 (614164084)|HEAP_ALLOCATE|[38]|Bytes:28
+23:13:38.74 (614201612)|HEAP_ALLOCATE|[38]|Bytes:8
+23:13:38.74 (614210174)|HEAP_ALLOCATE|[38]|Bytes:8
+23:13:38.74 (614212430)|HEAP_ALLOCATE|[38]|Bytes:8
+23:13:38.74 (614246441)|VARIABLE_SCOPE_BEGIN|[15]|this|Database.QueryLocatorIterator|true|false
+23:13:38.74 (614367850)|VARIABLE_ASSIGNMENT|[15]|this|{}|0x7d106880
+23:13:38.74 (614374640)|VARIABLE_SCOPE_BEGIN|[15]|values|List<SObject>|true|false
+23:13:38.74 (614813556)|VARIABLE_ASSIGNMENT|[15]|values|[{"Id":"00kgK0000060VDFQA2","OpportunityId":"006gK00000MdU3BQAV","PricebookEntryId":"01ugK000004vH3RQAU","PricebookEntry":{"Product2":{"Condition__c":"New","Id":"01tgK00000DkRSLQA3"},"Id":"01ugK000004vH3RQAU","Product2Id":"01tgK00000DkRSLQA3"}}]|0x377880b7
+23:13:38.74 (614825090)|VARIABLE_SCOPE_BEGIN|[15]|ql|Database.QueryLocator|true|false
+23:13:38.74 (614846951)|VARIABLE_ASSIGNMENT|[15]|ql|{"query":"SELECT OpportunityId (94 more) ..."}|0x328bedaf
+23:13:38.74 (614861529)|VARIABLE_SCOPE_BEGIN|[15]|totalNumRecords|Integer|false|false
+23:13:38.74 (614872431)|VARIABLE_ASSIGNMENT|[15]|totalNumRecords|1
+23:13:38.74 (614876896)|VARIABLE_SCOPE_BEGIN|[15]|queryMoreSize|Integer|false|false
+23:13:38.74 (614883786)|VARIABLE_ASSIGNMENT|[15]|queryMoreSize|49998
+23:13:38.74 (614958393)|HEAP_ALLOCATE|[38]|Bytes:28
+23:13:38.74 (615047290)|METHOD_ENTRY|[38]||Database.QueryLocatorIterator.hasNext()
+23:13:38.74 (615100626)|METHOD_EXIT|[38]||Database.QueryLocatorIterator.hasNext()
+23:13:38.74 (615107832)|METHOD_ENTRY|[38]||Database.QueryLocatorIterator.next()
+23:13:38.74 (615209916)|METHOD_EXIT|[38]||Database.QueryLocatorIterator.next()
+23:13:38.74 (615217719)|VARIABLE_SCOPE_BEGIN|[38]|oli|OpportunityLineItem|true|false
+23:13:38.74 (615282802)|VARIABLE_ASSIGNMENT|[38]|oli|{"Id":"00kgK0000060VDFQA2","OpportunityId":"006gK00000MdU3BQAV","PricebookEntryId":"01ugK000004vH3RQAU","PricebookEntry":{"Product2":{"Condition__c":"New","Id":"01tgK00000DkRSLQA3"},"Id":"01ugK000004vH3RQAU","Product2Id":"01tgK00000DkRSLQA3"}}|0x1dd823d2
+23:13:38.74 (615289033)|STATEMENT_EXECUTE|[42]
+23:13:38.74 (615341650)|STATEMENT_EXECUTE|[43]
+23:13:38.74 (615392880)|STATEMENT_EXECUTE|[46]
+23:13:38.74 (615393791)|STATEMENT_EXECUTE|[47]
+23:13:38.74 (615407941)|HEAP_ALLOCATE|[47]|Bytes:4
+23:13:38.74 (615465195)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:-4
+23:13:38.74 (615470472)|STATEMENT_EXECUTE|[49]
+23:13:38.74 (615503928)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:4
+23:13:38.74 (615512701)|METHOD_ENTRY|[38]||Database.QueryLocatorIterator.hasNext()
+23:13:38.74 (615534445)|METHOD_EXIT|[38]||Database.QueryLocatorIterator.hasNext()
+23:13:38.74 (615545920)|VARIABLE_ASSIGNMENT|[38]|oli|null|
+23:13:38.74 (615571251)|STATEMENT_EXECUTE|[52]
+23:13:38.74 (615574718)|HEAP_ALLOCATE|[52]|Bytes:4
+23:13:38.74 (615588705)|VARIABLE_SCOPE_BEGIN|[52]|affectedKeys|Set<String>|true|false
+23:13:38.74 (615606667)|VARIABLE_ASSIGNMENT|[52]|affectedKeys|[]|0x107c4560
+23:13:38.74 (615665507)|HEAP_ALLOCATE|[53]|Bytes:5
+23:13:38.74 (615701058)|HEAP_ALLOCATE|[53]|Bytes:4
+23:13:38.74 (615704209)|VARIABLE_SCOPE_BEGIN|[53]|oppId|Id|false|false
+23:13:38.74 (615776739)|VARIABLE_ASSIGNMENT|[53]|oppId|"006gK00000MdU3BQAV"
+23:13:38.74 (615781647)|STATEMENT_EXECUTE|[53]
+23:13:38.74 (615782458)|STATEMENT_EXECUTE|[54]
+23:13:38.74 (615830227)|VARIABLE_SCOPE_BEGIN|[54]|opp|Opportunity|true|false
+23:13:38.74 (616189361)|VARIABLE_ASSIGNMENT|[54]|opp|{"LastModifiedDate":"2026-08-14T21:13:39.000Z","AccountId":"001gK00001LElIbQAL","HasOpportunityLineItem":true,"ForecastCategory":"Omitted","IsClosed":false,"CloseDate":"2026-08-19T00:00:00.000Z","Name":"DEBUG3 Opp","HasOpenActivity":false,"TotalOpportunityQuantity":1.00,"LastAmountChangedHistoryId":"008gK00000e1ldmQAA","ExpectedRevenue":0.00,"CreatedById":"005gK000064ym2nQAA","OwnerId":"005gK000064ym2nQAA","IsWon":false,"IsDeleted":false,"StageName":"Close Won","Has_Car_Conflict__c":false,"Amount":20000.00,"Probability":0,"SystemModstamp":"2026-08-14T21:13:39.000Z","LastStageChangeDate":"2026-08-14T21:13:39.000Z","CreatedDate":"2026-08-14T21:13:38.000Z","HasOverdueTask":false,"Pricebook2Id":"01sgK000007udzeQAA","Id":"006gK00000MdU3BQAV","ForecastCategoryName":"Omitted","IsPrivate":false,"LastModifiedById":"005gK000064ym2nQAA"}|0x30cde034
+23:13:38.74 (616198947)|STATEMENT_EXECUTE|[55]
+23:13:38.74 (616213967)|VARIABLE_SCOPE_BEGIN|[55]|oldOpp|Opportunity|true|false
+23:13:38.74 (616437750)|VARIABLE_ASSIGNMENT|[55]|oldOpp|{"LastModifiedDate":"2026-08-14T21:13:39.000Z","AccountId":"001gK00001LElIbQAL","HasOpportunityLineItem":true,"ForecastCategory":"Pipeline","IsClosed":false,"CloseDate":"2026-08-19T00:00:00.000Z","Name":"DEBUG3 Opp","HasOpenActivity":false,"TotalOpportunityQuantity":1.00,"LastAmountChangedHistoryId":"008gK00000e1ldmQAA","ExpectedRevenue":2000.00,"CreatedById":"005gK000064ym2nQAA","OwnerId":"005gK000064ym2nQAA","IsWon":false,"IsDeleted":false,"StageName":"Prospecting","Has_Car_Conflict__c":false,"Amount":20000.00,"Probability":10,"SystemModstamp":"2026-08-14T21:13:39.000Z","CreatedDate":"2026-08-14T21:13:38.000Z","HasOverdueTask":false,"Pricebook2Id":"01sgK000007udzeQAA","Id":"006gK00000MdU3BQAV","ForecastCategoryName":"Pipeline","IsPrivate":false,"LastModifiedById":"005gK000064ym2nQAA"}|0x2bad804f
+23:13:38.74 (616445662)|STATEMENT_EXECUTE|[56]
+23:13:38.74 (616461752)|VARIABLE_SCOPE_BEGIN|[56]|carTypes|Set<String>|true|false
+23:13:38.74 (616473772)|VARIABLE_ASSIGNMENT|[56]|carTypes|["New"]|0x5208c822
+23:13:38.74 (616477403)|STATEMENT_EXECUTE|[57]
+23:13:38.74 (616511397)|HEAP_ALLOCATE|[60]|Bytes:5
+23:13:38.74 (616596384)|VARIABLE_SCOPE_BEGIN|[60]|carType|String|false|false
+23:13:38.74 (616616557)|VARIABLE_ASSIGNMENT|[60]|carType|"New"
+23:13:38.74 (616620448)|STATEMENT_EXECUTE|[60]
+23:13:38.74 (616628876)|STATEMENT_EXECUTE|[61]
+23:13:38.74 (616629667)|STATEMENT_EXECUTE|[62]
+23:13:38.74 (616648704)|METHOD_ENTRY|[62]|01pgK00000E864z|OpportunityTriggerHandler.buildKey(Date, String)
+23:13:38.74 (616680784)|VARIABLE_SCOPE_BEGIN|[103]|this|OpportunityTriggerHandler|true|false
+23:13:38.74 (616745271)|VARIABLE_ASSIGNMENT|[103]|this|{}|0x5006e49d
+23:13:38.74 (616755849)|VARIABLE_SCOPE_BEGIN|[103]|d|Date|false|false
+23:13:38.74 (616766904)|VARIABLE_ASSIGNMENT|[103]|d|"2026-08-19T00:00:00.000Z"
+23:13:38.74 (616772948)|VARIABLE_SCOPE_BEGIN|[103]|carType|String|false|false
+23:13:38.74 (616782472)|VARIABLE_ASSIGNMENT|[103]|carType|"New"
+23:13:38.74 (616792787)|HEAP_ALLOCATE|[104]|Bytes:5
+23:13:38.74 (616795881)|STATEMENT_EXECUTE|[103]
+23:13:38.74 (616796767)|STATEMENT_EXECUTE|[104]
+23:13:38.74 (616874208)|HEAP_ALLOCATE|[104]|Bytes:4
+23:13:38.74 (616881458)|HEAP_ALLOCATE|[104]|Bytes:1
+23:13:38.74 (616906009)|HEAP_ALLOCATE|[104]|Bytes:1
+23:13:38.74 (616918147)|HEAP_ALLOCATE|[104]|Bytes:10
+23:13:38.74 (616926085)|METHOD_EXIT|[62]|01pgK00000E864z|OpportunityTriggerHandler.buildKey(Date, String)
+23:13:38.74 (616936075)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:4
+23:13:38.74 (616973712)|STATEMENT_EXECUTE|[64]
+23:13:38.74 (616978880)|HEAP_ALLOCATE|[60]|Bytes:5
+23:13:38.74 (616992485)|VARIABLE_ASSIGNMENT|[60]|carType|null
+23:13:38.74 (616999991)|HEAP_ALLOCATE|[53]|Bytes:5
+23:13:38.74 (617011602)|VARIABLE_ASSIGNMENT|[53]|oppId|null
+23:13:38.74 (617024916)|STATEMENT_EXECUTE|[70]
+23:13:38.74 (617025750)|STATEMENT_EXECUTE|[71]
+23:13:38.74 (626655353)|HEAP_ALLOCATE|[71]|Bytes:28
+23:13:38.74 (626673111)|HEAP_ALLOCATE|[71]|Bytes:17
+23:13:38.74 (626709771)|METHOD_ENTRY|[1]|01pgK00000E8650|PlannedSalesService.PlannedSalesService()
+23:13:38.74 (626715428)|STATEMENT_EXECUTE|[1]
+23:13:38.74 (626719243)|STATEMENT_EXECUTE|[1]
+23:13:38.74 (626731707)|HEAP_ALLOCATE|[71]|Bytes:5
+23:13:38.74 (626733967)|STATEMENT_EXECUTE|[3]
+23:13:38.74 (626749591)|METHOD_EXIT|[1]|PlannedSalesService
+23:13:38.74 (626793984)|METHOD_ENTRY|[71]|01pgK00000E8650|PlannedSalesService.recalculateForKeys(Set<String>)
+23:13:38.74 (626916204)|VARIABLE_SCOPE_BEGIN|[14]|keys|Set<String>|true|false
+23:13:38.74 (627032032)|VARIABLE_ASSIGNMENT|[14]|keys|["2026-8-New"]|0x107c4560
+23:13:38.74 (627042562)|HEAP_ALLOCATE|[15]|Bytes:5
+23:13:38.74 (627046118)|STATEMENT_EXECUTE|[14]
+23:13:38.74 (627087353)|STATEMENT_EXECUTE|[15]
+23:13:38.74 (627088470)|STATEMENT_EXECUTE|[18]
+23:13:38.74 (627090744)|HEAP_ALLOCATE|[18]|Bytes:63
+23:13:38.74 (627108254)|HEAP_ALLOCATE|[18]|Bytes:4
+23:13:38.74 (644307665)|HEAP_ALLOCATE|[18]|Bytes:12
+23:13:38.74 (644345374)|HEAP_ALLOCATE|[18]|Bytes:285
+23:13:38.74 (644483003)|HEAP_ALLOCATE|[18]|Bytes:12
+23:13:38.74 (644506128)|VARIABLE_SCOPE_BEGIN|[18]|allPlannedSales|List<Planned_Sales__c>|true|false
+23:13:38.74 (644747431)|VARIABLE_ASSIGNMENT|[18]|allPlannedSales|[{"Car_Type__c":"New","Id":"a07gK00000k0H1iQAE","Month__c":9,"Year__c":2026},{"Car_Type__c":"Used","Id":"a07gK00000k0b3cQAA","Month__c":8,"Year__c":2026}]|0x2d4a1e78
+23:13:38.74 (644757488)|STATEMENT_EXECUTE|[22]
+23:13:38.74 (644772212)|HEAP_ALLOCATE|[22]|Bytes:4
+23:13:38.74 (644872765)|VARIABLE_SCOPE_BEGIN|[22]|toRecalc|List<Planned_Sales__c>|true|false
+23:13:38.74 (644889948)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:4
+23:13:38.74 (647050008)|VARIABLE_ASSIGNMENT|[22]|toRecalc|[]|0xc722db6
+23:13:38.74 (647285930)|HEAP_ALLOCATE|[23]|Bytes:5
+23:13:38.74 (647319187)|HEAP_ALLOCATE|[23]|Bytes:20
+23:13:38.74 (647330349)|VARIABLE_SCOPE_BEGIN|[23]|ps|Planned_Sales__c|true|false
+23:13:38.74 (647439706)|VARIABLE_ASSIGNMENT|[23]|ps|{"Car_Type__c":"New","Id":"a07gK00000k0H1iQAE","Month__c":9,"Year__c":2026}|0x735d0713
+23:13:38.74 (647448205)|STATEMENT_EXECUTE|[23]
+23:13:38.74 (647500964)|HEAP_ALLOCATE|[24]|Bytes:28
+23:13:38.74 (647540206)|METHOD_ENTRY|[24]|01pgK00000E8650|PlannedSalesService.buildKey(Decimal, Decimal, String)
+23:13:38.74 (647585851)|VARIABLE_SCOPE_BEGIN|[99]|year|Decimal|false|false
+23:13:38.74 (647609023)|VARIABLE_ASSIGNMENT|[99]|year|2026
+23:13:38.74 (647619231)|VARIABLE_SCOPE_BEGIN|[99]|month|Decimal|false|false
+23:13:38.74 (647631538)|VARIABLE_ASSIGNMENT|[99]|month|9
+23:13:38.74 (647639019)|VARIABLE_SCOPE_BEGIN|[99]|carType|String|false|false
+23:13:38.74 (647650322)|VARIABLE_ASSIGNMENT|[99]|carType|"New"
+23:13:38.74 (647664514)|HEAP_ALLOCATE|[100]|Bytes:5
+23:13:38.74 (647668077)|STATEMENT_EXECUTE|[99]
+23:13:38.74 (647669416)|STATEMENT_EXECUTE|[100]
+23:13:38.74 (647760811)|METHOD_ENTRY|[100]|01pgK00000E8650|PlannedSalesService.buildKey(Integer, Integer, String)
+23:13:38.74 (647783633)|VARIABLE_SCOPE_BEGIN|[103]|year|Integer|false|false
+23:13:38.74 (647813246)|VARIABLE_ASSIGNMENT|[103]|year|2026
+23:13:38.74 (647821166)|VARIABLE_SCOPE_BEGIN|[103]|month|Integer|false|false
+23:13:38.74 (647830583)|VARIABLE_ASSIGNMENT|[103]|month|9
+23:13:38.74 (647837143)|VARIABLE_SCOPE_BEGIN|[103]|carType|String|false|false
+23:13:38.74 (647846657)|VARIABLE_ASSIGNMENT|[103]|carType|"New"
+23:13:38.74 (647856170)|HEAP_ALLOCATE|[104]|Bytes:5
+23:13:38.74 (647859732)|STATEMENT_EXECUTE|[103]
+23:13:38.74 (647860927)|STATEMENT_EXECUTE|[104]
+23:13:38.74 (647884973)|HEAP_ALLOCATE|[104]|Bytes:4
+23:13:38.74 (647900675)|HEAP_ALLOCATE|[104]|Bytes:1
+23:13:38.74 (647912795)|HEAP_ALLOCATE|[104]|Bytes:10
+23:13:38.74 (647926574)|METHOD_EXIT|[100]|01pgK00000E8650|PlannedSalesService.buildKey(Integer, Integer, String)
+23:13:38.74 (647933870)|METHOD_EXIT|[24]|01pgK00000E8650|PlannedSalesService.buildKey(Decimal, Decimal, String)
+23:13:38.74 (647961879)|STATEMENT_EXECUTE|[24]
+23:13:38.74 (647973834)|HEAP_ALLOCATE|[23]|Bytes:5
+23:13:38.74 (647992167)|HEAP_ALLOCATE|[23]|Bytes:20
+23:13:38.74 (648000304)|VARIABLE_SCOPE_BEGIN|[23]|ps|Planned_Sales__c|true|false
+23:13:38.74 (648071647)|VARIABLE_ASSIGNMENT|[23]|ps|{"Car_Type__c":"Used","Id":"a07gK00000k0b3cQAA","Month__c":8,"Year__c":2026}|0x4587d621
+23:13:38.74 (648077374)|STATEMENT_EXECUTE|[23]
+23:13:38.74 (648096677)|HEAP_ALLOCATE|[24]|Bytes:28
+23:13:38.74 (648105966)|METHOD_ENTRY|[24]|01pgK00000E8650|PlannedSalesService.buildKey(Decimal, Decimal, String)
+23:13:38.74 (648115936)|VARIABLE_SCOPE_BEGIN|[99]|year|Decimal|false|false
+23:13:38.74 (648129592)|VARIABLE_ASSIGNMENT|[99]|year|2026
+23:13:38.74 (648135597)|VARIABLE_SCOPE_BEGIN|[99]|month|Decimal|false|false
+23:13:38.74 (648145639)|VARIABLE_ASSIGNMENT|[99]|month|8
+23:13:38.74 (648150346)|VARIABLE_SCOPE_BEGIN|[99]|carType|String|false|false
+23:13:38.74 (648163135)|VARIABLE_ASSIGNMENT|[99]|carType|"Used"
+23:13:38.74 (648171823)|HEAP_ALLOCATE|[100]|Bytes:5
+23:13:38.74 (648174957)|STATEMENT_EXECUTE|[99]
+23:13:38.74 (648175982)|STATEMENT_EXECUTE|[100]
+23:13:38.74 (648203531)|METHOD_ENTRY|[100]|01pgK00000E8650|PlannedSalesService.buildKey(Integer, Integer, String)
+23:13:38.74 (648210396)|VARIABLE_SCOPE_BEGIN|[103]|year|Integer|false|false
+23:13:38.74 (648219853)|VARIABLE_ASSIGNMENT|[103]|year|2026
+23:13:38.74 (648225086)|VARIABLE_SCOPE_BEGIN|[103]|month|Integer|false|false
+23:13:38.74 (648233709)|VARIABLE_ASSIGNMENT|[103]|month|8
+23:13:38.74 (648238169)|VARIABLE_SCOPE_BEGIN|[103]|carType|String|false|false
+23:13:38.74 (648246549)|VARIABLE_ASSIGNMENT|[103]|carType|"Used"
+23:13:38.74 (648253029)|HEAP_ALLOCATE|[104]|Bytes:5
+23:13:38.74 (648255721)|STATEMENT_EXECUTE|[103]
+23:13:38.74 (648256770)|STATEMENT_EXECUTE|[104]
+23:13:38.74 (648264223)|HEAP_ALLOCATE|[104]|Bytes:4
+23:13:38.74 (648276859)|HEAP_ALLOCATE|[104]|Bytes:1
+23:13:38.74 (648285563)|HEAP_ALLOCATE|[104]|Bytes:11
+23:13:38.74 (648293270)|METHOD_EXIT|[100]|01pgK00000E8650|PlannedSalesService.buildKey(Integer, Integer, String)
+23:13:38.74 (648300102)|METHOD_EXIT|[24]|01pgK00000E8650|PlannedSalesService.buildKey(Decimal, Decimal, String)
+23:13:38.74 (648312105)|STATEMENT_EXECUTE|[24]
+23:13:38.74 (648319738)|HEAP_ALLOCATE|[23]|Bytes:5
+23:13:38.74 (648513081)|VARIABLE_ASSIGNMENT|[23]|ps|null|
+23:13:38.74 (648520246)|STATEMENT_EXECUTE|[28]
+23:13:38.74 (648536917)|METHOD_ENTRY|[28]|01pgK00000E8650|PlannedSalesService.recalculate(List<Planned_Sales__c>)
+23:13:38.74 (648667502)|VARIABLE_SCOPE_BEGIN|[31]|plannedSalesList|List<Planned_Sales__c>|true|false
+23:13:38.74 (648689916)|VARIABLE_ASSIGNMENT|[31]|plannedSalesList|[]|0xc722db6
+23:13:38.74 (648705961)|HEAP_ALLOCATE|[32]|Bytes:5
+23:13:38.74 (648710398)|STATEMENT_EXECUTE|[31]
+23:13:38.74 (648735567)|STATEMENT_EXECUTE|[32]
+23:13:38.74 (648736670)|STATEMENT_EXECUTE|[33]
+23:13:38.74 (648745437)|METHOD_EXIT|[28]|01pgK00000E8650|PlannedSalesService.recalculate(List<Planned_Sales__c>)
+23:13:38.74 (648761698)|METHOD_EXIT|[71]|01pgK00000E8650|PlannedSalesService.recalculateForKeys(Set<String>)
+23:13:38.74 (648766755)|STATEMENT_EXECUTE|[76]
+23:13:38.74 (648775638)|METHOD_ENTRY|[76]|01pgK00000EI74b|CarStatusService.handleStageChange(List<Opportunity>, Map<Id,Opportunity>)
+23:13:38.74 (648784468)|VARIABLE_SCOPE_BEGIN|[20]|newOpps|List<Opportunity>|true|false
+23:13:38.74 (649312873)|VARIABLE_ASSIGNMENT|[20]|newOpps|[{"LastModifiedDate":"2026-08-14T21:13:39.000Z","AccountId":"001gK00001LElIbQAL","HasOpportunityLineItem":true,"ForecastCategory":"Omitted","IsClosed":false,"CloseDate":"2026-08-19T00:00:00.000Z","Name":"DEBUG3 Opp","HasOpenActivity":false,"TotalOpportunityQuantity":1.00,"LastAmountChangedHistoryId":"008gK00000e1ldmQAA","ExpectedRevenue":0.00,"CreatedById":"005gK000064ym2nQAA","OwnerId":"005gK000064ym2nQAA","IsWon":false,"IsDeleted":false,"StageName":"Close Won","Has_Car_Conflict__c":false,"Amount":20000.00,"Probability":0,"SystemModstamp":"2026-08-14T21:13:39.000Z","LastStageChangeDate":"2026-08-14T21:13:39.000Z","CreatedDate":"2026-08-14T21:13:38.000Z","HasOverdueTask":false,"Pricebook2Id":"01sgK000007udzeQAA","Id":"006gK00000MdU3BQAV","ForecastCategoryName":"Omitted","IsPrivate":false,"LastModifiedById":"005gK000064ym2nQAA"}]|0x40463c38
+23:13:38.74 (649776509)|VARIABLE_SCOPE_BEGIN|[20]|oldMap|Map<Id,Opportunity>|true|false
+23:13:38.74 (650185866)|VARIABLE_ASSIGNMENT|[20]|oldMap|{"006gK00000MdU3BQAV":{"LastModifiedDate":"2026-08-14T21:13:39.000Z","AccountId":"001gK00001LElIbQAL","HasOpportunityLineItem":true,"ForecastCategory":"Pipeline","IsClosed":false,"CloseDate":"2026-08-19T00:00:00.000Z","Name":"DEBUG3 Opp","HasOpenActivity":false,"TotalOpportunityQuantity":1.00,"LastAmountChangedHistoryId":"008gK00000e1ldmQAA","ExpectedRevenue":2000.00,"CreatedById":"005gK000064ym2nQAA","OwnerId":"005gK000064ym2nQAA","IsWon":false,"IsDeleted":false,"StageName":"Prospecting","Has_Car_Conflict__c":false,"Amount":20000.00,"Probability":10,"SystemModstamp":"2026-08-14T21:13:39.000Z","CreatedDate":"2026-08-14T21:13:38.000Z","HasOverdueTask":false,"Pricebook2Id":"01sgK000007udzeQAA","Id":"006gK00000MdU3BQAV","ForecastCategoryName":"Pipeline","IsPrivate":false,"LastModifiedById":"005gK000064ym2nQAA"}}|0x3c54f5ef
+23:13:38.74 (650219550)|HEAP_ALLOCATE|[23]|Bytes:5
+23:13:38.74 (650225868)|STATEMENT_EXECUTE|[20]
+23:13:38.74 (650226952)|STATEMENT_EXECUTE|[23]
+23:13:38.74 (650239209)|HEAP_ALLOCATE|[23]|Bytes:4
+23:13:38.74 (650262705)|VARIABLE_SCOPE_BEGIN|[23]|oppIdsToProcess|Set<Id>|true|false
+23:13:38.74 (650310387)|VARIABLE_ASSIGNMENT|[23]|oppIdsToProcess|[]|0x787fb161
+23:13:38.74 (650368354)|HEAP_ALLOCATE|[24]|Bytes:5
+23:13:38.74 (650391965)|VARIABLE_SCOPE_BEGIN|[24]|opp|Opportunity|true|false
+23:13:38.74 (650761547)|VARIABLE_ASSIGNMENT|[24]|opp|{"LastModifiedDate":"2026-08-14T21:13:39.000Z","AccountId":"001gK00001LElIbQAL","HasOpportunityLineItem":true,"ForecastCategory":"Omitted","IsClosed":false,"CloseDate":"2026-08-19T00:00:00.000Z","Name":"DEBUG3 Opp","HasOpenActivity":false,"TotalOpportunityQuantity":1.00,"LastAmountChangedHistoryId":"008gK00000e1ldmQAA","ExpectedRevenue":0.00,"CreatedById":"005gK000064ym2nQAA","OwnerId":"005gK000064ym2nQAA","IsWon":false,"IsDeleted":false,"StageName":"Close Won","Has_Car_Conflict__c":false,"Amount":20000.00,"Probability":0,"SystemModstamp":"2026-08-14T21:13:39.000Z","LastStageChangeDate":"2026-08-14T21:13:39.000Z","CreatedDate":"2026-08-14T21:13:38.000Z","HasOverdueTask":false,"Pricebook2Id":"01sgK000007udzeQAA","Id":"006gK00000MdU3BQAV","ForecastCategoryName":"Omitted","IsPrivate":false,"LastModifiedById":"005gK000064ym2nQAA"}|0x30cde034
+23:13:38.74 (650777688)|STATEMENT_EXECUTE|[24]
+23:13:38.74 (650779158)|STATEMENT_EXECUTE|[25]
+23:13:38.74 (650819753)|VARIABLE_SCOPE_BEGIN|[25]|oldOpp|Opportunity|true|false
+23:13:38.74 (651605712)|VARIABLE_ASSIGNMENT|[25]|oldOpp|{"LastModifiedDate":"2026-08-14T21:13:39.000Z","AccountId":"001gK00001LElIbQAL","HasOpportunityLineItem":true,"ForecastCategory":"Pipeline","IsClosed":false,"CloseDate":"2026-08-19T00:00:00.000Z","Name":"DEBUG3 Opp","HasOpenActivity":false,"TotalOpportunityQuantity":1.00,"LastAmountChangedHistoryId":"008gK00000e1ldmQAA","ExpectedRevenue":2000.00,"CreatedById":"005gK000064ym2nQAA","OwnerId":"005gK000064ym2nQAA","IsWon":false,"IsDeleted":false,"StageName":"Prospecting","Has_Car_Conflict__c":false,"Amount":20000.00,"Probability":10,"SystemModstamp":"2026-08-14T21:13:39.000Z","CreatedDate":"2026-08-14T21:13:38.000Z","HasOverdueTask":false,"Pricebook2Id":"01sgK000007udzeQAA","Id":"006gK00000MdU3BQAV","ForecastCategoryName":"Pipeline","IsPrivate":false,"LastModifiedById":"005gK000064ym2nQAA"}|0x2bad804f
+23:13:38.74 (651660057)|STATEMENT_EXECUTE|[26]
+23:13:38.74 (651661829)|STATEMENT_EXECUTE|[27]
+23:13:38.74 (651721594)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:4
+23:13:38.74 (651749654)|HEAP_ALLOCATE|[24]|Bytes:5
+23:13:38.74 (651792889)|VARIABLE_ASSIGNMENT|[24]|opp|null|
+23:13:38.74 (651807263)|STATEMENT_EXECUTE|[31]
+23:13:38.74 (651808667)|STATEMENT_EXECUTE|[35]
+23:13:38.74 (651812240)|HEAP_ALLOCATE|[35]|Bytes:103
+23:13:38.74 (651832505)|HEAP_ALLOCATE|[35]|Bytes:4
+23:13:38.74 (662103200)|HEAP_ALLOCATE|[35]|Bytes:8
+23:13:38.74 (662137611)|HEAP_ALLOCATE|[35]|Bytes:180
+23:13:38.74 (662202756)|HEAP_ALLOCATE|[35]|Bytes:8
+23:13:38.74 (662220411)|VARIABLE_SCOPE_BEGIN|[35]|lineItems|List<OpportunityLineItem>|true|false
+23:13:38.74 (662581736)|VARIABLE_ASSIGNMENT|[35]|lineItems|[{"Id":"00kgK0000060VDFQA2","OpportunityId":"006gK00000MdU3BQAV","PricebookEntryId":"01ugK000004vH3RQAU","PricebookEntry":{"Id":"01ugK000004vH3RQAU","Product2Id":"01tgK00000DkRSLQA3"}}]|0x89c1ee3
+23:13:38.74 (662594073)|STATEMENT_EXECUTE|[41]
+23:13:38.74 (662619473)|HEAP_ALLOCATE|[41]|Bytes:4
+23:13:38.74 (662639437)|VARIABLE_SCOPE_BEGIN|[41]|productIdsByOpp|Map<Id,Set<Id>>|true|false
+23:13:38.74 (662682207)|VARIABLE_ASSIGNMENT|[41]|productIdsByOpp|{}|0x76672021
+23:13:38.74 (662758332)|HEAP_ALLOCATE|[42]|Bytes:5
+23:13:38.74 (662779687)|HEAP_ALLOCATE|[42]|Bytes:20
+23:13:38.74 (662788721)|VARIABLE_SCOPE_BEGIN|[42]|oli|OpportunityLineItem|true|false
+23:13:38.74 (662884936)|VARIABLE_ASSIGNMENT|[42]|oli|{"Id":"00kgK0000060VDFQA2","OpportunityId":"006gK00000MdU3BQAV","PricebookEntryId":"01ugK000004vH3RQAU","PricebookEntry":{"Id":"01ugK000004vH3RQAU","Product2Id":"01tgK00000DkRSLQA3"}}|0x2fe16dcb
+23:13:38.74 (662893769)|STATEMENT_EXECUTE|[42]
+23:13:38.74 (662951730)|STATEMENT_EXECUTE|[43]
+23:13:38.74 (662953144)|STATEMENT_EXECUTE|[44]
+23:13:38.74 (662967206)|HEAP_ALLOCATE|[44]|Bytes:4
+23:13:38.74 (663024475)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:-4
+23:13:38.74 (663034412)|STATEMENT_EXECUTE|[46]
+23:13:38.74 (663101459)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:4
+23:13:38.74 (663135669)|HEAP_ALLOCATE|[42]|Bytes:5
+23:13:38.74 (663157544)|VARIABLE_ASSIGNMENT|[42]|oli|null|
+23:13:38.74 (663162867)|STATEMENT_EXECUTE|[49]
+23:13:38.74 (663201604)|HEAP_ALLOCATE|[49]|Bytes:4
+23:13:38.74 (663230550)|VARIABLE_SCOPE_BEGIN|[49]|productsToUpdateMap|Map<Id,Product2>|true|false
+23:13:38.74 (663250372)|VARIABLE_ASSIGNMENT|[49]|productsToUpdateMap|{}|0x363a5de3
+23:13:38.74 (663256637)|STATEMENT_EXECUTE|[50]
+23:13:38.74 (663262167)|HEAP_ALLOCATE|[50]|Bytes:4
+23:13:38.74 (663284505)|VARIABLE_SCOPE_BEGIN|[50]|allTouchedProductIds|Set<Id>|true|false
+23:13:38.74 (663308985)|VARIABLE_ASSIGNMENT|[50]|allTouchedProductIds|[]|0x7993152d
+23:13:38.74 (663314662)|STATEMENT_EXECUTE|[51]
+23:13:38.74 (663332602)|METHOD_ENTRY|[51]|01pgK00000EI74b|CarStatusService.getSoldRecordTypeId()
+23:13:38.74 (663364955)|HEAP_ALLOCATE|[7]|Bytes:5
+23:13:38.74 (663369457)|STATEMENT_EXECUTE|[6]
+23:13:38.74 (663374403)|STATEMENT_EXECUTE|[7]
+23:13:38.74 (663375469)|STATEMENT_EXECUTE|[8]
+23:13:38.74 (663379120)|HEAP_ALLOCATE|[8]|Bytes:93
+23:13:38.74 (663389692)|HEAP_ALLOCATE|[8]|Bytes:4
+23:13:38.74 (721599017)|HEAP_ALLOCATE|[8]|Bytes:8
+23:13:38.74 (721642184)|HEAP_ALLOCATE|[8]|Bytes:29
+23:13:38.74 (721782343)|HEAP_ALLOCATE|[8]|Bytes:8
+23:13:38.74 (721810110)|VARIABLE_SCOPE_BEGIN|[8]|rtList|List<RecordType>|true|false
+23:13:38.74 (721921366)|VARIABLE_ASSIGNMENT|[8]|rtList|[{"Id":"012gK000005EtWPQA0"}]|0x67a40db0
+23:13:38.74 (722133182)|STATEMENT_EXECUTE|[13]
+23:13:38.74 (722136552)|STATEMENT_EXECUTE|[14]
+23:13:38.74 (722185265)|HEAP_ALLOCATE|[14]|Bytes:8
+23:13:38.74 (722407384)|VARIABLE_ASSIGNMENT|[14]|CarStatusService.soldRecordTypeId|"012gK000005EtWPQA0"
+23:13:38.74 (722418883)|STATEMENT_EXECUTE|[17]
+23:13:38.74 (722441650)|METHOD_EXIT|[51]|01pgK00000EI74b|CarStatusService.getSoldRecordTypeId()
+23:13:38.74 (722453114)|VARIABLE_SCOPE_BEGIN|[51]|soldRtId|Id|false|false
+23:13:38.74 (722602854)|VARIABLE_ASSIGNMENT|[51]|soldRtId|"012gK000005EtWPQA0"
+23:13:38.74 (722706244)|HEAP_ALLOCATE|[53]|Bytes:5
+23:13:38.74 (722767417)|HEAP_ALLOCATE|[53]|Bytes:4
+23:13:38.74 (722772658)|VARIABLE_SCOPE_BEGIN|[53]|oppId|Id|false|false
+23:13:38.74 (722875450)|VARIABLE_ASSIGNMENT|[53]|oppId|"006gK00000MdU3BQAV"
+23:13:38.74 (722884315)|STATEMENT_EXECUTE|[53]
+23:13:38.74 (722885752)|STATEMENT_EXECUTE|[54]
+23:13:38.74 (722902285)|VARIABLE_SCOPE_BEGIN|[54]|opp|Opportunity|true|false
+23:13:38.74 (722921224)|VARIABLE_ASSIGNMENT|[54]|opp|null|
+23:13:38.74 (722974358)|HEAP_ALLOCATE|[55]|Bytes:5
+23:13:38.74 (722998567)|VARIABLE_SCOPE_BEGIN|[55]|o|Opportunity|true|false
+23:13:38.74 (723684419)|VARIABLE_ASSIGNMENT|[55]|o|{"LastModifiedDate":"2026-08-14T21:13:39.000Z","AccountId":"001gK00001LElIbQAL","HasOpportunityLineItem":true,"ForecastCategory":"Omitted","IsClosed":false,"CloseDate":"2026-08-19T00:00:00.000Z","Name":"DEBUG3 Opp","HasOpenActivity":false,"TotalOpportunityQuantity":1.00,"LastAmountChangedHistoryId":"008gK00000e1ldmQAA","ExpectedRevenue":0.00,"CreatedById":"005gK000064ym2nQAA","OwnerId":"005gK000064ym2nQAA","IsWon":false,"IsDeleted":false,"StageName":"Close Won","Has_Car_Conflict__c":false,"Amount":20000.00,"Probability":0,"SystemModstamp":"2026-08-14T21:13:39.000Z","LastStageChangeDate":"2026-08-14T21:13:39.000Z","CreatedDate":"2026-08-14T21:13:38.000Z","HasOverdueTask":false,"Pricebook2Id":"01sgK000007udzeQAA","Id":"006gK00000MdU3BQAV","ForecastCategoryName":"Omitted","IsPrivate":false,"LastModifiedById":"005gK000064ym2nQAA"}|0x30cde034
+23:13:38.74 (723702313)|STATEMENT_EXECUTE|[55]
+23:13:38.74 (723801007)|STATEMENT_EXECUTE|[56]
+23:13:38.74 (723801960)|STATEMENT_EXECUTE|[57]
+23:13:38.74 (724120855)|VARIABLE_ASSIGNMENT|[57]|opp|{"LastModifiedDate":"2026-08-14T21:13:39.000Z","AccountId":"001gK00001LElIbQAL","HasOpportunityLineItem":true,"ForecastCategory":"Omitted","IsClosed":false,"CloseDate":"2026-08-19T00:00:00.000Z","Name":"DEBUG3 Opp","HasOpenActivity":false,"TotalOpportunityQuantity":1.00,"LastAmountChangedHistoryId":"008gK00000e1ldmQAA","ExpectedRevenue":0.00,"CreatedById":"005gK000064ym2nQAA","OwnerId":"005gK000064ym2nQAA","IsWon":false,"IsDeleted":false,"StageName":"Close Won","Has_Car_Conflict__c":false,"Amount":20000.00,"Probability":0,"SystemModstamp":"2026-08-14T21:13:39.000Z","LastStageChangeDate":"2026-08-14T21:13:39.000Z","CreatedDate":"2026-08-14T21:13:38.000Z","HasOverdueTask":false,"Pricebook2Id":"01sgK000007udzeQAA","Id":"006gK00000MdU3BQAV","ForecastCategoryName":"Omitted","IsPrivate":false,"LastModifiedById":"005gK000064ym2nQAA"}|0x30cde034
+23:13:38.74 (724150722)|HEAP_ALLOCATE|[55]|Bytes:5
+23:13:38.74 (724166789)|VARIABLE_ASSIGNMENT|[55]|o|null|
+23:13:38.74 (724170536)|STATEMENT_EXECUTE|[60]
+23:13:38.74 (724210360)|VARIABLE_SCOPE_BEGIN|[60]|oldOpp|Opportunity|true|false
+23:13:38.74 (724599531)|VARIABLE_ASSIGNMENT|[60]|oldOpp|{"LastModifiedDate":"2026-08-14T21:13:39.000Z","AccountId":"001gK00001LElIbQAL","HasOpportunityLineItem":true,"ForecastCategory":"Pipeline","IsClosed":false,"CloseDate":"2026-08-19T00:00:00.000Z","Name":"DEBUG3 Opp","HasOpenActivity":false,"TotalOpportunityQuantity":1.00,"LastAmountChangedHistoryId":"008gK00000e1ldmQAA","ExpectedRevenue":2000.00,"CreatedById":"005gK000064ym2nQAA","OwnerId":"005gK000064ym2nQAA","IsWon":false,"IsDeleted":false,"StageName":"Prospecting","Has_Car_Conflict__c":false,"Amount":20000.00,"Probability":10,"SystemModstamp":"2026-08-14T21:13:39.000Z","CreatedDate":"2026-08-14T21:13:38.000Z","HasOverdueTask":false,"Pricebook2Id":"01sgK000007udzeQAA","Id":"006gK00000MdU3BQAV","ForecastCategoryName":"Pipeline","IsPrivate":false,"LastModifiedById":"005gK000064ym2nQAA"}|0x2bad804f
+23:13:38.74 (724617585)|STATEMENT_EXECUTE|[61]
+23:13:38.74 (724685337)|VARIABLE_SCOPE_BEGIN|[61]|productIds|Set<Id>|true|false
+23:13:38.74 (724711257)|VARIABLE_ASSIGNMENT|[61]|productIds|["01tgK00000DkRSLQA3"]|0x3e08d2a9
+23:13:38.74 (724754993)|STATEMENT_EXECUTE|[63]
+23:13:38.74 (724788145)|HEAP_ALLOCATE|[67]|Bytes:5
+23:13:38.74 (724829431)|HEAP_ALLOCATE|[67]|Bytes:4
+23:13:38.74 (724833692)|VARIABLE_SCOPE_BEGIN|[67]|productId|Id|false|false
+23:13:38.74 (724934481)|VARIABLE_ASSIGNMENT|[67]|productId|"01tgK00000DkRSLQA3"
+23:13:38.74 (724941955)|STATEMENT_EXECUTE|[67]
+23:13:38.74 (724943116)|STATEMENT_EXECUTE|[68]
+23:13:38.74 (724970095)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:4
+23:13:38.74 (724993046)|STATEMENT_EXECUTE|[69]
+23:13:38.74 (725025708)|HEAP_ALLOCATE|[69]|Bytes:4
+23:13:38.74 (725127659)|VARIABLE_ASSIGNMENT|[69]|this.Id|"01tgK00000DkRSLQA3"|0xbd5614a
+23:13:38.74 (725160567)|VARIABLE_SCOPE_BEGIN|[69]|prodUpdate|Product2|true|false
+23:13:38.74 (725182661)|VARIABLE_ASSIGNMENT|[69]|prodUpdate|{"Id":"01tgK00000DkRSLQA3"}|0xbd5614a
+23:13:38.74 (725238681)|HEAP_ALLOCATE|[71]|Bytes:13
+23:13:38.74 (725272557)|STATEMENT_EXECUTE|[76]
+23:13:38.74 (725273985)|STATEMENT_EXECUTE|[77]
+23:13:38.74 (725276148)|HEAP_ALLOCATE|[77]|Bytes:4
+23:13:38.74 (725350789)|VARIABLE_ASSIGNMENT|[77]|this.Car_Status__c|"Sold"|0xbd5614a
+23:13:38.74 (725366082)|STATEMENT_EXECUTE|[78]
+23:13:38.74 (725424144)|VARIABLE_ASSIGNMENT|[78]|this.Reserved_Sold_Opportunity__c|"006gK00000MdU3BQAV"|0xbd5614a
+23:13:38.74 (725431439)|STATEMENT_EXECUTE|[79]
+23:13:38.74 (725432610)|STATEMENT_EXECUTE|[80]
+23:13:38.74 (725486790)|VARIABLE_ASSIGNMENT|[80]|this.RecordTypeId|"012gK000005EtWPQA0"|0xbd5614a
+23:13:38.74 (725492453)|STATEMENT_EXECUTE|[82]
+23:13:38.74 (725545460)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:-4
+23:13:38.74 (725568257)|HEAP_ALLOCATE|[67]|Bytes:5
+23:13:38.74 (725585527)|VARIABLE_ASSIGNMENT|[67]|productId|null
+23:13:38.74 (725597421)|HEAP_ALLOCATE|[53]|Bytes:5
+23:13:38.74 (725743523)|VARIABLE_ASSIGNMENT|[53]|oppId|null
+23:13:38.74 (725748543)|STATEMENT_EXECUTE|[97]
+23:13:38.74 (725801972)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:8
+23:13:38.74 (725814846)|HEAP_ALLOCATE|[97]|Bytes:141
+23:13:38.74 (725826526)|VARIABLE_SCOPE_BEGIN|[97]|productsToUpdate|List<Product2>|true|false
+23:13:38.74 (725854303)|VARIABLE_ASSIGNMENT|[97]|productsToUpdate|[{"Id":"01tgK00000DkRSLQA3","Car_Status__c":"Sold","Reserved_Sold_Opportunity__c":"006gK00000MdU3BQAV","RecordTypeId":"012gK000005EtWPQA0"}]|0x475478fa
+23:13:38.74 (725984409)|STATEMENT_EXECUTE|[99]
+23:13:38.74 (725985662)|STATEMENT_EXECUTE|[100]
+23:13:38.74 (726036260)|METHOD_ENTRY|[100]|01pgK00000EI74b|CarStatusService.updateProductsSafely(List<Product2>)
+23:13:38.74 (726092068)|VARIABLE_SCOPE_BEGIN|[218]|records|List<Product2>|true|false
+23:13:38.74 (726118151)|VARIABLE_ASSIGNMENT|[218]|records|[{"Id":"01tgK00000DkRSLQA3","Car_Status__c":"Sold","Reserved_Sold_Opportunity__c":"006gK00000MdU3BQAV","RecordTypeId":"012gK000005EtWPQA0"}]|0x475478fa
+23:13:38.74 (726138567)|HEAP_ALLOCATE|[219]|Bytes:5
+23:13:38.74 (726142872)|STATEMENT_EXECUTE|[218]
+23:13:38.74 (726157302)|STATEMENT_EXECUTE|[219]
+23:13:38.74 (726158254)|STATEMENT_EXECUTE|[222]
+23:13:38.74 (727337793)|HEAP_ALLOCATE|[222]|Bytes:16
+23:13:38.74 (727376171)|VARIABLE_SCOPE_BEGIN|[222]|sp|System.Savepoint|true|false
+23:13:38.74 (727516258)|VARIABLE_ASSIGNMENT|[222]|sp|"common.apex.runtime.impl.ApexUserSavepoint@2c493e59"|0x2c493e59
+23:13:38.74 (727524388)|STATEMENT_EXECUTE|[223]
+23:13:38.74 (727525661)|STATEMENT_EXECUTE|[223]
+23:13:38.74 (727526763)|STATEMENT_EXECUTE|[224]
+23:13:38.74 (727701791)|HEAP_ALLOCATE|[224]|Bytes:7
+23:13:38.74 (727744404)|SYSTEM_METHOD_ENTRY|[7]|Security.Security()
+23:13:38.74 (727748069)|STATEMENT_EXECUTE|[7]
+23:13:38.74 (727757776)|SYSTEM_METHOD_EXIT|[7]|Security
+23:13:38.74 (727856887)|METHOD_ENTRY|[224]||System.Security.stripInaccessible(System.AccessType, List<SObject>)
+23:13:38.74 (730369020)|METHOD_EXIT|[224]||System.Security.stripInaccessible(System.AccessType, List<SObject>)
+23:13:38.74 (730379246)|VARIABLE_SCOPE_BEGIN|[224]|decision|System.SObjectAccessDecision|true|false
+23:13:38.74 (730536001)|VARIABLE_ASSIGNMENT|[224]|decision|{"modifiedIndexes":"0x7509b2cf","records":"0x1d78e28a","removedFields":"0x3f11fede"}|0x139f006d
+23:13:38.74 (730541528)|STATEMENT_EXECUTE|[225]
+23:13:38.74 (730563143)|METHOD_ENTRY|[225]||System.SObjectAccessDecision.getRecords()
+23:13:38.74 (730587984)|METHOD_EXIT|[225]||System.SObjectAccessDecision.getRecords()
+23:13:38.74 (730686403)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:8
+23:13:38.74 (756165317)|CODE_UNIT_STARTED|[EXTERNAL]|Validation:Product2:01tgK00000DkRSL
+23:13:38.74 (756305497)|CODE_UNIT_FINISHED|Validation:Product2:01tgK00000DkRSL
+23:13:38.74 (784493415)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:8
+23:13:38.74 (784550971)|HEAP_ALLOCATE|[225]|Bytes:8
+23:13:38.74 (784593422)|VARIABLE_SCOPE_BEGIN|[225]|results|List<Database.SaveResult>|true|false
+23:13:38.74 (784669174)|VARIABLE_ASSIGNMENT|[225]|results|[{"success":true,"id":"01tgK00000DkRSLQA3"}]|0x24441711
+23:13:38.74 (784676980)|STATEMENT_EXECUTE|[226]
+23:13:38.74 (784683384)|HEAP_ALLOCATE|[226]|Bytes:8
+23:13:38.74 (784718509)|METHOD_ENTRY|[226]|01pgK00000EI74b|CarStatusService.checkForErrors(List<Database.SaveResult>, String)
+23:13:38.74 (784786232)|VARIABLE_SCOPE_BEGIN|[275]|results|List<Database.SaveResult>|true|false
+23:13:38.74 (784867207)|VARIABLE_ASSIGNMENT|[275]|results|[{"success":true,"id":"01tgK00000DkRSLQA3"}]|0x24441711
+23:13:38.74 (784876837)|VARIABLE_SCOPE_BEGIN|[275]|objectName|String|false|false
+23:13:38.74 (784893648)|VARIABLE_ASSIGNMENT|[275]|objectName|"Product2"
+23:13:38.74 (784913602)|HEAP_ALLOCATE|[276]|Bytes:5
+23:13:38.74 (784917620)|STATEMENT_EXECUTE|[275]
+23:13:38.74 (784918991)|STATEMENT_EXECUTE|[276]
+23:13:38.74 (784934145)|HEAP_ALLOCATE|[276]|Bytes:4
+23:13:38.74 (784970365)|VARIABLE_SCOPE_BEGIN|[276]|errors|List<String>|true|false
+23:13:38.74 (784995859)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:4
+23:13:38.74 (785001378)|VARIABLE_ASSIGNMENT|[276]|errors|[]|0x73660f73
+23:13:38.74 (785172601)|HEAP_ALLOCATE|[277]|Bytes:5
+23:13:38.74 (785195320)|HEAP_ALLOCATE|[277]|Bytes:4
+23:13:38.74 (785204826)|VARIABLE_SCOPE_BEGIN|[277]|r|Database.SaveResult|true|false
+23:13:38.74 (785234732)|VARIABLE_ASSIGNMENT|[277]|r|{"success":true,"id":"01tgK00000DkRSLQA3"}|0x5d8d8e1d
+23:13:38.74 (785241406)|STATEMENT_EXECUTE|[277]
+23:13:38.74 (785270489)|STATEMENT_EXECUTE|[278]
+23:13:38.74 (785277695)|HEAP_ALLOCATE|[277]|Bytes:5
+23:13:38.74 (785288579)|VARIABLE_ASSIGNMENT|[277]|r|null|
+23:13:38.74 (785308406)|STATEMENT_EXECUTE|[284]
+23:13:38.74 (785318074)|METHOD_EXIT|[226]|01pgK00000EI74b|CarStatusService.checkForErrors(List<Database.SaveResult>, String)
+23:13:38.74 (785328416)|METHOD_EXIT|[100]|01pgK00000EI74b|CarStatusService.updateProductsSafely(List<Product2>)
+23:13:38.74 (785333884)|STATEMENT_EXECUTE|[103]
+23:13:38.74 (785343794)|METHOD_ENTRY|[103]|01pgK00000EI74b|CarStatusService.deactivatePriceBookEntriesForSoldCars(List<Product2>)
+23:13:38.74 (785363661)|VARIABLE_SCOPE_BEGIN|[112]|updatedProducts|List<Product2>|true|false
+23:13:38.74 (785393186)|VARIABLE_ASSIGNMENT|[112]|updatedProducts|[{"Id":"01tgK00000DkRSLQA3","Car_Status__c":"Sold","Reserved_Sold_Opportunity__c":"006gK00000MdU3BQAV","RecordTypeId":"012gK000005EtWPQA0"}]|0x475478fa
+23:13:38.74 (785405379)|HEAP_ALLOCATE|[113]|Bytes:5
+23:13:38.74 (785409043)|STATEMENT_EXECUTE|[112]
+23:13:38.74 (785410269)|STATEMENT_EXECUTE|[113]
+23:13:38.74 (785421614)|HEAP_ALLOCATE|[113]|Bytes:4
+23:13:38.74 (785442436)|VARIABLE_SCOPE_BEGIN|[113]|soldProductIds|Set<Id>|true|false
+23:13:38.74 (785468471)|VARIABLE_ASSIGNMENT|[113]|soldProductIds|[]|0x1a578391
+23:13:38.74 (785521485)|HEAP_ALLOCATE|[114]|Bytes:5
+23:13:38.74 (785537224)|HEAP_ALLOCATE|[114]|Bytes:20
+23:13:38.74 (785544371)|VARIABLE_SCOPE_BEGIN|[114]|p|Product2|true|false
+23:13:38.74 (785561088)|VARIABLE_ASSIGNMENT|[114]|p|{"Id":"01tgK00000DkRSLQA3","Car_Status__c":"Sold","Reserved_Sold_Opportunity__c":"006gK00000MdU3BQAV","RecordTypeId":"012gK000005EtWPQA0"}|0xbd5614a
+23:13:38.74 (785568384)|STATEMENT_EXECUTE|[114]
+23:13:38.74 (785623495)|STATEMENT_EXECUTE|[115]
+23:13:38.74 (785624920)|STATEMENT_EXECUTE|[116]
+23:13:38.74 (785653579)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:4
+23:13:38.74 (785665789)|HEAP_ALLOCATE|[114]|Bytes:5
+23:13:38.74 (785675208)|VARIABLE_ASSIGNMENT|[114]|p|null|
+23:13:38.74 (785689392)|STATEMENT_EXECUTE|[119]
+23:13:38.74 (785690607)|STATEMENT_EXECUTE|[123]
+23:13:38.74 (785692711)|HEAP_ALLOCATE|[123]|Bytes:89
+23:13:38.74 (785706718)|HEAP_ALLOCATE|[123]|Bytes:4
+23:13:38.74 (800508009)|HEAP_ALLOCATE|[123]|Bytes:8
+23:13:38.74 (800562966)|HEAP_ALLOCATE|[123]|Bytes:45
+23:13:38.74 (800651022)|HEAP_ALLOCATE|[123]|Bytes:8
+23:13:38.74 (800669247)|VARIABLE_SCOPE_BEGIN|[123]|entries|List<PricebookEntry>|true|false
+23:13:38.74 (800752837)|VARIABLE_ASSIGNMENT|[123]|entries|[{"IsActive":true,"Id":"01ugK000004vH3RQAU"}]|0x9ca9cd2
+23:13:38.74 (800846170)|STATEMENT_EXECUTE|[127]
+23:13:38.74 (800980324)|HEAP_ALLOCATE|[130]|Bytes:5
+23:13:38.74 (801002804)|HEAP_ALLOCATE|[130]|Bytes:12
+23:13:38.74 (801010864)|VARIABLE_SCOPE_BEGIN|[130]|pbe|PricebookEntry|true|false
+23:13:38.74 (801039887)|VARIABLE_ASSIGNMENT|[130]|pbe|{"IsActive":true,"Id":"01ugK000004vH3RQAU"}|0x6d63f1a
+23:13:38.74 (801044835)|STATEMENT_EXECUTE|[130]
+23:13:38.74 (801045787)|STATEMENT_EXECUTE|[131]
+23:13:38.74 (801187573)|VARIABLE_ASSIGNMENT|[131]|this.IsActive|false|0x6d63f1a
+23:13:38.74 (801201507)|HEAP_ALLOCATE|[130]|Bytes:5
+23:13:38.74 (801210414)|VARIABLE_ASSIGNMENT|[130]|pbe|null|
+23:13:38.74 (801214035)|STATEMENT_EXECUTE|[133]
+23:13:38.74 (801247450)|METHOD_ENTRY|[133]|01pgK00000EI74b|CarStatusService.updatePriceBookEntriesSafely(List<PricebookEntry>)
+23:13:38.74 (801297633)|VARIABLE_SCOPE_BEGIN|[233]|records|List<PricebookEntry>|true|false
+23:13:38.74 (801341017)|VARIABLE_ASSIGNMENT|[233]|records|[{"IsActive":false,"Id":"01ugK000004vH3RQAU"}]|0x9ca9cd2
+23:13:38.74 (801351418)|HEAP_ALLOCATE|[234]|Bytes:5
+23:13:38.74 (801354366)|STATEMENT_EXECUTE|[233]
+23:13:38.74 (801367245)|STATEMENT_EXECUTE|[234]
+23:13:38.74 (801368427)|STATEMENT_EXECUTE|[237]
+23:13:38.74 (802317221)|HEAP_ALLOCATE|[237]|Bytes:16
+23:13:38.74 (802328013)|VARIABLE_SCOPE_BEGIN|[237]|sp|System.Savepoint|true|false
+23:13:38.74 (802443380)|VARIABLE_ASSIGNMENT|[237]|sp|"common.apex.runtime.impl.ApexUserSavepoint@3301df71"|0x3301df71
+23:13:38.74 (802447978)|STATEMENT_EXECUTE|[238]
+23:13:38.74 (802448827)|STATEMENT_EXECUTE|[238]
+23:13:38.74 (802449552)|STATEMENT_EXECUTE|[239]
+23:13:38.74 (802542666)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:8
+23:13:38.74 (835267976)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:8
+23:13:38.74 (835309264)|HEAP_ALLOCATE|[239]|Bytes:8
+23:13:38.74 (835338570)|VARIABLE_SCOPE_BEGIN|[239]|results|List<Database.SaveResult>|true|false
+23:13:38.74 (835392677)|VARIABLE_ASSIGNMENT|[239]|results|[{"success":true,"id":"01ugK000004vH3RQAU"}]|0x198ffe0f
+23:13:38.74 (835398900)|STATEMENT_EXECUTE|[240]
+23:13:38.74 (835404637)|HEAP_ALLOCATE|[240]|Bytes:14
+23:13:38.74 (835426738)|METHOD_ENTRY|[240]|01pgK00000EI74b|CarStatusService.checkForErrors(List<Database.SaveResult>, String)
+23:13:38.74 (835466916)|VARIABLE_SCOPE_BEGIN|[275]|results|List<Database.SaveResult>|true|false
+23:13:38.74 (835481384)|VARIABLE_ASSIGNMENT|[275]|results|[{"success":true,"id":"01ugK000004vH3RQAU"}]|0x198ffe0f
+23:13:38.74 (835486829)|VARIABLE_SCOPE_BEGIN|[275]|objectName|String|false|false
+23:13:38.74 (835497283)|VARIABLE_ASSIGNMENT|[275]|objectName|"PricebookEntry"
+23:13:38.74 (835519164)|HEAP_ALLOCATE|[276]|Bytes:5
+23:13:38.74 (835522357)|STATEMENT_EXECUTE|[275]
+23:13:38.74 (835523372)|STATEMENT_EXECUTE|[276]
+23:13:38.74 (835535429)|HEAP_ALLOCATE|[276]|Bytes:4
+23:13:38.74 (835558875)|VARIABLE_SCOPE_BEGIN|[276]|errors|List<String>|true|false
+23:13:38.74 (835578860)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:4
+23:13:38.74 (835582403)|VARIABLE_ASSIGNMENT|[276]|errors|[]|0x76cca17d
+23:13:38.74 (835612784)|HEAP_ALLOCATE|[277]|Bytes:5
+23:13:38.74 (835638578)|HEAP_ALLOCATE|[277]|Bytes:4
+23:13:38.74 (835647225)|VARIABLE_SCOPE_BEGIN|[277]|r|Database.SaveResult|true|false
+23:13:38.74 (835658527)|VARIABLE_ASSIGNMENT|[277]|r|{"success":true,"id":"01ugK000004vH3RQAU"}|0x30621dbc
+23:13:38.74 (835663035)|STATEMENT_EXECUTE|[277]
+23:13:38.74 (835678049)|STATEMENT_EXECUTE|[278]
+23:13:38.74 (835699277)|HEAP_ALLOCATE|[277]|Bytes:5
+23:13:38.74 (835708639)|VARIABLE_ASSIGNMENT|[277]|r|null|
+23:13:38.74 (835719744)|STATEMENT_EXECUTE|[284]
+23:13:38.74 (835728089)|METHOD_EXIT|[240]|01pgK00000EI74b|CarStatusService.checkForErrors(List<Database.SaveResult>, String)
+23:13:38.74 (835741898)|METHOD_EXIT|[133]|01pgK00000EI74b|CarStatusService.updatePriceBookEntriesSafely(List<PricebookEntry>)
+23:13:38.74 (835749832)|METHOD_EXIT|[103]|01pgK00000EI74b|CarStatusService.deactivatePriceBookEntriesForSoldCars(List<Product2>)
+23:13:38.74 (835753538)|STATEMENT_EXECUTE|[104]
+23:13:38.74 (835769353)|METHOD_ENTRY|[104]|01pgK00000EI74b|CarStatusService.reactivatePriceBookEntriesForAvailableCars(List<Product2>)
+23:13:38.74 (835810215)|VARIABLE_SCOPE_BEGIN|[136]|updatedProducts|List<Product2>|true|false
+23:13:38.74 (835837255)|VARIABLE_ASSIGNMENT|[136]|updatedProducts|[{"Id":"01tgK00000DkRSLQA3","Car_Status__c":"Sold","Reserved_Sold_Opportunity__c":"006gK00000MdU3BQAV","RecordTypeId":"012gK000005EtWPQA0"}]|0x475478fa
+23:13:38.74 (835847589)|HEAP_ALLOCATE|[137]|Bytes:5
+23:13:38.74 (835850531)|STATEMENT_EXECUTE|[136]
+23:13:38.74 (835851472)|STATEMENT_EXECUTE|[137]
+23:13:38.74 (835862059)|HEAP_ALLOCATE|[137]|Bytes:4
+23:13:38.74 (835908034)|VARIABLE_SCOPE_BEGIN|[137]|availableProductIds|Set<Id>|true|false
+23:13:38.74 (835938642)|VARIABLE_ASSIGNMENT|[137]|availableProductIds|[]|0x5869047
+23:13:38.74 (835976802)|HEAP_ALLOCATE|[138]|Bytes:5
+23:13:38.74 (835995232)|HEAP_ALLOCATE|[138]|Bytes:20
+23:13:38.74 (836006308)|VARIABLE_SCOPE_BEGIN|[138]|p|Product2|true|false
+23:13:38.74 (836027886)|VARIABLE_ASSIGNMENT|[138]|p|{"Id":"01tgK00000DkRSLQA3","Car_Status__c":"Sold","Reserved_Sold_Opportunity__c":"006gK00000MdU3BQAV","RecordTypeId":"012gK000005EtWPQA0"}|0xbd5614a
+23:13:38.74 (836035676)|STATEMENT_EXECUTE|[138]
+23:13:38.74 (836058869)|HEAP_ALLOCATE|[139]|Bytes:9
+23:13:38.74 (836084004)|STATEMENT_EXECUTE|[139]
+23:13:38.74 (836095871)|HEAP_ALLOCATE|[138]|Bytes:5
+23:13:38.74 (836108229)|VARIABLE_ASSIGNMENT|[138]|p|null|
+23:13:38.74 (836128941)|STATEMENT_EXECUTE|[143]
+23:13:38.74 (836130302)|STATEMENT_EXECUTE|[144]
+23:13:38.74 (836138569)|METHOD_EXIT|[104]|01pgK00000EI74b|CarStatusService.reactivatePriceBookEntriesForAvailableCars(List<Product2>)
+23:13:38.74 (836157431)|STATEMENT_EXECUTE|[107]
+23:13:38.74 (836158538)|STATEMENT_EXECUTE|[108]
+23:13:38.74 (836167563)|METHOD_ENTRY|[108]|01pgK00000EI74b|CarStatusService.recalcConflictsForProducts(Set<Id>)
+23:13:38.74 (836223127)|VARIABLE_SCOPE_BEGIN|[160]|productIds|Set<Id>|true|false
+23:13:38.74 (836240673)|VARIABLE_ASSIGNMENT|[160]|productIds|["01tgK00000DkRSLQA3"]|0x7993152d
+23:13:38.74 (836253469)|HEAP_ALLOCATE|[161]|Bytes:5
+23:13:38.74 (836258058)|STATEMENT_EXECUTE|[160]
+23:13:38.74 (836270989)|STATEMENT_EXECUTE|[161]
+23:13:38.74 (836271971)|STATEMENT_EXECUTE|[164]
+23:13:38.74 (836274611)|HEAP_ALLOCATE|[164]|Bytes:88
+23:13:38.74 (836293342)|HEAP_ALLOCATE|[164]|Bytes:4
+23:13:38.74 (855407764)|HEAP_ALLOCATE|[164]|Bytes:8
+23:13:38.74 (855435242)|HEAP_ALLOCATE|[164]|Bytes:102
+23:13:38.74 (855492815)|HEAP_ALLOCATE|[164]|Bytes:8
+23:13:38.74 (855510890)|VARIABLE_SCOPE_BEGIN|[164]|items|List<OpportunityLineItem>|true|false
+23:13:38.74 (855606424)|VARIABLE_ASSIGNMENT|[164]|items|[{"OpportunityId":"006gK00000MdU3BQAV","PricebookEntryId":"01ugK000004vH3RQAU","Id":"00kgK0000060VDFQA2"}]|0x5f237bb1
+23:13:38.74 (855612061)|STATEMENT_EXECUTE|[169]
+23:13:38.74 (855625430)|HEAP_ALLOCATE|[169]|Bytes:4
+23:13:38.74 (855677952)|VARIABLE_SCOPE_BEGIN|[169]|oppIds|Set<Id>|true|false
+23:13:38.74 (855699207)|VARIABLE_ASSIGNMENT|[169]|oppIds|[]|0x117b5083
+23:13:38.74 (855755670)|HEAP_ALLOCATE|[170]|Bytes:5
+23:13:38.74 (855774758)|HEAP_ALLOCATE|[170]|Bytes:16
+23:13:38.74 (855784766)|VARIABLE_SCOPE_BEGIN|[170]|oli|OpportunityLineItem|true|false
+23:13:38.74 (855820193)|VARIABLE_ASSIGNMENT|[170]|oli|{"OpportunityId":"006gK00000MdU3BQAV","PricebookEntryId":"01ugK000004vH3RQAU","Id":"00kgK0000060VDFQA2"}|0x68a6c340
+23:13:38.74 (855825428)|STATEMENT_EXECUTE|[170]
+23:13:38.74 (855826737)|STATEMENT_EXECUTE|[171]
+23:13:38.74 (855878289)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:4
+23:13:38.74 (855892889)|HEAP_ALLOCATE|[170]|Bytes:5
+23:13:38.74 (855918532)|VARIABLE_ASSIGNMENT|[170]|oli|null|
+23:13:38.74 (855923090)|STATEMENT_EXECUTE|[173]
+23:13:38.74 (855938226)|METHOD_ENTRY|[173]|01pgK00000EI74b|CarStatusService.recalcConflictsForOpportunities(Set<Id>)
+23:13:38.74 (855972793)|VARIABLE_SCOPE_BEGIN|[176]|oppIds|Set<Id>|true|false
+23:13:38.74 (855986421)|VARIABLE_ASSIGNMENT|[176]|oppIds|["006gK00000MdU3BQAV"]|0x117b5083
+23:13:38.74 (855997375)|HEAP_ALLOCATE|[177]|Bytes:5
+23:13:38.74 (855999785)|STATEMENT_EXECUTE|[176]
+23:13:38.74 (856009596)|STATEMENT_EXECUTE|[177]
+23:13:38.74 (856011238)|STATEMENT_EXECUTE|[181]
+23:13:38.74 (856014504)|HEAP_ALLOCATE|[181]|Bytes:169
+23:13:38.74 (856028611)|HEAP_ALLOCATE|[181]|Bytes:4
+23:13:38.74 (877356282)|HEAP_ALLOCATE|[181]|Bytes:8
+23:13:38.74 (877388800)|HEAP_ALLOCATE|[181]|Bytes:291
+23:13:38.74 (877445496)|HEAP_ALLOCATE|[181]|Bytes:8
+23:13:38.74 (877463225)|VARIABLE_SCOPE_BEGIN|[181]|items|List<OpportunityLineItem>|true|false
+23:13:38.74 (877754566)|VARIABLE_ASSIGNMENT|[181]|items|[{"Id":"00kgK0000060VDFQA2","OpportunityId":"006gK00000MdU3BQAV","PricebookEntryId":"01ugK000004vH3RQAU","PricebookEntry":{"Product2":{"Reserved_Sold_Opportunity__c":"006gK00000MdU3BQAV","Car_Status__c":"Sold","Id":"01tgK00000DkRSLQA3"},"Id":"01ugK000004vH3RQAU","Product2Id":"01tgK00000DkRSLQA3"}}]|0x24583194
+23:13:38.74 (877762350)|STATEMENT_EXECUTE|[188]
+23:13:38.74 (877780007)|HEAP_ALLOCATE|[188]|Bytes:4
+23:13:38.74 (877796459)|VARIABLE_SCOPE_BEGIN|[188]|conflictByOpp|Map<Id,Boolean>|true|false
+23:13:38.74 (877811610)|VARIABLE_ASSIGNMENT|[188]|conflictByOpp|{}|0x4270bdf7
+23:13:38.74 (877885148)|HEAP_ALLOCATE|[189]|Bytes:5
+23:13:38.74 (877932227)|HEAP_ALLOCATE|[189]|Bytes:4
+23:13:38.74 (877935292)|VARIABLE_SCOPE_BEGIN|[189]|oppId|Id|false|false
+23:13:38.74 (878004293)|VARIABLE_ASSIGNMENT|[189]|oppId|"006gK00000MdU3BQAV"
+23:13:38.74 (878015321)|STATEMENT_EXECUTE|[189]
+23:13:38.74 (878016571)|STATEMENT_EXECUTE|[190]
+23:13:38.74 (878057620)|HEAP_ALLOCATE|[190]|Bytes:5
+23:13:38.74 (878072278)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:-4
+23:13:38.74 (878086409)|HEAP_ALLOCATE|[189]|Bytes:5
+23:13:38.74 (878097792)|VARIABLE_ASSIGNMENT|[189]|oppId|null
+23:13:38.74 (878125628)|HEAP_ALLOCATE|[193]|Bytes:5
+23:13:38.74 (878137849)|HEAP_ALLOCATE|[193]|Bytes:20
+23:13:38.74 (878144856)|VARIABLE_SCOPE_BEGIN|[193]|oli|OpportunityLineItem|true|false
+23:13:38.74 (878234221)|VARIABLE_ASSIGNMENT|[193]|oli|{"Id":"00kgK0000060VDFQA2","OpportunityId":"006gK00000MdU3BQAV","PricebookEntryId":"01ugK000004vH3RQAU","PricebookEntry":{"Product2":{"Reserved_Sold_Opportunity__c":"006gK00000MdU3BQAV","Car_Status__c":"Sold","Id":"01tgK00000DkRSLQA3"},"Id":"01ugK000004vH3RQAU","Product2Id":"01tgK00000DkRSLQA3"}}|0x59b86ffa
+23:13:38.74 (878239502)|STATEMENT_EXECUTE|[193]
+23:13:38.74 (878240510)|STATEMENT_EXECUTE|[194]
+23:13:38.74 (878261230)|VARIABLE_SCOPE_BEGIN|[194]|status|String|false|false
+23:13:38.74 (878266898)|VARIABLE_ASSIGNMENT|[194]|status|"Sold"
+23:13:38.74 (878269468)|STATEMENT_EXECUTE|[195]
+23:13:38.74 (878283998)|VARIABLE_SCOPE_BEGIN|[195]|ownerOppId|Id|false|false
+23:13:38.74 (878323866)|VARIABLE_ASSIGNMENT|[195]|ownerOppId|"006gK00000MdU3BQAV"
+23:13:38.74 (878326636)|STATEMENT_EXECUTE|[197]
+23:13:38.74 (878329226)|HEAP_ALLOCATE|[197]|Bytes:8
+23:13:38.74 (878382247)|VARIABLE_SCOPE_BEGIN|[197]|isProblem|Boolean|false|false
+23:13:38.74 (878387162)|HEAP_ALLOCATE|[197]|Bytes:5
+23:13:38.74 (878391412)|VARIABLE_ASSIGNMENT|[197]|isProblem|false
+23:13:38.74 (878394050)|STATEMENT_EXECUTE|[201]
+23:13:38.74 (878398306)|HEAP_ALLOCATE|[193]|Bytes:5
+23:13:38.74 (878404069)|VARIABLE_ASSIGNMENT|[193]|oli|null|
+23:13:38.74 (878406794)|STATEMENT_EXECUTE|[206]
+23:13:38.74 (878417502)|HEAP_ALLOCATE|[206]|Bytes:4
+23:13:38.74 (878444721)|VARIABLE_SCOPE_BEGIN|[206]|toUpdate|List<Opportunity>|true|false
+23:13:38.74 (878450633)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:4
+23:13:38.74 (878456286)|VARIABLE_ASSIGNMENT|[206]|toUpdate|[]|0x1f915ec9
+23:13:38.74 (878488154)|HEAP_ALLOCATE|[207]|Bytes:26
+23:13:38.74 (878500566)|HEAP_ALLOCATE|[207]|Bytes:5
+23:13:38.74 (878518660)|HEAP_ALLOCATE|[207]|Bytes:4
+23:13:38.74 (878521698)|VARIABLE_SCOPE_BEGIN|[207]|oppId|Id|false|false
+23:13:38.74 (878562752)|VARIABLE_ASSIGNMENT|[207]|oppId|"006gK00000MdU3BQAV"
+23:13:38.74 (878567614)|STATEMENT_EXECUTE|[207]
+23:13:38.74 (878568604)|STATEMENT_EXECUTE|[208]
+23:13:38.74 (878587926)|HEAP_ALLOCATE|[208]|Bytes:4
+23:13:38.74 (878688666)|VARIABLE_ASSIGNMENT|[208]|this.Id|"006gK00000MdU3BQAV"|0x4294a495
+23:13:38.74 (878751151)|VARIABLE_ASSIGNMENT|[208]|this.Has_Car_Conflict__c|false|0x4294a495
+23:13:38.74 (878794359)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:4
+23:13:38.74 (878807077)|HEAP_ALLOCATE|[207]|Bytes:5
+23:13:38.74 (878837093)|VARIABLE_ASSIGNMENT|[207]|oppId|null
+23:13:38.74 (878841610)|STATEMENT_EXECUTE|[214]
+23:13:38.74 (878858498)|METHOD_ENTRY|[214]|01pgK00000EI74b|CarStatusService.updateOpportunitiesSafely(List<Opportunity>)
+23:13:38.74 (878895291)|VARIABLE_SCOPE_BEGIN|[261]|records|List<Opportunity>|true|false
+23:13:38.74 (878924263)|VARIABLE_ASSIGNMENT|[261]|records|[{"Id":"006gK00000MdU3BQAV","Has_Car_Conflict__c":false}]|0x1f915ec9
+23:13:38.74 (878937413)|HEAP_ALLOCATE|[262]|Bytes:5
+23:13:38.74 (878940867)|STATEMENT_EXECUTE|[261]
+23:13:38.74 (878952932)|STATEMENT_EXECUTE|[262]
+23:13:38.74 (878953959)|STATEMENT_EXECUTE|[265]
+23:13:38.74 (880143659)|HEAP_ALLOCATE|[265]|Bytes:16
+23:13:38.74 (880173489)|VARIABLE_SCOPE_BEGIN|[265]|sp|System.Savepoint|true|false
+23:13:38.74 (880252817)|VARIABLE_ASSIGNMENT|[265]|sp|"common.apex.runtime.impl.ApexUserSavepoint@2d188ad9"|0x2d188ad9
+23:13:38.74 (880258514)|STATEMENT_EXECUTE|[266]
+23:13:38.74 (880259466)|STATEMENT_EXECUTE|[266]
+23:13:38.74 (880260296)|STATEMENT_EXECUTE|[268]
+23:13:38.74 (880380739)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:8
+23:13:38.74 (891096025)|CODE_UNIT_STARTED|[EXTERNAL]|Validation:Opportunity:006gK00000MdU3B
+23:13:38.74 (891151485)|CODE_UNIT_FINISHED|Validation:Opportunity:006gK00000MdU3B
+23:13:38.74 (905108254)|CODE_UNIT_STARTED|[EXTERNAL]|01qgK000005f2PZ|OpportunityTrigger on Opportunity trigger event AfterUpdate|__sfdc_trigger/OpportunityTrigger
+23:13:38.74 (905162067)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:8
+23:13:38.74 (905208024)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:8
+23:13:38.74 (905280384)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:4
+23:13:38.74 (905312389)|VARIABLE_SCOPE_BEGIN|[1]|this|OpportunityTrigger|true|false
+23:13:38.74 (905403722)|VARIABLE_ASSIGNMENT|[1]|this|{}|0x694957c5
+23:13:38.74 (905430519)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:4
+23:13:38.74 (905435428)|VARIABLE_SCOPE_BEGIN|[1]|this|OpportunityTrigger|true|false
+23:13:38.74 (905447178)|VARIABLE_ASSIGNMENT|[1]|this|{}|0x694957c5
+23:13:38.74 (905452528)|STATEMENT_EXECUTE|[1]
+23:13:38.74 (905453950)|STATEMENT_EXECUTE|[2]
+23:13:38.74 (905457675)|HEAP_ALLOCATE|[2]|Bytes:4
+23:13:38.74 (905481548)|CONSTRUCTOR_ENTRY|[2]|01pgK00000E864z|<init>()|OpportunityTriggerHandler
+23:13:38.74 (905493320)|VARIABLE_SCOPE_BEGIN|[1]|this|OpportunityTriggerHandler|true|false
+23:13:38.74 (905508618)|VARIABLE_ASSIGNMENT|[1]|this|{}|0x31d8a8a0
+23:13:38.74 (905528862)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:5
+23:13:38.74 (905535424)|CONSTRUCTOR_ENTRY|[EXTERNAL]|01pgK00000E80At|<init>()|TriggerHandler
+23:13:38.74 (905540692)|VARIABLE_SCOPE_BEGIN|[1]|this|TriggerHandler|true|false
+23:13:38.74 (905549192)|VARIABLE_ASSIGNMENT|[1]|this|{}|0x31d8a8a0
+23:13:38.74 (905568058)|STATEMENT_EXECUTE|[1]
+23:13:38.74 (905572932)|CONSTRUCTOR_EXIT|[EXTERNAL]|01pgK00000E80At|<init>()|TriggerHandler
+23:13:38.74 (905582187)|STATEMENT_EXECUTE|[1]
+23:13:38.74 (905585156)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:5
+23:13:38.74 (905590412)|CONSTRUCTOR_EXIT|[2]|01pgK00000E864z|<init>()|OpportunityTriggerHandler
+23:13:38.74 (905600453)|METHOD_ENTRY|[2]|01pgK00000E80At|TriggerHandler.run()
+23:13:38.74 (905604751)|VARIABLE_SCOPE_BEGIN|[17]|this|TriggerHandler|true|false
+23:13:38.74 (905616172)|VARIABLE_ASSIGNMENT|[17]|this|{}|0x31d8a8a0
+23:13:38.74 (905622469)|STATEMENT_EXECUTE|[17]
+23:13:38.74 (905629926)|METHOD_ENTRY|[18]|01pgK00000E80At|TriggerHandler.isDisabledByMetadata()
+23:13:38.74 (905634989)|VARIABLE_SCOPE_BEGIN|[9]|this|TriggerHandler|true|false
+23:13:38.74 (905647798)|VARIABLE_ASSIGNMENT|[9]|this|{}|0x31d8a8a0
+23:13:38.74 (905652150)|STATEMENT_EXECUTE|[9]
+23:13:38.74 (905652885)|STATEMENT_EXECUTE|[10]
+23:13:38.74 (905656435)|METHOD_ENTRY|[10]|01pgK00000E864z|OpportunityTriggerHandler.getHandlerName()
+23:13:38.74 (905675644)|VARIABLE_SCOPE_BEGIN|[3]|this|OpportunityTriggerHandler|true|false
+23:13:38.74 (905683506)|VARIABLE_ASSIGNMENT|[3]|this|{}|0x31d8a8a0
+23:13:38.74 (905689096)|HEAP_ALLOCATE|[4]|Bytes:5
+23:13:38.74 (905691246)|STATEMENT_EXECUTE|[3]
+23:13:38.74 (905691915)|STATEMENT_EXECUTE|[4]
+23:13:38.74 (905698609)|METHOD_EXIT|[10]|01pgK00000E864z|OpportunityTriggerHandler.getHandlerName()
+23:13:38.74 (906435753)|VARIABLE_SCOPE_BEGIN|[10]|setting|Trigger_Setting__mdt|true|false
+23:13:38.74 (906490815)|VARIABLE_ASSIGNMENT|[10]|setting|{"IsProtected":false,"Label":"OpportunityTriggerHa (5 more) ...","MasterLabel":"OpportunityTriggerHa (5 more) ...","Is_Enabled__c":true,"SystemModstamp":"2026-08-04T22:43:49.000Z","Language":"en_US","ManageableState":"U","QualifiedApiName":"OpportunityTriggerHa (5 more) ...","Id":"m00gK00001C8Efu","DeveloperName":"OpportunityTriggerHa (5 more) ..."}|0x3b2c2135
+23:13:38.74 (906498336)|STATEMENT_EXECUTE|[11]
+23:13:38.74 (906499344)|STATEMENT_EXECUTE|[14]
+23:13:38.74 (906518697)|METHOD_EXIT|[18]|01pgK00000E80At|TriggerHandler.isDisabledByMetadata()
+23:13:38.74 (906524807)|STATEMENT_EXECUTE|[18]
+23:13:38.74 (906544829)|STATEMENT_EXECUTE|[30]
+23:13:38.74 (906545640)|STATEMENT_EXECUTE|[31]
+23:13:38.74 (906551008)|METHOD_ENTRY|[31]|01pgK00000E864z|OpportunityTriggerHandler.afterUpdate()
+23:13:38.74 (906562734)|VARIABLE_SCOPE_BEGIN|[20]|this|OpportunityTriggerHandler|true|false
+23:13:38.74 (906591491)|VARIABLE_ASSIGNMENT|[20]|this|{}|0x31d8a8a0
+23:13:38.74 (906603596)|HEAP_ALLOCATE|[21]|Bytes:5
+23:13:38.74 (906606982)|STATEMENT_EXECUTE|[20]
+23:13:38.74 (906607816)|STATEMENT_EXECUTE|[21]
+23:13:38.74 (906633724)|VARIABLE_SCOPE_BEGIN|[21]|oldMap|Map<Id,Opportunity>|true|false
+23:13:38.74 (907227518)|VARIABLE_ASSIGNMENT|[21]|oldMap|{"006gK00000MdU3BQAV":{"LastModifiedDate":"2026-08-14T21:13:39.000Z","AccountId":"001gK00001LElIbQAL","HasOpportunityLineItem":true,"ForecastCategory":"Omitted","IsClosed":false,"CloseDate":"2026-08-19T00:00:00.000Z","Name":"DEBUG3 Opp","HasOpenActivity":false,"TotalOpportunityQuantity":1.00,"LastAmountChangedHistoryId":"008gK00000e1ldmQAA","ExpectedRevenue":0.00,"CreatedById":"005gK000064ym2nQAA","OwnerId":"005gK000064ym2nQAA","IsWon":false,"IsDeleted":false,"StageName":"Close Won","Has_Car_Conflict__c":false,"Amount":20000.00,"Probability":0,"SystemModstamp":"2026-08-14T21:13:39.000Z","LastStageChangeDate":"2026-08-14T21:13:39.000Z","CreatedDate":"2026-08-14T21:13:38.000Z","HasOverdueTask":false,"Pricebook2Id":"01sgK000007udzeQAA","Id":"006gK00000MdU3BQAV","ForecastCategoryName":"Omitted","IsPrivate":false,"LastModifiedById":"005gK000064ym2nQAA"}}|0x1878beea
+23:13:38.74 (907240571)|STATEMENT_EXECUTE|[22]
+23:13:38.74 (907274858)|VARIABLE_SCOPE_BEGIN|[22]|newList|List<Opportunity>|true|false
+23:13:38.74 (907571074)|VARIABLE_ASSIGNMENT|[22]|newList|[{"LastModifiedDate":"2026-08-14T21:13:39.000Z","AccountId":"001gK00001LElIbQAL","HasOpportunityLineItem":true,"ForecastCategory":"Omitted","IsClosed":false,"CloseDate":"2026-08-19T00:00:00.000Z","Name":"DEBUG3 Opp","HasOpenActivity":false,"TotalOpportunityQuantity":1.00,"LastAmountChangedHistoryId":"008gK00000e1ldmQAA","ExpectedRevenue":0.00,"CreatedById":"005gK000064ym2nQAA","OwnerId":"005gK000064ym2nQAA","IsWon":false,"IsDeleted":false,"StageName":"Close Won","Has_Car_Conflict__c":false,"Amount":20000.00,"Probability":0,"SystemModstamp":"2026-08-14T21:13:39.000Z","LastStageChangeDate":"2026-08-14T21:13:39.000Z","CreatedDate":"2026-08-14T21:13:38.000Z","HasOverdueTask":false,"Pricebook2Id":"01sgK000007udzeQAA","Id":"006gK00000MdU3BQAV","ForecastCategoryName":"Omitted","IsPrivate":false,"LastModifiedById":"005gK000064ym2nQAA"}]|0x6c1188ed
+23:13:38.74 (907579414)|STATEMENT_EXECUTE|[24]
+23:13:38.74 (907589134)|HEAP_ALLOCATE|[24]|Bytes:4
+23:13:38.74 (907613454)|VARIABLE_SCOPE_BEGIN|[24]|relevantOppIds|Set<Id>|true|false
+23:13:38.74 (907631877)|VARIABLE_ASSIGNMENT|[24]|relevantOppIds|[]|0x603c54f1
+23:13:38.74 (907660047)|HEAP_ALLOCATE|[25]|Bytes:5
+23:13:38.74 (907676502)|VARIABLE_SCOPE_BEGIN|[25]|opp|Opportunity|true|false
+23:13:38.74 (907866989)|VARIABLE_ASSIGNMENT|[25]|opp|{"LastModifiedDate":"2026-08-14T21:13:39.000Z","AccountId":"001gK00001LElIbQAL","HasOpportunityLineItem":true,"ForecastCategory":"Omitted","IsClosed":false,"CloseDate":"2026-08-19T00:00:00.000Z","Name":"DEBUG3 Opp","HasOpenActivity":false,"TotalOpportunityQuantity":1.00,"LastAmountChangedHistoryId":"008gK00000e1ldmQAA","ExpectedRevenue":0.00,"CreatedById":"005gK000064ym2nQAA","OwnerId":"005gK000064ym2nQAA","IsWon":false,"IsDeleted":false,"StageName":"Close Won","Has_Car_Conflict__c":false,"Amount":20000.00,"Probability":0,"SystemModstamp":"2026-08-14T21:13:39.000Z","LastStageChangeDate":"2026-08-14T21:13:39.000Z","CreatedDate":"2026-08-14T21:13:38.000Z","HasOverdueTask":false,"Pricebook2Id":"01sgK000007udzeQAA","Id":"006gK00000MdU3BQAV","ForecastCategoryName":"Omitted","IsPrivate":false,"LastModifiedById":"005gK000064ym2nQAA"}|0x3ac3e44a
+23:13:38.74 (907875373)|STATEMENT_EXECUTE|[25]
+23:13:38.74 (907876174)|STATEMENT_EXECUTE|[26]
+23:13:38.74 (907895293)|VARIABLE_SCOPE_BEGIN|[26]|oldOpp|Opportunity|true|false
+23:13:38.74 (908080912)|VARIABLE_ASSIGNMENT|[26]|oldOpp|{"LastModifiedDate":"2026-08-14T21:13:39.000Z","AccountId":"001gK00001LElIbQAL","HasOpportunityLineItem":true,"ForecastCategory":"Omitted","IsClosed":false,"CloseDate":"2026-08-19T00:00:00.000Z","Name":"DEBUG3 Opp","HasOpenActivity":false,"TotalOpportunityQuantity":1.00,"LastAmountChangedHistoryId":"008gK00000e1ldmQAA","ExpectedRevenue":0.00,"CreatedById":"005gK000064ym2nQAA","OwnerId":"005gK000064ym2nQAA","IsWon":false,"IsDeleted":false,"StageName":"Close Won","Has_Car_Conflict__c":false,"Amount":20000.00,"Probability":0,"SystemModstamp":"2026-08-14T21:13:39.000Z","LastStageChangeDate":"2026-08-14T21:13:39.000Z","CreatedDate":"2026-08-14T21:13:38.000Z","HasOverdueTask":false,"Pricebook2Id":"01sgK000007udzeQAA","Id":"006gK00000MdU3BQAV","ForecastCategoryName":"Omitted","IsPrivate":false,"LastModifiedById":"005gK000064ym2nQAA"}|0x67918216
+23:13:38.74 (908089051)|STATEMENT_EXECUTE|[27]
+23:13:38.74 (908106566)|VARIABLE_SCOPE_BEGIN|[27]|becameClosedWon|Boolean|false|false
+23:13:38.74 (908111317)|HEAP_ALLOCATE|[27]|Bytes:5
+23:13:38.74 (908119148)|VARIABLE_ASSIGNMENT|[27]|becameClosedWon|false
+23:13:38.74 (908123137)|STATEMENT_EXECUTE|[28]
+23:13:38.74 (908134311)|VARIABLE_SCOPE_BEGIN|[28]|wasClosedWon|Boolean|false|false
+23:13:38.74 (908137964)|HEAP_ALLOCATE|[28]|Bytes:5
+23:13:38.74 (908150522)|VARIABLE_ASSIGNMENT|[28]|wasClosedWon|false
+23:13:38.74 (908165214)|STATEMENT_EXECUTE|[29]
+23:13:38.74 (908202470)|VARIABLE_SCOPE_BEGIN|[29]|closeDateChangedWhileWon|Boolean|false|false
+23:13:38.74 (908206469)|HEAP_ALLOCATE|[29]|Bytes:5
+23:13:38.74 (908209294)|VARIABLE_ASSIGNMENT|[29]|closeDateChangedWhileWon|false
+23:13:38.74 (908212955)|STATEMENT_EXECUTE|[31]
+23:13:38.74 (908217864)|HEAP_ALLOCATE|[25]|Bytes:5
+23:13:38.74 (908224720)|VARIABLE_ASSIGNMENT|[25]|opp|null|
+23:13:38.74 (908234661)|STATEMENT_EXECUTE|[36]
+23:13:38.74 (908235529)|STATEMENT_EXECUTE|[76]
+23:13:38.74 (908243327)|METHOD_ENTRY|[76]|01pgK00000EI74b|CarStatusService.handleStageChange(List<Opportunity>, Map<Id,Opportunity>)
+23:13:38.74 (908254922)|VARIABLE_SCOPE_BEGIN|[20]|newOpps|List<Opportunity>|true|false
+23:13:38.74 (908441916)|VARIABLE_ASSIGNMENT|[20]|newOpps|[{"LastModifiedDate":"2026-08-14T21:13:39.000Z","AccountId":"001gK00001LElIbQAL","HasOpportunityLineItem":true,"ForecastCategory":"Omitted","IsClosed":false,"CloseDate":"2026-08-19T00:00:00.000Z","Name":"DEBUG3 Opp","HasOpenActivity":false,"TotalOpportunityQuantity":1.00,"LastAmountChangedHistoryId":"008gK00000e1ldmQAA","ExpectedRevenue":0.00,"CreatedById":"005gK000064ym2nQAA","OwnerId":"005gK000064ym2nQAA","IsWon":false,"IsDeleted":false,"StageName":"Close Won","Has_Car_Conflict__c":false,"Amount":20000.00,"Probability":0,"SystemModstamp":"2026-08-14T21:13:39.000Z","LastStageChangeDate":"2026-08-14T21:13:39.000Z","CreatedDate":"2026-08-14T21:13:38.000Z","HasOverdueTask":false,"Pricebook2Id":"01sgK000007udzeQAA","Id":"006gK00000MdU3BQAV","ForecastCategoryName":"Omitted","IsPrivate":false,"LastModifiedById":"005gK000064ym2nQAA"}]|0x6c1188ed
+23:13:38.74 (908450893)|VARIABLE_SCOPE_BEGIN|[20]|oldMap|Map<Id,Opportunity>|true|false
+23:13:38.74 (908624701)|VARIABLE_ASSIGNMENT|[20]|oldMap|{"006gK00000MdU3BQAV":{"LastModifiedDate":"2026-08-14T21:13:39.000Z","AccountId":"001gK00001LElIbQAL","HasOpportunityLineItem":true,"ForecastCategory":"Omitted","IsClosed":false,"CloseDate":"2026-08-19T00:00:00.000Z","Name":"DEBUG3 Opp","HasOpenActivity":false,"TotalOpportunityQuantity":1.00,"LastAmountChangedHistoryId":"008gK00000e1ldmQAA","ExpectedRevenue":0.00,"CreatedById":"005gK000064ym2nQAA","OwnerId":"005gK000064ym2nQAA","IsWon":false,"IsDeleted":false,"StageName":"Close Won","Has_Car_Conflict__c":false,"Amount":20000.00,"Probability":0,"SystemModstamp":"2026-08-14T21:13:39.000Z","LastStageChangeDate":"2026-08-14T21:13:39.000Z","CreatedDate":"2026-08-14T21:13:38.000Z","HasOverdueTask":false,"Pricebook2Id":"01sgK000007udzeQAA","Id":"006gK00000MdU3BQAV","ForecastCategoryName":"Omitted","IsPrivate":false,"LastModifiedById":"005gK000064ym2nQAA"}}|0x1878beea
+23:13:38.74 (908640727)|HEAP_ALLOCATE|[23]|Bytes:5
+23:13:38.74 (908643546)|STATEMENT_EXECUTE|[20]
+23:13:38.74 (908644338)|STATEMENT_EXECUTE|[23]
+23:13:38.74 (908650410)|HEAP_ALLOCATE|[23]|Bytes:4
+23:13:38.74 (908663483)|VARIABLE_SCOPE_BEGIN|[23]|oppIdsToProcess|Set<Id>|true|false
+23:13:38.74 (908680713)|VARIABLE_ASSIGNMENT|[23]|oppIdsToProcess|[]|0x20fa3a69
+23:13:38.74 (908693247)|HEAP_ALLOCATE|[24]|Bytes:5
+23:13:38.74 (908702405)|VARIABLE_SCOPE_BEGIN|[24]|opp|Opportunity|true|false
+23:13:38.74 (908888484)|VARIABLE_ASSIGNMENT|[24]|opp|{"LastModifiedDate":"2026-08-14T21:13:39.000Z","AccountId":"001gK00001LElIbQAL","HasOpportunityLineItem":true,"ForecastCategory":"Omitted","IsClosed":false,"CloseDate":"2026-08-19T00:00:00.000Z","Name":"DEBUG3 Opp","HasOpenActivity":false,"TotalOpportunityQuantity":1.00,"LastAmountChangedHistoryId":"008gK00000e1ldmQAA","ExpectedRevenue":0.00,"CreatedById":"005gK000064ym2nQAA","OwnerId":"005gK000064ym2nQAA","IsWon":false,"IsDeleted":false,"StageName":"Close Won","Has_Car_Conflict__c":false,"Amount":20000.00,"Probability":0,"SystemModstamp":"2026-08-14T21:13:39.000Z","LastStageChangeDate":"2026-08-14T21:13:39.000Z","CreatedDate":"2026-08-14T21:13:38.000Z","HasOverdueTask":false,"Pricebook2Id":"01sgK000007udzeQAA","Id":"006gK00000MdU3BQAV","ForecastCategoryName":"Omitted","IsPrivate":false,"LastModifiedById":"005gK000064ym2nQAA"}|0x3ac3e44a
+23:13:38.74 (908896391)|STATEMENT_EXECUTE|[24]
+23:13:38.74 (908897175)|STATEMENT_EXECUTE|[25]
+23:13:38.74 (908908381)|VARIABLE_SCOPE_BEGIN|[25]|oldOpp|Opportunity|true|false
+23:13:38.74 (909072009)|VARIABLE_ASSIGNMENT|[25]|oldOpp|{"LastModifiedDate":"2026-08-14T21:13:39.000Z","AccountId":"001gK00001LElIbQAL","HasOpportunityLineItem":true,"ForecastCategory":"Omitted","IsClosed":false,"CloseDate":"2026-08-19T00:00:00.000Z","Name":"DEBUG3 Opp","HasOpenActivity":false,"TotalOpportunityQuantity":1.00,"LastAmountChangedHistoryId":"008gK00000e1ldmQAA","ExpectedRevenue":0.00,"CreatedById":"005gK000064ym2nQAA","OwnerId":"005gK000064ym2nQAA","IsWon":false,"IsDeleted":false,"StageName":"Close Won","Has_Car_Conflict__c":false,"Amount":20000.00,"Probability":0,"SystemModstamp":"2026-08-14T21:13:39.000Z","LastStageChangeDate":"2026-08-14T21:13:39.000Z","CreatedDate":"2026-08-14T21:13:38.000Z","HasOverdueTask":false,"Pricebook2Id":"01sgK000007udzeQAA","Id":"006gK00000MdU3BQAV","ForecastCategoryName":"Omitted","IsPrivate":false,"LastModifiedById":"005gK000064ym2nQAA"}|0x67918216
+23:13:38.74 (909086236)|STATEMENT_EXECUTE|[26]
+23:13:38.74 (909090601)|HEAP_ALLOCATE|[24]|Bytes:5
+23:13:38.74 (909096206)|VARIABLE_ASSIGNMENT|[24]|opp|null|
+23:13:38.74 (909102633)|STATEMENT_EXECUTE|[31]
+23:13:38.74 (909103375)|STATEMENT_EXECUTE|[32]
+23:13:38.74 (909113493)|METHOD_EXIT|[76]|01pgK00000EI74b|CarStatusService.handleStageChange(List<Opportunity>, Map<Id,Opportunity>)
+23:13:38.74 (909120692)|METHOD_EXIT|[31]|01pgK00000E864z|OpportunityTriggerHandler.afterUpdate()
+23:13:38.74 (909126119)|METHOD_EXIT|[2]|01pgK00000E80At|TriggerHandler.run()
+23:13:38.909 (909137913)|CUMULATIVE_LIMIT_USAGE
+23:13:38.909 (909137913)|LIMIT_USAGE_FOR_NS|(default)|
+  Number of SOQL queries: 8 out of 100
+  Number of query rows: 9 out of 50000
+  Number of SOSL queries: 0 out of 20
+  Number of DML statements: 12 out of 150
+  Number of Publish Immediate DML: 0 out of 150
+  Number of DML rows: 9 out of 10000
+  Maximum CPU time: 227 out of 10000
+  Maximum heap size: 0 out of 6000000
+  Number of callouts: 0 out of 100
+  Number of Email Invocations: 0 out of 10
+  Number of future calls: 0 out of 50
+  Number of queueable jobs added to the queue: 0 out of 50
+  Number of Mobile Apex push calls: 0 out of 10
+
+23:13:38.909 (909137913)|CUMULATIVE_LIMIT_USAGE_END
+
+23:13:38.74 (909350635)|CODE_UNIT_FINISHED|OpportunityTrigger on Opportunity trigger event AfterUpdate|__sfdc_trigger/OpportunityTrigger
+23:13:38.74 (912067479)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:8
+23:13:38.74 (912094918)|HEAP_ALLOCATE|[268]|Bytes:8
+23:13:38.74 (912111533)|VARIABLE_SCOPE_BEGIN|[268]|results|List<Database.SaveResult>|true|false
+23:13:38.74 (912146520)|VARIABLE_ASSIGNMENT|[268]|results|[{"success":true,"id":"006gK00000MdU3BQAV"}]|0x754e04b9
+23:13:38.74 (912150650)|STATEMENT_EXECUTE|[269]
+23:13:38.74 (912153960)|HEAP_ALLOCATE|[269]|Bytes:11
+23:13:38.74 (912165846)|METHOD_ENTRY|[269]|01pgK00000EI74b|CarStatusService.checkForErrors(List<Database.SaveResult>, String)
+23:13:38.74 (912194042)|VARIABLE_SCOPE_BEGIN|[275]|results|List<Database.SaveResult>|true|false
+23:13:38.74 (912204655)|VARIABLE_ASSIGNMENT|[275]|results|[{"success":true,"id":"006gK00000MdU3BQAV"}]|0x754e04b9
+23:13:38.74 (912208841)|VARIABLE_SCOPE_BEGIN|[275]|objectName|String|false|false
+23:13:38.74 (912214784)|VARIABLE_ASSIGNMENT|[275]|objectName|"Opportunity"
+23:13:38.74 (912226093)|HEAP_ALLOCATE|[276]|Bytes:5
+23:13:38.74 (912228567)|STATEMENT_EXECUTE|[275]
+23:13:38.74 (912229479)|STATEMENT_EXECUTE|[276]
+23:13:38.74 (912238367)|HEAP_ALLOCATE|[276]|Bytes:4
+23:13:38.74 (912254707)|VARIABLE_SCOPE_BEGIN|[276]|errors|List<String>|true|false
+23:13:38.74 (912270889)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:4
+23:13:38.74 (912273984)|VARIABLE_ASSIGNMENT|[276]|errors|[]|0x3ff32df
+23:13:38.74 (912294533)|HEAP_ALLOCATE|[277]|Bytes:5
+23:13:38.74 (912308203)|HEAP_ALLOCATE|[277]|Bytes:4
+23:13:38.74 (912313872)|VARIABLE_SCOPE_BEGIN|[277]|r|Database.SaveResult|true|false
+23:13:38.74 (912322016)|VARIABLE_ASSIGNMENT|[277]|r|{"success":true,"id":"006gK00000MdU3BQAV"}|0x72a769bb
+23:13:38.74 (912325251)|STATEMENT_EXECUTE|[277]
+23:13:38.74 (912338543)|STATEMENT_EXECUTE|[278]
+23:13:38.74 (912342592)|HEAP_ALLOCATE|[277]|Bytes:5
+23:13:38.74 (912348456)|VARIABLE_ASSIGNMENT|[277]|r|null|
+23:13:38.74 (912357149)|STATEMENT_EXECUTE|[284]
+23:13:38.74 (912362896)|METHOD_EXIT|[269]|01pgK00000EI74b|CarStatusService.checkForErrors(List<Database.SaveResult>, String)
+23:13:38.74 (912369534)|METHOD_EXIT|[214]|01pgK00000EI74b|CarStatusService.updateOpportunitiesSafely(List<Opportunity>)
+23:13:38.74 (912376171)|METHOD_EXIT|[173]|01pgK00000EI74b|CarStatusService.recalcConflictsForOpportunities(Set<Id>)
+23:13:38.74 (912381662)|METHOD_EXIT|[108]|01pgK00000EI74b|CarStatusService.recalcConflictsForProducts(Set<Id>)
+23:13:38.74 (912391524)|METHOD_EXIT|[76]|01pgK00000EI74b|CarStatusService.handleStageChange(List<Opportunity>, Map<Id,Opportunity>)
+23:13:38.74 (912398429)|METHOD_EXIT|[31]|01pgK00000E864z|OpportunityTriggerHandler.afterUpdate()
+23:13:38.74 (912403332)|METHOD_EXIT|[2]|01pgK00000E80At|TriggerHandler.run()
+23:13:38.912 (912413217)|CUMULATIVE_LIMIT_USAGE
+23:13:38.912 (912413217)|LIMIT_USAGE_FOR_NS|(default)|
+  Number of SOQL queries: 8 out of 100
+  Number of query rows: 9 out of 50000
+  Number of SOSL queries: 0 out of 20
+  Number of DML statements: 12 out of 150
+  Number of Publish Immediate DML: 0 out of 150
+  Number of DML rows: 9 out of 10000
+  Maximum CPU time: 227 out of 10000
+  Maximum heap size: 0 out of 6000000
+  Number of callouts: 0 out of 100
+  Number of Email Invocations: 0 out of 10
+  Number of future calls: 0 out of 50
+  Number of queueable jobs added to the queue: 0 out of 50
+  Number of Mobile Apex push calls: 0 out of 10
+
+23:13:38.912 (912413217)|CUMULATIVE_LIMIT_USAGE_END
+
+23:13:38.74 (912626357)|CODE_UNIT_FINISHED|OpportunityTrigger on Opportunity trigger event AfterUpdate|__sfdc_trigger/OpportunityTrigger
+23:13:38.74 (912931019)|CODE_UNIT_STARTED|[EXTERNAL]|Workflow:Opportunity
+23:13:38.74 (912961263)|CODE_UNIT_FINISHED|Workflow:Opportunity
+23:13:38.74 (915664192)|STATEMENT_EXECUTE|[37]
+23:13:38.74 (915670766)|HEAP_ALLOCATE|[37]|Bytes:22
+23:13:38.74 (915745048)|USER_DEBUG|[37]|DEBUG|=== UPDATE УСПЕШЕН ===
+23:13:38.74 (915785282)|STATEMENT_EXECUTE|[43]
+23:13:38.74 (915851645)|HEAP_ALLOCATE|[43]|Bytes:68
+23:13:38.74 (915897926)|HEAP_ALLOCATE|[43]|Bytes:4
+23:13:38.74 (927990882)|HEAP_ALLOCATE|[43]|Bytes:8
+23:13:38.74 (928028469)|HEAP_ALLOCATE|[43]|Bytes:84
+23:13:38.74 (928073672)|HEAP_ALLOCATE|[43]|Bytes:8
+23:13:38.74 (928091560)|HEAP_ALLOCATE|[43]|Bytes:34
+23:13:38.74 (928115090)|HEAP_ALLOCATE|[43]|Bytes:16
+23:13:38.74 (928250981)|VARIABLE_ASSIGNMENT|[43]|checkProd|{"RecordTypeId":"012gK000005EtWPQA0","Car_Status__c":"Sold","Id":"01tgK00000DkRSLQA3"}|0x29a8ffe8
+23:13:38.74 (928304042)|STATEMENT_EXECUTE|[44]
+23:13:38.74 (928307851)|HEAP_ALLOCATE|[44]|Bytes:16
+23:13:38.74 (928336568)|HEAP_ALLOCATE|[44]|Bytes:20
+23:13:38.74 (928446053)|USER_DEBUG|[44]|DEBUG|Car_Status__c = Sold
+23:13:38.74 (928455487)|STATEMENT_EXECUTE|[46]
+23:13:38.74 (928457887)|HEAP_ALLOCATE|[46]|Bytes:55
+23:13:38.74 (928471800)|HEAP_ALLOCATE|[46]|Bytes:4
+23:13:38.74 (936966763)|HEAP_ALLOCATE|[46]|Bytes:8
+23:13:38.74 (937008584)|HEAP_ALLOCATE|[46]|Bytes:45
+23:13:38.74 (937061928)|HEAP_ALLOCATE|[46]|Bytes:8
+23:13:38.74 (937082853)|HEAP_ALLOCATE|[46]|Bytes:40
+23:13:38.74 (937112673)|HEAP_ALLOCATE|[46]|Bytes:12
+23:13:38.74 (937258013)|VARIABLE_ASSIGNMENT|[46]|checkPbe|{"IsActive":false,"Id":"01ugK000004vH3RQAU"}|0x2793039
+23:13:38.74 (937269115)|STATEMENT_EXECUTE|[47]
+23:13:38.74 (937273666)|HEAP_ALLOCATE|[47]|Bytes:26
+23:13:38.74 (937366880)|HEAP_ALLOCATE|[47]|Bytes:5
+23:13:38.74 (937380629)|HEAP_ALLOCATE|[47]|Bytes:31
+23:13:38.74 (937401779)|USER_DEBUG|[47]|DEBUG|PricebookEntry IsActive = false
+23:13:38.74 (1066895535)|CODE_UNIT_STARTED|[EXTERNAL]|DuplicateDetector
+23:13:39.99 (1099680952)|CODE_UNIT_FINISHED|DuplicateDetector
+23:13:39.115 (1115590575)|CUMULATIVE_LIMIT_USAGE
+23:13:39.115 (1115590575)|LIMIT_USAGE_FOR_NS|(default)|
+  Number of SOQL queries: 10 out of 100
+  Number of query rows: 11 out of 50000
+  Number of SOSL queries: 0 out of 20
+  Number of DML statements: 12 out of 150
+  Number of Publish Immediate DML: 0 out of 150
+  Number of DML rows: 9 out of 10000
+  Maximum CPU time: 227 out of 10000
+  Maximum heap size: 0 out of 6000000
+  Number of callouts: 0 out of 100
+  Number of Email Invocations: 0 out of 10
+  Number of future calls: 0 out of 50
+  Number of queueable jobs added to the queue: 0 out of 50
+  Number of Mobile Apex push calls: 0 out of 10
+
+23:13:39.115 (1115590575)|CUMULATIVE_LIMIT_USAGE_END
+
+23:13:39.99 (1115706838)|CODE_UNIT_FINISHED|execute_anonymous_apex
+23:13:39.99 (1115737548)|EXECUTION_FINISHED

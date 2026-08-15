@@ -1,0 +1,77 @@
+67.0 APEX_CODE,FINEST;APEX_PROFILING,INFO;VISUALFORCE,FINER
+Execute Anonymous: Opportunity opp = [SELECT Id, StageName FROM Opportunity WHERE Id = '006gK00000MgQkbQAF'];
+Execute Anonymous: System.debug('Stage = ' + opp.StageName);
+Execute Anonymous: 
+Execute Anonymous: List<OpportunityLineItem> items = [SELECT PricebookEntry.Product2Id, PricebookEntry.Product2.Car_Status__c FROM OpportunityLineItem WHERE OpportunityId = :opp.Id];
+Execute Anonymous: for (OpportunityLineItem oli : items) {
+Execute Anonymous:     System.debug('Product Id = ' + oli.PricebookEntry.Product2Id + ', Car Status = ' + oli.PricebookEntry.Product2.Car_Status__c);
+Execute Anonymous: }
+21:04:27.53 (53486652)|USER_INFO|[EXTERNAL]|005gK000064ym2n|tktn78+123.a423ce970227@agentforce.com|(GMT+02:00) Central European Summer Time (Europe/Berlin)|GMT+02:00
+21:04:27.53 (53510063)|EXECUTION_STARTED
+21:04:27.53 (53530349)|CODE_UNIT_STARTED|[EXTERNAL]|execute_anonymous_apex
+21:04:27.53 (53851872)|VARIABLE_SCOPE_BEGIN|[4]|items|List<OpportunityLineItem>|true|false
+21:04:27.53 (53879556)|VARIABLE_SCOPE_BEGIN|[1]|opp|Opportunity|true|false
+21:04:27.53 (54023991)|HEAP_ALLOCATE|[95]|Bytes:3
+21:04:27.53 (54076023)|HEAP_ALLOCATE|[100]|Bytes:152
+21:04:27.53 (54089512)|HEAP_ALLOCATE|[417]|Bytes:408
+21:04:27.53 (54100065)|HEAP_ALLOCATE|[430]|Bytes:408
+21:04:27.53 (54119331)|HEAP_ALLOCATE|[317]|Bytes:6
+21:04:27.53 (54141958)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:9
+21:04:27.53 (54319361)|STATEMENT_EXECUTE|[1]
+21:04:27.53 (54320311)|STATEMENT_EXECUTE|[1]
+21:04:27.53 (54321998)|HEAP_ALLOCATE|[1]|Bytes:69
+21:04:27.53 (54337172)|HEAP_ALLOCATE|[1]|Bytes:4
+21:04:27.53 (54363782)|HEAP_ALLOCATE|[68]|Bytes:5
+21:04:27.53 (54395650)|HEAP_ALLOCATE|[74]|Bytes:5
+21:04:27.53 (54401316)|HEAP_ALLOCATE|[82]|Bytes:7
+21:04:27.53 (63897433)|HEAP_ALLOCATE|[1]|Bytes:8
+21:04:27.53 (63920806)|HEAP_ALLOCATE|[1]|Bytes:52
+21:04:27.53 (63993839)|HEAP_ALLOCATE|[1]|Bytes:8
+21:04:27.53 (64012742)|HEAP_ALLOCATE|[1]|Bytes:37
+21:04:27.53 (64065910)|HEAP_ALLOCATE|[1]|Bytes:12
+21:04:27.53 (64311109)|VARIABLE_ASSIGNMENT|[1]|opp|{"StageName":"Closed Won","Id":"006gK00000MgQkbQAF"}|0x5feecf02
+21:04:27.53 (64317351)|STATEMENT_EXECUTE|[2]
+21:04:27.53 (64320012)|HEAP_ALLOCATE|[2]|Bytes:8
+21:04:27.53 (64364661)|HEAP_ALLOCATE|[2]|Bytes:18
+21:04:27.53 (64438620)|USER_DEBUG|[2]|DEBUG|Stage = Closed Won
+21:04:27.53 (64450443)|STATEMENT_EXECUTE|[4]
+21:04:27.53 (64451927)|HEAP_ALLOCATE|[4]|Bytes:127
+21:04:27.53 (64465943)|HEAP_ALLOCATE|[4]|Bytes:4
+21:04:27.53 (64472988)|HEAP_ALLOCATE|[4]|Bytes:7
+21:04:27.53 (107356482)|HEAP_ALLOCATE|[4]|Bytes:8
+21:04:27.53 (107387678)|HEAP_ALLOCATE|[4]|Bytes:211
+21:04:27.53 (107438117)|HEAP_ALLOCATE|[4]|Bytes:8
+21:04:27.53 (107856138)|VARIABLE_ASSIGNMENT|[4]|items|[{"PricebookEntryId":"01ugK000004w00XQAQ","PricebookEntry":{"Product2":{"Car_Status__c":"Available","Id":"01tgK00000DlowLQAR"},"Id":"01ugK000004w00XQAQ","Product2Id":"01tgK00000DlowLQAR"},"Id":"00kgK0000061SMzQAM"}]|0x41b3ae27
+21:04:27.53 (108092484)|HEAP_ALLOCATE|[5]|Bytes:5
+21:04:27.53 (108128847)|HEAP_ALLOCATE|[5]|Bytes:16
+21:04:27.53 (108138545)|VARIABLE_SCOPE_BEGIN|[5]|oli|OpportunityLineItem|true|false
+21:04:27.53 (108201925)|VARIABLE_ASSIGNMENT|[5]|oli|{"PricebookEntryId":"01ugK000004w00XQAQ","PricebookEntry":{"Product2":{"Car_Status__c":"Available","Id":"01tgK00000DlowLQAR"},"Id":"01ugK000004w00XQAQ","Product2Id":"01tgK00000DlowLQAR"},"Id":"00kgK0000061SMzQAM"}|0x293e4c8c
+21:04:27.53 (108208308)|STATEMENT_EXECUTE|[5]
+21:04:27.53 (108209185)|STATEMENT_EXECUTE|[6]
+21:04:27.53 (108213920)|HEAP_ALLOCATE|[6]|Bytes:13
+21:04:27.53 (108339832)|HEAP_ALLOCATE|[6]|Bytes:18
+21:04:27.53 (108346528)|HEAP_ALLOCATE|[6]|Bytes:15
+21:04:27.53 (108380810)|HEAP_ALLOCATE|[6]|Bytes:55
+21:04:27.53 (108400822)|USER_DEBUG|[6]|DEBUG|Product Id = 01tgK00000DlowLQAR, Car Status = Available
+21:04:27.53 (108411803)|HEAP_ALLOCATE|[5]|Bytes:5
+21:04:27.53 (108420571)|VARIABLE_ASSIGNMENT|[5]|oli|null|
+21:04:27.108 (108523635)|CUMULATIVE_LIMIT_USAGE
+21:04:27.108 (108523635)|LIMIT_USAGE_FOR_NS|(default)|
+  Number of SOQL queries: 2 out of 100
+  Number of query rows: 2 out of 50000
+  Number of SOSL queries: 0 out of 20
+  Number of DML statements: 0 out of 150
+  Number of Publish Immediate DML: 0 out of 150
+  Number of DML rows: 0 out of 10000
+  Maximum CPU time: 0 out of 10000
+  Maximum heap size: 0 out of 6000000
+  Number of callouts: 0 out of 100
+  Number of Email Invocations: 0 out of 10
+  Number of future calls: 0 out of 50
+  Number of queueable jobs added to the queue: 0 out of 50
+  Number of Mobile Apex push calls: 0 out of 10
+
+21:04:27.108 (108523635)|CUMULATIVE_LIMIT_USAGE_END
+
+21:04:27.53 (108672834)|CODE_UNIT_FINISHED|execute_anonymous_apex
+21:04:27.53 (108687595)|EXECUTION_FINISHED

@@ -1,0 +1,2073 @@
+67.0 APEX_CODE,FINEST;APEX_PROFILING,INFO;VISUALFORCE,FINER
+Execute Anonymous: Account acc = new Account(
+Execute Anonymous:     Name = 'DEBUG2 Account',
+Execute Anonymous:     BillingStreet = '1 Test', BillingCity = 'Test', BillingCountry = 'Germany'
+Execute Anonymous: );
+Execute Anonymous: insert acc;
+Execute Anonymous: 
+Execute Anonymous: Product2 prod = new Product2(
+Execute Anonymous:     Name = 'DEBUG2 Car', IsActive = true,
+Execute Anonymous:     Brand__c = 'Toyota', Model__c = 'Corolla',
+Execute Anonymous:     VIN_Number__c = 'DEBUG2VIN123456789', Condition__c = 'New', Mileage__c = 0
+Execute Anonymous: );
+Execute Anonymous: insert prod;
+Execute Anonymous: 
+Execute Anonymous: Id standardPbId = [SELECT Id FROM Pricebook2 WHERE IsStandard = true LIMIT 1].Id;
+Execute Anonymous: 
+Execute Anonymous: PricebookEntry pbe = new PricebookEntry(
+Execute Anonymous:     Pricebook2Id = standardPbId,
+Execute Anonymous:     Product2Id = prod.Id, UnitPrice = 20000, IsActive = true
+Execute Anonymous: );
+Execute Anonymous: insert pbe;
+Execute Anonymous: 
+Execute Anonymous: Opportunity opp = new Opportunity(
+Execute Anonymous:     Name = 'DEBUG2 Opp', AccountId = acc.Id,
+Execute Anonymous:     StageName = 'Prospecting', CloseDate = Date.today().addDays(5)
+Execute Anonymous: );
+Execute Anonymous: insert opp;
+Execute Anonymous: 
+Execute Anonymous: OpportunityLineItem li = new OpportunityLineItem(
+Execute Anonymous:     OpportunityId = opp.Id, PricebookEntryId = pbe.Id, UnitPrice = 20000
+Execute Anonymous: );
+Execute Anonymous: insert li;
+Execute Anonymous: 
+Execute Anonymous: System.debug('=== ДО смены Stage ===');
+Execute Anonymous: System.debug('Product Id = ' + prod.Id);
+Execute Anonymous: 
+Execute Anonymous: opp.StageName = 'Close Won';
+Execute Anonymous: update opp;
+Execute Anonymous: 
+Execute Anonymous: Product2 checkProd = [SELECT Car_Status__c, RecordTypeId, Reserved_Sold_Opportunity__c FROM Product2 WHERE Id = :prod.Id];
+Execute Anonymous: System.debug('=== ПОСЛЕ смены Stage на Close Won ===');
+Execute Anonymous: System.debug('Car_Status__c = ' + checkProd.Car_Status__c);
+Execute Anonymous: System.debug('RecordTypeId = ' + checkProd.RecordTypeId);
+Execute Anonymous: System.debug('Reserved_Sold_Opportunity__c = ' + checkProd.Reserved_Sold_Opportunity__c);
+Execute Anonymous: 
+Execute Anonymous: PricebookEntry checkPbe = [SELECT IsActive FROM PricebookEntry WHERE Id = :pbe.Id];
+Execute Anonymous: System.debug('PricebookEntry IsActive = ' + checkPbe.IsActive);
+Execute Anonymous: 
+Execute Anonymous: // Чистим
+Execute Anonymous: delete li;
+Execute Anonymous: delete opp;
+Execute Anonymous: delete pbe;
+Execute Anonymous: delete prod;
+Execute Anonymous: delete acc;
+16:02:46.107 (107758887)|USER_INFO|[EXTERNAL]|005gK000064ym2n|tktn78+123.a423ce970227@agentforce.com|(GMT+02:00) Central European Summer Time (Europe/Berlin)|GMT+02:00
+16:02:46.107 (107787647)|EXECUTION_STARTED
+16:02:46.107 (107807605)|CODE_UNIT_STARTED|[EXTERNAL]|execute_anonymous_apex
+16:02:46.107 (108054103)|VARIABLE_SCOPE_BEGIN|[1]|acc|Account|true|false
+16:02:46.107 (108118025)|VARIABLE_SCOPE_BEGIN|[45]|checkPbe|PricebookEntry|true|false
+16:02:46.107 (108133987)|VARIABLE_SCOPE_BEGIN|[39]|checkProd|Product2|true|false
+16:02:46.107 (108164747)|VARIABLE_SCOPE_BEGIN|[28]|li|OpportunityLineItem|true|false
+16:02:46.107 (108178816)|VARIABLE_SCOPE_BEGIN|[22]|opp|Opportunity|true|false
+16:02:46.107 (108184768)|VARIABLE_SCOPE_BEGIN|[16]|pbe|PricebookEntry|true|false
+16:02:46.107 (108208092)|VARIABLE_SCOPE_BEGIN|[7]|prod|Product2|true|false
+16:02:46.107 (108228283)|VARIABLE_SCOPE_BEGIN|[14]|standardPbId|Id|false|false
+16:02:46.107 (108371796)|HEAP_ALLOCATE|[95]|Bytes:3
+16:02:46.107 (108426566)|HEAP_ALLOCATE|[100]|Bytes:152
+16:02:46.107 (108439932)|HEAP_ALLOCATE|[417]|Bytes:408
+16:02:46.107 (108451439)|HEAP_ALLOCATE|[430]|Bytes:408
+16:02:46.107 (108473577)|HEAP_ALLOCATE|[317]|Bytes:6
+16:02:46.107 (108492098)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:103
+16:02:46.107 (108723506)|STATEMENT_EXECUTE|[1]
+16:02:46.107 (108737492)|STATEMENT_EXECUTE|[1]
+16:02:46.107 (108763127)|HEAP_ALLOCATE|[1]|Bytes:4
+16:02:46.107 (108840836)|HEAP_ALLOCATE|[2]|Bytes:14
+16:02:46.107 (109067941)|VARIABLE_ASSIGNMENT|[1]|this.Name|"DEBUG2 Account"|0x5dab8b16
+16:02:46.107 (109077735)|HEAP_ALLOCATE|[3]|Bytes:6
+16:02:46.107 (109318700)|VARIABLE_ASSIGNMENT|[1]|this.BillingStreet|"1 Test"|0x5dab8b16
+16:02:46.107 (109322621)|HEAP_ALLOCATE|[3]|Bytes:4
+16:02:46.107 (109338200)|VARIABLE_ASSIGNMENT|[1]|this.BillingCity|"Test"|0x5dab8b16
+16:02:46.107 (109341237)|HEAP_ALLOCATE|[3]|Bytes:7
+16:02:46.107 (109353451)|VARIABLE_ASSIGNMENT|[1]|this.BillingCountry|"Germany"|0x5dab8b16
+16:02:46.107 (109411426)|VARIABLE_ASSIGNMENT|[1]|acc|{"Name":"DEBUG2 Account","BillingStreet":"1 Test","BillingCity":"Test","BillingCountry":"Germany"}|0x5dab8b16
+16:02:46.107 (109416417)|STATEMENT_EXECUTE|[5]
+16:02:46.107 (109444880)|HEAP_ALLOCATE|[68]|Bytes:5
+16:02:46.107 (109502051)|HEAP_ALLOCATE|[74]|Bytes:5
+16:02:46.107 (109507852)|HEAP_ALLOCATE|[82]|Bytes:7
+16:02:46.107 (109542545)|HEAP_ALLOCATE|[5]|Bytes:8
+16:02:46.107 (109584547)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:8
+16:02:46.107 (250646377)|CODE_UNIT_STARTED|[EXTERNAL]|DuplicateDetector
+16:02:46.107 (349401587)|CODE_UNIT_FINISHED|DuplicateDetector
+16:02:46.107 (450526841)|STATEMENT_EXECUTE|[7]
+16:02:46.107 (450576497)|HEAP_ALLOCATE|[7]|Bytes:4
+16:02:46.107 (450689710)|HEAP_ALLOCATE|[8]|Bytes:10
+16:02:46.107 (450801850)|VARIABLE_ASSIGNMENT|[7]|this.Name|"DEBUG2 Car"|0x27825aa6
+16:02:46.107 (450833801)|VARIABLE_ASSIGNMENT|[7]|this.IsActive|true|0x27825aa6
+16:02:46.107 (450837731)|HEAP_ALLOCATE|[9]|Bytes:6
+16:02:46.107 (450871012)|VARIABLE_ASSIGNMENT|[7]|this.Brand__c|"Toyota"|0x27825aa6
+16:02:46.107 (450874580)|HEAP_ALLOCATE|[9]|Bytes:7
+16:02:46.107 (450888855)|VARIABLE_ASSIGNMENT|[7]|this.Model__c|"Corolla"|0x27825aa6
+16:02:46.107 (450892312)|HEAP_ALLOCATE|[10]|Bytes:18
+16:02:46.107 (450928883)|VARIABLE_ASSIGNMENT|[7]|this.VIN_Number__c|"DEBUG2VIN123456789"|0x27825aa6
+16:02:46.107 (450933161)|HEAP_ALLOCATE|[10]|Bytes:3
+16:02:46.107 (450947882)|VARIABLE_ASSIGNMENT|[7]|this.Condition__c|"New"|0x27825aa6
+16:02:46.107 (451005071)|HEAP_ALLOCATE|[7]|Bytes:28
+16:02:46.107 (451008614)|HEAP_ALLOCATE|[7]|Bytes:28
+16:02:46.107 (451028647)|VARIABLE_ASSIGNMENT|[7]|this.Mileage__c|0|0x27825aa6
+16:02:46.107 (451093458)|VARIABLE_ASSIGNMENT|[7]|prod|{"Name":"DEBUG2 Car","IsActive":true,"Brand__c":"Toyota","Model__c":"Corolla","VIN_Number__c":"DEBUG2VIN123456789","Condition__c":"New","Mileage__c":0}|0x27825aa6
+16:02:46.107 (451099678)|STATEMENT_EXECUTE|[12]
+16:02:46.107 (451125503)|HEAP_ALLOCATE|[12]|Bytes:8
+16:02:46.107 (451172558)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:8
+16:02:46.107 (529204067)|CODE_UNIT_STARTED|[EXTERNAL]|Validation:Product2:new
+16:02:46.107 (529290611)|CODE_UNIT_FINISHED|Validation:Product2:new
+16:02:46.107 (581837395)|STATEMENT_EXECUTE|[14]
+16:02:46.107 (581849994)|HEAP_ALLOCATE|[14]|Bytes:57
+16:02:46.107 (581889692)|HEAP_ALLOCATE|[14]|Bytes:4
+16:02:46.107 (594599291)|HEAP_ALLOCATE|[14]|Bytes:8
+16:02:46.107 (594627401)|HEAP_ALLOCATE|[14]|Bytes:29
+16:02:46.107 (594755602)|HEAP_ALLOCATE|[14]|Bytes:8
+16:02:46.107 (594776002)|HEAP_ALLOCATE|[14]|Bytes:36
+16:02:46.107 (594838741)|HEAP_ALLOCATE|[14]|Bytes:8
+16:02:46.107 (595133063)|VARIABLE_ASSIGNMENT|[14]|standardPbId|"01sgK000007udzeQAA"
+16:02:46.107 (595142242)|STATEMENT_EXECUTE|[16]
+16:02:46.107 (595175360)|HEAP_ALLOCATE|[16]|Bytes:4
+16:02:46.107 (595363060)|VARIABLE_ASSIGNMENT|[16]|this.Pricebook2Id|"01sgK000007udzeQAA"|0x6f948a99
+16:02:46.107 (595408465)|VARIABLE_ASSIGNMENT|[16]|this.Product2Id|"01tgK00000DjrIPQAZ"|0x6f948a99
+16:02:46.107 (595435143)|HEAP_ALLOCATE|[16]|Bytes:28
+16:02:46.107 (595457918)|VARIABLE_ASSIGNMENT|[16]|this.UnitPrice|20000|0x6f948a99
+16:02:46.107 (595476351)|VARIABLE_ASSIGNMENT|[16]|this.IsActive|true|0x6f948a99
+16:02:46.107 (595525245)|VARIABLE_ASSIGNMENT|[16]|pbe|{"Pricebook2Id":"01sgK000007udzeQAA","Product2Id":"01tgK00000DjrIPQAZ","UnitPrice":20000,"IsActive":true}|0x6f948a99
+16:02:46.107 (595529950)|STATEMENT_EXECUTE|[20]
+16:02:46.107 (595552168)|HEAP_ALLOCATE|[20]|Bytes:8
+16:02:46.107 (595590881)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:8
+16:02:46.107 (697742681)|STATEMENT_EXECUTE|[22]
+16:02:46.107 (697780447)|HEAP_ALLOCATE|[22]|Bytes:4
+16:02:46.107 (697904779)|HEAP_ALLOCATE|[23]|Bytes:10
+16:02:46.107 (698029969)|VARIABLE_ASSIGNMENT|[22]|this.Name|"DEBUG2 Opp"|0x9d68175
+16:02:46.107 (698269926)|VARIABLE_ASSIGNMENT|[22]|this.AccountId|"001gK00001L793ZQAR"|0x9d68175
+16:02:46.107 (698275343)|HEAP_ALLOCATE|[24]|Bytes:11
+16:02:46.107 (698295178)|VARIABLE_ASSIGNMENT|[22]|this.StageName|"Prospecting"|0x9d68175
+16:02:46.107 (698434636)|HEAP_ALLOCATE|[24]|Bytes:4
+16:02:46.107 (698463142)|HEAP_ALLOCATE|[24]|Bytes:4
+16:02:46.107 (698498688)|VARIABLE_ASSIGNMENT|[22]|this.CloseDate|"2026-08-19T00:00:00.000Z"|0x9d68175
+16:02:46.107 (698563272)|VARIABLE_ASSIGNMENT|[22]|opp|{"Name":"DEBUG2 Opp","AccountId":"001gK00001L793ZQAR","StageName":"Prospecting","CloseDate":"2026-08-19T00:00:00.000Z"}|0x9d68175
+16:02:46.107 (698568976)|STATEMENT_EXECUTE|[26]
+16:02:46.107 (698589513)|HEAP_ALLOCATE|[26]|Bytes:8
+16:02:46.107 (698632582)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:8
+16:02:46.107 (756562474)|CODE_UNIT_STARTED|[EXTERNAL]|Validation:Opportunity:new
+16:02:46.107 (756647157)|CODE_UNIT_FINISHED|Validation:Opportunity:new
+16:02:46.107 (837673432)|CODE_UNIT_STARTED|[EXTERNAL]|Workflow:Opportunity
+16:02:46.107 (837754492)|CODE_UNIT_FINISHED|Workflow:Opportunity
+16:02:46.107 (844685636)|STATEMENT_EXECUTE|[28]
+16:02:46.107 (844766043)|HEAP_ALLOCATE|[28]|Bytes:4
+16:02:46.107 (845098887)|VARIABLE_ASSIGNMENT|[28]|this.OpportunityId|"006gK00000MbxR3QAJ"|0x2adaa420
+16:02:46.107 (845177226)|VARIABLE_ASSIGNMENT|[28]|this.PricebookEntryId|"01ugK000004uosfQAA"|0x2adaa420
+16:02:46.107 (845211098)|HEAP_ALLOCATE|[28]|Bytes:28
+16:02:46.107 (845245892)|VARIABLE_ASSIGNMENT|[28]|this.UnitPrice|20000|0x2adaa420
+16:02:46.107 (845319091)|VARIABLE_ASSIGNMENT|[28]|li|{"OpportunityId":"006gK00000MbxR3QAJ","PricebookEntryId":"01ugK000004uosfQAA","UnitPrice":20000}|0x2adaa420
+16:02:46.107 (845327200)|STATEMENT_EXECUTE|[31]
+16:02:46.107 (845359816)|HEAP_ALLOCATE|[31]|Bytes:8
+16:02:46.107 (845417120)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:8
+16:02:46.107 (1065998163)|CODE_UNIT_STARTED|[EXTERNAL]|01qgK000005f1A9|OpportunityLineItemTrigger on OpportunityLineItem trigger event BeforeInsert|__sfdc_trigger/OpportunityLineItemTrigger
+16:02:46.107 (1066090845)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:8
+16:02:46.107 (1066298670)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:4
+16:02:46.107 (1066395999)|VARIABLE_SCOPE_BEGIN|[1]|this|OpportunityLineItemTrigger|true|false
+16:02:46.107 (1066552394)|VARIABLE_ASSIGNMENT|[1]|this|{}|0x43782839
+16:02:46.107 (1066618033)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:4
+16:02:46.107 (1066639605)|VARIABLE_SCOPE_BEGIN|[1]|this|OpportunityLineItemTrigger|true|false
+16:02:46.107 (1066658659)|VARIABLE_ASSIGNMENT|[1]|this|{}|0x43782839
+16:02:46.107 (1066667515)|STATEMENT_EXECUTE|[1]
+16:02:46.107 (1066669315)|STATEMENT_EXECUTE|[2]
+16:02:46.107 (1095130313)|VARIABLE_SCOPE_BEGIN|[3]|TriggerHandler.isTriggerDisabled|Boolean|false|true
+16:02:46.107 (1095219361)|HEAP_ALLOCATE|[2]|Bytes:9
+16:02:46.107 (1095288456)|METHOD_ENTRY|[1]|01pgK00000E80Ar|OpportunityLineItemTriggerHandler.OpportunityLineItemTriggerHandler()
+16:02:46.107 (1095303081)|STATEMENT_EXECUTE|[1]
+16:02:46.107 (1095313397)|STATEMENT_EXECUTE|[1]
+16:02:46.107 (1095323857)|METHOD_EXIT|[1]|OpportunityLineItemTriggerHandler
+16:02:46.107 (1095348972)|HEAP_ALLOCATE|[2]|Bytes:4
+16:02:46.107 (1095394827)|CONSTRUCTOR_ENTRY|[2]|01pgK00000E80Ar|<init>()|OpportunityLineItemTriggerHandler
+16:02:46.107 (1095497637)|VARIABLE_SCOPE_BEGIN|[1]|this|OpportunityLineItemTriggerHandler|true|false
+16:02:46.107 (1095603831)|VARIABLE_ASSIGNMENT|[1]|this|{}|0x3484907d
+16:02:46.107 (1095616918)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:27
+16:02:46.107 (1095636730)|METHOD_ENTRY|[1]|01pgK00000E80At|TriggerHandler.TriggerHandler()
+16:02:46.107 (1095642624)|STATEMENT_EXECUTE|[1]
+16:02:46.107 (1095646088)|STATEMENT_EXECUTE|[1]
+16:02:46.107 (1095647747)|STATEMENT_EXECUTE|[3]
+16:02:46.107 (1095666967)|HEAP_ALLOCATE|[3]|Bytes:5
+16:02:46.107 (1095695337)|VARIABLE_ASSIGNMENT|[3]|TriggerHandler.isTriggerDisabled|false
+16:02:46.107 (1095706462)|METHOD_EXIT|[1]|TriggerHandler
+16:02:46.107 (1095721556)|CONSTRUCTOR_ENTRY|[EXTERNAL]|01pgK00000E80At|<init>()|TriggerHandler
+16:02:46.107 (1095747589)|VARIABLE_SCOPE_BEGIN|[1]|this|TriggerHandler|true|false
+16:02:46.107 (1095782747)|VARIABLE_ASSIGNMENT|[1]|this|{}|0x3484907d
+16:02:46.107 (1095793292)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:6
+16:02:46.107 (1097280918)|STATEMENT_EXECUTE|[1]
+16:02:46.107 (1097308590)|CONSTRUCTOR_EXIT|[EXTERNAL]|01pgK00000E80At|<init>()|TriggerHandler
+16:02:46.107 (1097323372)|STATEMENT_EXECUTE|[1]
+16:02:46.107 (1097329534)|CONSTRUCTOR_EXIT|[2]|01pgK00000E80Ar|<init>()|OpportunityLineItemTriggerHandler
+16:02:46.107 (1097402031)|METHOD_ENTRY|[2]|01pgK00000E80At|TriggerHandler.run()
+16:02:46.107 (1097419096)|VARIABLE_SCOPE_BEGIN|[17]|this|TriggerHandler|true|false
+16:02:46.107 (1097484956)|VARIABLE_ASSIGNMENT|[17]|this|{}|0x3484907d
+16:02:46.107 (1097495573)|STATEMENT_EXECUTE|[17]
+16:02:46.107 (1097515631)|METHOD_ENTRY|[18]|01pgK00000E80At|TriggerHandler.isDisabledByMetadata()
+16:02:46.107 (1097582920)|VARIABLE_SCOPE_BEGIN|[9]|this|TriggerHandler|true|false
+16:02:46.107 (1097605579)|VARIABLE_ASSIGNMENT|[9]|this|{}|0x3484907d
+16:02:46.107 (1097613057)|STATEMENT_EXECUTE|[9]
+16:02:46.107 (1097614842)|STATEMENT_EXECUTE|[10]
+16:02:46.107 (1097627419)|METHOD_ENTRY|[10]|01pgK00000E80Ar|OpportunityLineItemTriggerHandler.getHandlerName()
+16:02:46.107 (1097641234)|VARIABLE_SCOPE_BEGIN|[11]|this|OpportunityLineItemTriggerHandler|true|false
+16:02:46.107 (1097658947)|VARIABLE_ASSIGNMENT|[11]|this|{}|0x3484907d
+16:02:46.107 (1097665369)|STATEMENT_EXECUTE|[11]
+16:02:46.107 (1097667178)|STATEMENT_EXECUTE|[12]
+16:02:46.107 (1097673221)|HEAP_ALLOCATE|[12]|Bytes:33
+16:02:46.107 (1097683694)|METHOD_EXIT|[10]|01pgK00000E80Ar|OpportunityLineItemTriggerHandler.getHandlerName()
+16:02:47.119 (1119952159)|VARIABLE_SCOPE_BEGIN|[10]|setting|Trigger_Setting__mdt|true|false
+16:02:47.119 (1120074977)|VARIABLE_ASSIGNMENT|[10]|setting|{"IsProtected":false,"Label":"OpportunityLineItemT (13 more) ...","MasterLabel":"OpportunityLineItemT (13 more) ...","Is_Enabled__c":true,"SystemModstamp":"2026-08-04T22:43:35.000Z","Language":"en_US","ManageableState":"U","QualifiedApiName":"OpportunityLineItemT (13 more) ...","Id":"m00gK00001C8hoL","DeveloperName":"OpportunityLineItemT (13 more) ..."}|0x767f9445
+16:02:47.119 (1120092506)|STATEMENT_EXECUTE|[11]
+16:02:47.119 (1120095259)|STATEMENT_EXECUTE|[14]
+16:02:47.119 (1120139241)|METHOD_EXIT|[18]|01pgK00000E80At|TriggerHandler.isDisabledByMetadata()
+16:02:47.119 (1120148662)|STATEMENT_EXECUTE|[18]
+16:02:47.119 (1120192352)|STATEMENT_EXECUTE|[22]
+16:02:47.119 (1120194116)|STATEMENT_EXECUTE|[23]
+16:02:47.119 (1120228212)|METHOD_ENTRY|[23]|01pgK00000E80Ar|OpportunityLineItemTriggerHandler.beforeInsert()
+16:02:47.119 (1120287204)|VARIABLE_SCOPE_BEGIN|[3]|this|OpportunityLineItemTriggerHandler|true|false
+16:02:47.119 (1120358257)|VARIABLE_ASSIGNMENT|[3]|this|{}|0x3484907d
+16:02:47.119 (1120365653)|STATEMENT_EXECUTE|[3]
+16:02:47.119 (1120367222)|STATEMENT_EXECUTE|[4]
+16:02:47.119 (1120446679)|METHOD_ENTRY|[4]|01pgK00000E80Ar|OpportunityLineItemTriggerHandler.validateAndSetQuantity(List<OpportunityLineItem>)
+16:02:47.119 (1120491099)|VARIABLE_SCOPE_BEGIN|[15]|this|OpportunityLineItemTriggerHandler|true|false
+16:02:47.119 (1120519118)|VARIABLE_ASSIGNMENT|[15]|this|{}|0x3484907d
+16:02:47.119 (1120528667)|VARIABLE_SCOPE_BEGIN|[15]|items|List<OpportunityLineItem>|true|false
+16:02:47.119 (1121337456)|VARIABLE_ASSIGNMENT|[15]|items|[{"IsDeleted":false,"UnitPrice":20000.00,"Product2Id":"01tgK00000DjrIPQAZ","OpportunityId":"006gK00000MbxR3QAJ","PricebookEntryId":"01ugK000004uosfQAA"}]|0x54268f7d
+16:02:47.119 (1121365429)|STATEMENT_EXECUTE|[15]
+16:02:47.119 (1121635484)|HEAP_ALLOCATE|[16]|Bytes:5
+16:02:47.119 (1121665735)|HEAP_ALLOCATE|[16]|Bytes:4
+16:02:47.119 (1121675782)|VARIABLE_SCOPE_BEGIN|[16]|oli|OpportunityLineItem|true|false
+16:02:47.119 (1121982972)|VARIABLE_ASSIGNMENT|[16]|oli|{"IsDeleted":false,"UnitPrice":20000.00,"Product2Id":"01tgK00000DjrIPQAZ","OpportunityId":"006gK00000MbxR3QAJ","PricebookEntryId":"01ugK000004uosfQAA"}|0x5b051b99
+16:02:47.119 (1121996874)|STATEMENT_EXECUTE|[16]
+16:02:47.119 (1122010302)|STATEMENT_EXECUTE|[17]
+16:02:47.119 (1122012623)|STATEMENT_EXECUTE|[18]
+16:02:47.119 (1122032934)|HEAP_ALLOCATE|[18]|Bytes:28
+16:02:47.119 (1122037877)|HEAP_ALLOCATE|[18]|Bytes:28
+16:02:47.119 (1122377355)|VARIABLE_ASSIGNMENT|[18]|this.Quantity|1|0x5b051b99
+16:02:47.119 (1122405974)|HEAP_ALLOCATE|[16]|Bytes:5
+16:02:47.119 (1122433764)|VARIABLE_ASSIGNMENT|[16]|oli|null|
+16:02:47.119 (1122447697)|METHOD_EXIT|[4]|01pgK00000E80Ar|OpportunityLineItemTriggerHandler.validateAndSetQuantity(List<OpportunityLineItem>)
+16:02:47.119 (1122457071)|METHOD_EXIT|[23]|01pgK00000E80Ar|OpportunityLineItemTriggerHandler.beforeInsert()
+16:02:47.119 (1122464357)|METHOD_EXIT|[2]|01pgK00000E80At|TriggerHandler.run()
+16:02:47.122 (1122491695)|CUMULATIVE_LIMIT_USAGE
+16:02:47.122 (1122491695)|LIMIT_USAGE_FOR_NS|(default)|
+  Number of SOQL queries: 1 out of 100
+  Number of query rows: 1 out of 50000
+  Number of SOSL queries: 0 out of 20
+  Number of DML statements: 5 out of 150
+  Number of Publish Immediate DML: 0 out of 150
+  Number of DML rows: 5 out of 10000
+  Maximum CPU time: 0 out of 10000
+  Maximum heap size: 0 out of 6000000
+  Number of callouts: 0 out of 100
+  Number of Email Invocations: 0 out of 10
+  Number of future calls: 0 out of 50
+  Number of queueable jobs added to the queue: 0 out of 50
+  Number of Mobile Apex push calls: 0 out of 10
+
+16:02:47.122 (1122491695)|CUMULATIVE_LIMIT_USAGE_END
+
+16:02:47.119 (1122897477)|CODE_UNIT_FINISHED|OpportunityLineItemTrigger on OpportunityLineItem trigger event BeforeInsert|__sfdc_trigger/OpportunityLineItemTrigger
+16:02:47.119 (1199096886)|CODE_UNIT_STARTED|[EXTERNAL]|Validation:Opportunity:006gK00000MbxR3
+16:02:47.119 (1199175867)|CODE_UNIT_FINISHED|Validation:Opportunity:006gK00000MbxR3
+16:02:47.119 (1332493927)|CODE_UNIT_STARTED|[EXTERNAL]|01qgK000005f2PZ|OpportunityTrigger on Opportunity trigger event AfterUpdate|__sfdc_trigger/OpportunityTrigger
+16:02:47.119 (1332549864)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:8
+16:02:47.119 (1332606550)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:8
+16:02:47.119 (1332747801)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:4
+16:02:47.119 (1332769353)|VARIABLE_SCOPE_BEGIN|[1]|this|OpportunityTrigger|true|false
+16:02:47.119 (1332854676)|VARIABLE_ASSIGNMENT|[1]|this|{}|0x4db6cf9e
+16:02:47.119 (1332888472)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:4
+16:02:47.119 (1332907826)|VARIABLE_SCOPE_BEGIN|[1]|this|OpportunityTrigger|true|false
+16:02:47.119 (1332921290)|VARIABLE_ASSIGNMENT|[1]|this|{}|0x4db6cf9e
+16:02:47.119 (1332931622)|STATEMENT_EXECUTE|[1]
+16:02:47.119 (1332933653)|STATEMENT_EXECUTE|[2]
+16:02:47.119 (1348234861)|VARIABLE_SCOPE_BEGIN|[7]|OpportunityTriggerHandler.keysFromDeletedOpportunities|Set<String>|true|true
+16:02:47.119 (1348272262)|HEAP_ALLOCATE|[2]|Bytes:16
+16:02:47.119 (1348319106)|METHOD_ENTRY|[1]|01pgK00000E864z|OpportunityTriggerHandler.OpportunityTriggerHandler()
+16:02:47.119 (1348331315)|STATEMENT_EXECUTE|[1]
+16:02:47.119 (1348340562)|STATEMENT_EXECUTE|[1]
+16:02:47.119 (1350038487)|HEAP_ALLOCATE|[7]|Bytes:5
+16:02:47.119 (1350080269)|STATEMENT_EXECUTE|[7]
+16:02:47.119 (1350107034)|HEAP_ALLOCATE|[7]|Bytes:4
+16:02:47.119 (1350433004)|VARIABLE_ASSIGNMENT|[7]|OpportunityTriggerHandler.keysFromDeletedOpportunities|[]|0x4257879a
+16:02:47.119 (1350471064)|METHOD_EXIT|[1]|OpportunityTriggerHandler
+16:02:47.119 (1350494894)|HEAP_ALLOCATE|[2]|Bytes:4
+16:02:47.119 (1350549150)|CONSTRUCTOR_ENTRY|[2]|01pgK00000E864z|<init>()|OpportunityTriggerHandler
+16:02:47.119 (1350603707)|VARIABLE_SCOPE_BEGIN|[1]|this|OpportunityTriggerHandler|true|false
+16:02:47.119 (1350690015)|VARIABLE_ASSIGNMENT|[1]|this|{}|0x7afcd2d7
+16:02:47.119 (1350732430)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:5
+16:02:47.119 (1350748134)|CONSTRUCTOR_ENTRY|[EXTERNAL]|01pgK00000E80At|<init>()|TriggerHandler
+16:02:47.119 (1350763154)|VARIABLE_SCOPE_BEGIN|[1]|this|TriggerHandler|true|false
+16:02:47.119 (1350789107)|VARIABLE_ASSIGNMENT|[1]|this|{}|0x7afcd2d7
+16:02:47.119 (1350877210)|STATEMENT_EXECUTE|[1]
+16:02:47.119 (1350885192)|CONSTRUCTOR_EXIT|[EXTERNAL]|01pgK00000E80At|<init>()|TriggerHandler
+16:02:47.119 (1350897916)|STATEMENT_EXECUTE|[1]
+16:02:47.119 (1350906000)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:5
+16:02:47.119 (1350916122)|CONSTRUCTOR_EXIT|[2]|01pgK00000E864z|<init>()|OpportunityTriggerHandler
+16:02:47.119 (1350958585)|METHOD_ENTRY|[2]|01pgK00000E80At|TriggerHandler.run()
+16:02:47.119 (1350972092)|VARIABLE_SCOPE_BEGIN|[17]|this|TriggerHandler|true|false
+16:02:47.119 (1351000767)|VARIABLE_ASSIGNMENT|[17]|this|{}|0x7afcd2d7
+16:02:47.119 (1351011212)|STATEMENT_EXECUTE|[17]
+16:02:47.119 (1351022502)|METHOD_ENTRY|[18]|01pgK00000E80At|TriggerHandler.isDisabledByMetadata()
+16:02:47.119 (1351029330)|VARIABLE_SCOPE_BEGIN|[9]|this|TriggerHandler|true|false
+16:02:47.119 (1351048348)|VARIABLE_ASSIGNMENT|[9]|this|{}|0x7afcd2d7
+16:02:47.119 (1351054732)|STATEMENT_EXECUTE|[9]
+16:02:47.119 (1351056568)|STATEMENT_EXECUTE|[10]
+16:02:47.119 (1351078775)|METHOD_ENTRY|[10]|01pgK00000E864z|OpportunityTriggerHandler.getHandlerName()
+16:02:47.119 (1351087054)|VARIABLE_SCOPE_BEGIN|[3]|this|OpportunityTriggerHandler|true|false
+16:02:47.119 (1351105504)|VARIABLE_ASSIGNMENT|[3]|this|{}|0x7afcd2d7
+16:02:47.119 (1351116122)|HEAP_ALLOCATE|[4]|Bytes:5
+16:02:47.119 (1351120427)|STATEMENT_EXECUTE|[3]
+16:02:47.119 (1351122265)|STATEMENT_EXECUTE|[4]
+16:02:47.119 (1351127636)|HEAP_ALLOCATE|[4]|Bytes:25
+16:02:47.119 (1351138566)|METHOD_EXIT|[10]|01pgK00000E864z|OpportunityTriggerHandler.getHandlerName()
+16:02:47.119 (1351438462)|VARIABLE_SCOPE_BEGIN|[10]|setting|Trigger_Setting__mdt|true|false
+16:02:47.119 (1351535113)|VARIABLE_ASSIGNMENT|[10]|setting|{"IsProtected":false,"Label":"OpportunityTriggerHa (5 more) ...","MasterLabel":"OpportunityTriggerHa (5 more) ...","Is_Enabled__c":true,"SystemModstamp":"2026-08-04T22:43:49.000Z","Language":"en_US","ManageableState":"U","QualifiedApiName":"OpportunityTriggerHa (5 more) ...","Id":"m00gK00001C8Efu","DeveloperName":"OpportunityTriggerHa (5 more) ..."}|0x371707fb
+16:02:47.119 (1351547325)|STATEMENT_EXECUTE|[11]
+16:02:47.119 (1351549510)|STATEMENT_EXECUTE|[14]
+16:02:47.119 (1351575493)|METHOD_EXIT|[18]|01pgK00000E80At|TriggerHandler.isDisabledByMetadata()
+16:02:47.119 (1351584305)|STATEMENT_EXECUTE|[18]
+16:02:47.119 (1351677778)|STATEMENT_EXECUTE|[30]
+16:02:47.119 (1351679700)|STATEMENT_EXECUTE|[31]
+16:02:47.119 (1351703518)|METHOD_ENTRY|[31]|01pgK00000E864z|OpportunityTriggerHandler.afterUpdate()
+16:02:47.119 (1351760468)|VARIABLE_SCOPE_BEGIN|[20]|this|OpportunityTriggerHandler|true|false
+16:02:47.119 (1351814003)|VARIABLE_ASSIGNMENT|[20]|this|{}|0x7afcd2d7
+16:02:47.119 (1351834795)|HEAP_ALLOCATE|[21]|Bytes:5
+16:02:47.119 (1351841685)|STATEMENT_EXECUTE|[20]
+16:02:47.119 (1351843618)|STATEMENT_EXECUTE|[21]
+16:02:47.119 (1351938816)|VARIABLE_SCOPE_BEGIN|[21]|oldMap|Map<Id,Opportunity>|true|false
+16:02:47.119 (1353375672)|VARIABLE_ASSIGNMENT|[21]|oldMap|{"006gK00000MbxR3QAJ":{"LastModifiedDate":"2026-08-14T14:02:47.000Z","IsDeleted":false,"AccountId":"001gK00001L793ZQAR","HasOpportunityLineItem":false,"StageName":"Prospecting","Has_Car_Conflict__c":false,"Probability":10,"ForecastCategory":"Pipeline","IsClosed":false,"CloseDate":"2026-08-19T00:00:00.000Z","Name":"DEBUG2 Opp","SystemModstamp":"2026-08-14T14:02:47.000Z","HasOpenActivity":false,"CreatedById":"005gK000064ym2nQAA","OwnerId":"005gK000064ym2nQAA","IsWon":false,"CreatedDate":"2026-08-14T14:02:47.000Z","HasOverdueTask":false,"Id":"006gK00000MbxR3QAJ","ForecastCategoryName":"Pipeline","IsPrivate":false,"LastModifiedById":"005gK000064ym2nQAA"}}|0x609f0fd3
+16:02:47.119 (1353415506)|STATEMENT_EXECUTE|[22]
+16:02:47.119 (1353506749)|VARIABLE_SCOPE_BEGIN|[22]|newList|List<Opportunity>|true|false
+16:02:47.119 (1354271854)|VARIABLE_ASSIGNMENT|[22]|newList|[{"LastModifiedDate":"2026-08-14T14:02:47.000Z","AccountId":"001gK00001L793ZQAR","HasOpportunityLineItem":true,"ForecastCategory":"Pipeline","IsClosed":false,"CloseDate":"2026-08-19T00:00:00.000Z","Name":"DEBUG2 Opp","HasOpenActivity":false,"TotalOpportunityQuantity":1.00,"LastAmountChangedHistoryId":"008gK00000dx1ZWQAY","ExpectedRevenue":2000.00,"CreatedById":"005gK000064ym2nQAA","OwnerId":"005gK000064ym2nQAA","IsWon":false,"IsDeleted":false,"StageName":"Prospecting","Has_Car_Conflict__c":false,"Amount":20000.00,"Probability":10,"SystemModstamp":"2026-08-14T14:02:47.000Z","CreatedDate":"2026-08-14T14:02:47.000Z","HasOverdueTask":false,"Pricebook2Id":"01sgK000007udzeQAA","Id":"006gK00000MbxR3QAJ","ForecastCategoryName":"Pipeline","IsPrivate":false,"LastModifiedById":"005gK000064ym2nQAA"}]|0x434c3128
+16:02:47.119 (1354295737)|STATEMENT_EXECUTE|[24]
+16:02:47.119 (1354318155)|HEAP_ALLOCATE|[24]|Bytes:4
+16:02:47.119 (1354428355)|VARIABLE_SCOPE_BEGIN|[24]|relevantOppIds|Set<Id>|true|false
+16:02:47.119 (1354486640)|VARIABLE_ASSIGNMENT|[24]|relevantOppIds|[]|0x4c6bde65
+16:02:47.119 (1354706510)|HEAP_ALLOCATE|[25]|Bytes:5
+16:02:47.119 (1354750753)|VARIABLE_SCOPE_BEGIN|[25]|opp|Opportunity|true|false
+16:02:47.119 (1355238301)|VARIABLE_ASSIGNMENT|[25]|opp|{"LastModifiedDate":"2026-08-14T14:02:47.000Z","AccountId":"001gK00001L793ZQAR","HasOpportunityLineItem":true,"ForecastCategory":"Pipeline","IsClosed":false,"CloseDate":"2026-08-19T00:00:00.000Z","Name":"DEBUG2 Opp","HasOpenActivity":false,"TotalOpportunityQuantity":1.00,"LastAmountChangedHistoryId":"008gK00000dx1ZWQAY","ExpectedRevenue":2000.00,"CreatedById":"005gK000064ym2nQAA","OwnerId":"005gK000064ym2nQAA","IsWon":false,"IsDeleted":false,"StageName":"Prospecting","Has_Car_Conflict__c":false,"Amount":20000.00,"Probability":10,"SystemModstamp":"2026-08-14T14:02:47.000Z","CreatedDate":"2026-08-14T14:02:47.000Z","HasOverdueTask":false,"Pricebook2Id":"01sgK000007udzeQAA","Id":"006gK00000MbxR3QAJ","ForecastCategoryName":"Pipeline","IsPrivate":false,"LastModifiedById":"005gK000064ym2nQAA"}|0x7d065ee8
+16:02:47.119 (1355264812)|STATEMENT_EXECUTE|[25]
+16:02:47.119 (1355267492)|STATEMENT_EXECUTE|[26]
+16:02:47.119 (1355378019)|VARIABLE_SCOPE_BEGIN|[26]|oldOpp|Opportunity|true|false
+16:02:47.119 (1355907602)|VARIABLE_ASSIGNMENT|[26]|oldOpp|{"LastModifiedDate":"2026-08-14T14:02:47.000Z","IsDeleted":false,"AccountId":"001gK00001L793ZQAR","HasOpportunityLineItem":false,"StageName":"Prospecting","Has_Car_Conflict__c":false,"Probability":10,"ForecastCategory":"Pipeline","IsClosed":false,"CloseDate":"2026-08-19T00:00:00.000Z","Name":"DEBUG2 Opp","SystemModstamp":"2026-08-14T14:02:47.000Z","HasOpenActivity":false,"CreatedById":"005gK000064ym2nQAA","OwnerId":"005gK000064ym2nQAA","IsWon":false,"CreatedDate":"2026-08-14T14:02:47.000Z","HasOverdueTask":false,"Id":"006gK00000MbxR3QAJ","ForecastCategoryName":"Pipeline","IsPrivate":false,"LastModifiedById":"005gK000064ym2nQAA"}|0x6ce88a1f
+16:02:47.119 (1355926297)|STATEMENT_EXECUTE|[27]
+16:02:47.119 (1355965719)|HEAP_ALLOCATE|[27]|Bytes:9
+16:02:47.119 (1356009695)|VARIABLE_SCOPE_BEGIN|[27]|becameClosedWon|Boolean|false|false
+16:02:47.119 (1356021440)|HEAP_ALLOCATE|[27]|Bytes:5
+16:02:47.119 (1356073337)|VARIABLE_ASSIGNMENT|[27]|becameClosedWon|false
+16:02:47.119 (1356079347)|STATEMENT_EXECUTE|[28]
+16:02:47.119 (1356092298)|VARIABLE_SCOPE_BEGIN|[28]|wasClosedWon|Boolean|false|false
+16:02:47.119 (1356098834)|HEAP_ALLOCATE|[28]|Bytes:5
+16:02:47.119 (1356107733)|VARIABLE_ASSIGNMENT|[28]|wasClosedWon|false
+16:02:47.119 (1356112177)|STATEMENT_EXECUTE|[29]
+16:02:47.119 (1356120799)|VARIABLE_SCOPE_BEGIN|[29]|closeDateChangedWhileWon|Boolean|false|false
+16:02:47.119 (1356127428)|HEAP_ALLOCATE|[29]|Bytes:5
+16:02:47.119 (1356134440)|VARIABLE_ASSIGNMENT|[29]|closeDateChangedWhileWon|false
+16:02:47.119 (1356141803)|STATEMENT_EXECUTE|[31]
+16:02:47.119 (1356158453)|HEAP_ALLOCATE|[25]|Bytes:5
+16:02:47.119 (1356198179)|VARIABLE_ASSIGNMENT|[25]|opp|null|
+16:02:47.119 (1356245354)|STATEMENT_EXECUTE|[36]
+16:02:47.119 (1356247299)|STATEMENT_EXECUTE|[76]
+16:02:47.119 (1371530607)|VARIABLE_SCOPE_BEGIN|[4]|CarStatusService.soldRecordTypeId|Id|false|true
+16:02:47.119 (1371567317)|HEAP_ALLOCATE|[76]|Bytes:25
+16:02:47.119 (1371576502)|HEAP_ALLOCATE|[76]|Bytes:36
+16:02:47.119 (1371609442)|METHOD_ENTRY|[1]|01pgK00000EI74b|CarStatusService.CarStatusService()
+16:02:47.119 (1371655473)|STATEMENT_EXECUTE|[1]
+16:02:47.119 (1371666391)|STATEMENT_EXECUTE|[1]
+16:02:47.119 (1371684580)|HEAP_ALLOCATE|[76]|Bytes:5
+16:02:47.119 (1371687263)|STATEMENT_EXECUTE|[3]
+16:02:47.119 (1371701571)|METHOD_EXIT|[1]|CarStatusService
+16:02:47.119 (1371733495)|METHOD_ENTRY|[76]|01pgK00000EI74b|CarStatusService.handleStageChange(List<Opportunity>, Map<Id,Opportunity>)
+16:02:47.119 (1371782691)|VARIABLE_SCOPE_BEGIN|[20]|newOpps|List<Opportunity>|true|false
+16:02:47.119 (1372234545)|VARIABLE_ASSIGNMENT|[20]|newOpps|[{"LastModifiedDate":"2026-08-14T14:02:47.000Z","AccountId":"001gK00001L793ZQAR","HasOpportunityLineItem":true,"ForecastCategory":"Pipeline","IsClosed":false,"CloseDate":"2026-08-19T00:00:00.000Z","Name":"DEBUG2 Opp","HasOpenActivity":false,"TotalOpportunityQuantity":1.00,"LastAmountChangedHistoryId":"008gK00000dx1ZWQAY","ExpectedRevenue":2000.00,"CreatedById":"005gK000064ym2nQAA","OwnerId":"005gK000064ym2nQAA","IsWon":false,"IsDeleted":false,"StageName":"Prospecting","Has_Car_Conflict__c":false,"Amount":20000.00,"Probability":10,"SystemModstamp":"2026-08-14T14:02:47.000Z","CreatedDate":"2026-08-14T14:02:47.000Z","HasOverdueTask":false,"Pricebook2Id":"01sgK000007udzeQAA","Id":"006gK00000MbxR3QAJ","ForecastCategoryName":"Pipeline","IsPrivate":false,"LastModifiedById":"005gK000064ym2nQAA"}]|0x434c3128
+16:02:47.119 (1372276249)|VARIABLE_SCOPE_BEGIN|[20]|oldMap|Map<Id,Opportunity>|true|false
+16:02:47.119 (1372493194)|VARIABLE_ASSIGNMENT|[20]|oldMap|{"006gK00000MbxR3QAJ":{"LastModifiedDate":"2026-08-14T14:02:47.000Z","IsDeleted":false,"AccountId":"001gK00001L793ZQAR","HasOpportunityLineItem":false,"StageName":"Prospecting","Has_Car_Conflict__c":false,"Probability":10,"ForecastCategory":"Pipeline","IsClosed":false,"CloseDate":"2026-08-19T00:00:00.000Z","Name":"DEBUG2 Opp","SystemModstamp":"2026-08-14T14:02:47.000Z","HasOpenActivity":false,"CreatedById":"005gK000064ym2nQAA","OwnerId":"005gK000064ym2nQAA","IsWon":false,"CreatedDate":"2026-08-14T14:02:47.000Z","HasOverdueTask":false,"Id":"006gK00000MbxR3QAJ","ForecastCategoryName":"Pipeline","IsPrivate":false,"LastModifiedById":"005gK000064ym2nQAA"}}|0x609f0fd3
+16:02:47.119 (1372512817)|HEAP_ALLOCATE|[23]|Bytes:5
+16:02:47.119 (1372546304)|STATEMENT_EXECUTE|[20]
+16:02:47.119 (1372547694)|STATEMENT_EXECUTE|[23]
+16:02:47.119 (1372564627)|HEAP_ALLOCATE|[23]|Bytes:4
+16:02:47.119 (1372648863)|VARIABLE_SCOPE_BEGIN|[23]|oppIdsToProcess|Set<Id>|true|false
+16:02:47.119 (1372716223)|VARIABLE_ASSIGNMENT|[23]|oppIdsToProcess|[]|0x78fb1108
+16:02:47.119 (1372767984)|HEAP_ALLOCATE|[24]|Bytes:5
+16:02:47.119 (1372793171)|VARIABLE_SCOPE_BEGIN|[24]|opp|Opportunity|true|false
+16:02:47.119 (1373326812)|VARIABLE_ASSIGNMENT|[24]|opp|{"LastModifiedDate":"2026-08-14T14:02:47.000Z","AccountId":"001gK00001L793ZQAR","HasOpportunityLineItem":true,"ForecastCategory":"Pipeline","IsClosed":false,"CloseDate":"2026-08-19T00:00:00.000Z","Name":"DEBUG2 Opp","HasOpenActivity":false,"TotalOpportunityQuantity":1.00,"LastAmountChangedHistoryId":"008gK00000dx1ZWQAY","ExpectedRevenue":2000.00,"CreatedById":"005gK000064ym2nQAA","OwnerId":"005gK000064ym2nQAA","IsWon":false,"IsDeleted":false,"StageName":"Prospecting","Has_Car_Conflict__c":false,"Amount":20000.00,"Probability":10,"SystemModstamp":"2026-08-14T14:02:47.000Z","CreatedDate":"2026-08-14T14:02:47.000Z","HasOverdueTask":false,"Pricebook2Id":"01sgK000007udzeQAA","Id":"006gK00000MbxR3QAJ","ForecastCategoryName":"Pipeline","IsPrivate":false,"LastModifiedById":"005gK000064ym2nQAA"}|0x7d065ee8
+16:02:47.119 (1373341182)|STATEMENT_EXECUTE|[24]
+16:02:47.119 (1373342494)|STATEMENT_EXECUTE|[25]
+16:02:47.119 (1373400827)|VARIABLE_SCOPE_BEGIN|[25]|oldOpp|Opportunity|true|false
+16:02:47.119 (1373636571)|VARIABLE_ASSIGNMENT|[25]|oldOpp|{"LastModifiedDate":"2026-08-14T14:02:47.000Z","IsDeleted":false,"AccountId":"001gK00001L793ZQAR","HasOpportunityLineItem":false,"StageName":"Prospecting","Has_Car_Conflict__c":false,"Probability":10,"ForecastCategory":"Pipeline","IsClosed":false,"CloseDate":"2026-08-19T00:00:00.000Z","Name":"DEBUG2 Opp","SystemModstamp":"2026-08-14T14:02:47.000Z","HasOpenActivity":false,"CreatedById":"005gK000064ym2nQAA","OwnerId":"005gK000064ym2nQAA","IsWon":false,"CreatedDate":"2026-08-14T14:02:47.000Z","HasOverdueTask":false,"Id":"006gK00000MbxR3QAJ","ForecastCategoryName":"Pipeline","IsPrivate":false,"LastModifiedById":"005gK000064ym2nQAA"}|0x6ce88a1f
+16:02:47.119 (1373670789)|STATEMENT_EXECUTE|[26]
+16:02:47.119 (1373684903)|HEAP_ALLOCATE|[24]|Bytes:5
+16:02:47.119 (1373702437)|VARIABLE_ASSIGNMENT|[24]|opp|null|
+16:02:47.119 (1373724056)|STATEMENT_EXECUTE|[31]
+16:02:47.119 (1373724959)|STATEMENT_EXECUTE|[32]
+16:02:47.119 (1373740004)|METHOD_EXIT|[76]|01pgK00000EI74b|CarStatusService.handleStageChange(List<Opportunity>, Map<Id,Opportunity>)
+16:02:47.119 (1373749182)|METHOD_EXIT|[31]|01pgK00000E864z|OpportunityTriggerHandler.afterUpdate()
+16:02:47.119 (1373755633)|METHOD_EXIT|[2]|01pgK00000E80At|TriggerHandler.run()
+16:02:47.373 (1373767409)|CUMULATIVE_LIMIT_USAGE
+16:02:47.373 (1373767409)|LIMIT_USAGE_FOR_NS|(default)|
+  Number of SOQL queries: 1 out of 100
+  Number of query rows: 1 out of 50000
+  Number of SOSL queries: 0 out of 20
+  Number of DML statements: 5 out of 150
+  Number of Publish Immediate DML: 0 out of 150
+  Number of DML rows: 5 out of 10000
+  Maximum CPU time: 0 out of 10000
+  Maximum heap size: 0 out of 6000000
+  Number of callouts: 0 out of 100
+  Number of Email Invocations: 0 out of 10
+  Number of future calls: 0 out of 50
+  Number of queueable jobs added to the queue: 0 out of 50
+  Number of Mobile Apex push calls: 0 out of 10
+
+16:02:47.373 (1373767409)|CUMULATIVE_LIMIT_USAGE_END
+
+16:02:47.119 (1373998640)|CODE_UNIT_FINISHED|OpportunityTrigger on Opportunity trigger event AfterUpdate|__sfdc_trigger/OpportunityTrigger
+16:02:47.119 (1374342008)|CODE_UNIT_STARTED|[EXTERNAL]|Workflow:Opportunity
+16:02:47.119 (1374384763)|CODE_UNIT_FINISHED|Workflow:Opportunity
+16:02:47.119 (1379442800)|STATEMENT_EXECUTE|[33]
+16:02:47.119 (1379453303)|HEAP_ALLOCATE|[33]|Bytes:22
+16:02:47.119 (1379553855)|USER_DEBUG|[33]|DEBUG|=== ДО смены Stage ===
+16:02:47.119 (1379581242)|STATEMENT_EXECUTE|[34]
+16:02:47.119 (1379630776)|HEAP_ALLOCATE|[34]|Bytes:13
+16:02:47.119 (1379710831)|HEAP_ALLOCATE|[34]|Bytes:18
+16:02:47.119 (1379724531)|HEAP_ALLOCATE|[34]|Bytes:31
+16:02:47.119 (1379731348)|USER_DEBUG|[34]|DEBUG|Product Id = 01tgK00000DjrIPQAZ
+16:02:47.119 (1379736563)|STATEMENT_EXECUTE|[36]
+16:02:47.119 (1379875066)|VARIABLE_ASSIGNMENT|[36]|this.StageName|"Close Won"|0x9d68175
+16:02:47.119 (1379887154)|STATEMENT_EXECUTE|[37]
+16:02:47.119 (1379916367)|HEAP_ALLOCATE|[37]|Bytes:8
+16:02:47.119 (1379960397)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:8
+16:02:47.119 (1418556226)|CODE_UNIT_STARTED|[EXTERNAL]|Validation:Opportunity:006gK00000MbxR3
+16:02:47.119 (1418660015)|CODE_UNIT_FINISHED|Validation:Opportunity:006gK00000MbxR3
+16:02:47.119 (1451461506)|CODE_UNIT_STARTED|[EXTERNAL]|01qgK000005f2PZ|OpportunityTrigger on Opportunity trigger event AfterUpdate|__sfdc_trigger/OpportunityTrigger
+16:02:47.119 (1451553920)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:8
+16:02:47.119 (1451623507)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:8
+16:02:47.119 (1451740115)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:4
+16:02:47.119 (1451755578)|VARIABLE_SCOPE_BEGIN|[1]|this|OpportunityTrigger|true|false
+16:02:47.119 (1451907096)|VARIABLE_ASSIGNMENT|[1]|this|{}|0x48835f34
+16:02:47.119 (1451983182)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:4
+16:02:47.119 (1451990945)|VARIABLE_SCOPE_BEGIN|[1]|this|OpportunityTrigger|true|false
+16:02:47.119 (1452014590)|VARIABLE_ASSIGNMENT|[1]|this|{}|0x48835f34
+16:02:47.119 (1452025579)|STATEMENT_EXECUTE|[1]
+16:02:47.119 (1452029239)|STATEMENT_EXECUTE|[2]
+16:02:47.119 (1452035969)|HEAP_ALLOCATE|[2]|Bytes:4
+16:02:47.119 (1452066021)|CONSTRUCTOR_ENTRY|[2]|01pgK00000E864z|<init>()|OpportunityTriggerHandler
+16:02:47.119 (1452078197)|VARIABLE_SCOPE_BEGIN|[1]|this|OpportunityTriggerHandler|true|false
+16:02:47.119 (1452136572)|VARIABLE_ASSIGNMENT|[1]|this|{}|0x5a3fb611
+16:02:47.119 (1452159557)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:5
+16:02:47.119 (1452168489)|CONSTRUCTOR_ENTRY|[EXTERNAL]|01pgK00000E80At|<init>()|TriggerHandler
+16:02:47.119 (1452173831)|VARIABLE_SCOPE_BEGIN|[1]|this|TriggerHandler|true|false
+16:02:47.119 (1452186489)|VARIABLE_ASSIGNMENT|[1]|this|{}|0x5a3fb611
+16:02:47.119 (1452208184)|STATEMENT_EXECUTE|[1]
+16:02:47.119 (1452213740)|CONSTRUCTOR_EXIT|[EXTERNAL]|01pgK00000E80At|<init>()|TriggerHandler
+16:02:47.119 (1452223740)|STATEMENT_EXECUTE|[1]
+16:02:47.119 (1452227100)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:5
+16:02:47.119 (1452233168)|CONSTRUCTOR_EXIT|[2]|01pgK00000E864z|<init>()|OpportunityTriggerHandler
+16:02:47.119 (1452258424)|METHOD_ENTRY|[2]|01pgK00000E80At|TriggerHandler.run()
+16:02:47.119 (1452263564)|VARIABLE_SCOPE_BEGIN|[17]|this|TriggerHandler|true|false
+16:02:47.119 (1452275395)|VARIABLE_ASSIGNMENT|[17]|this|{}|0x5a3fb611
+16:02:47.119 (1452281040)|STATEMENT_EXECUTE|[17]
+16:02:47.119 (1452288897)|METHOD_ENTRY|[18]|01pgK00000E80At|TriggerHandler.isDisabledByMetadata()
+16:02:47.119 (1452292863)|VARIABLE_SCOPE_BEGIN|[9]|this|TriggerHandler|true|false
+16:02:47.119 (1452302016)|VARIABLE_ASSIGNMENT|[9]|this|{}|0x5a3fb611
+16:02:47.119 (1452306275)|STATEMENT_EXECUTE|[9]
+16:02:47.119 (1452307478)|STATEMENT_EXECUTE|[10]
+16:02:47.119 (1452311619)|METHOD_ENTRY|[10]|01pgK00000E864z|OpportunityTriggerHandler.getHandlerName()
+16:02:47.119 (1452316206)|VARIABLE_SCOPE_BEGIN|[3]|this|OpportunityTriggerHandler|true|false
+16:02:47.119 (1452325036)|VARIABLE_ASSIGNMENT|[3]|this|{}|0x5a3fb611
+16:02:47.119 (1452330703)|HEAP_ALLOCATE|[4]|Bytes:5
+16:02:47.119 (1452333772)|STATEMENT_EXECUTE|[3]
+16:02:47.119 (1452335078)|STATEMENT_EXECUTE|[4]
+16:02:47.119 (1452342944)|METHOD_EXIT|[10]|01pgK00000E864z|OpportunityTriggerHandler.getHandlerName()
+16:02:47.119 (1453977385)|VARIABLE_SCOPE_BEGIN|[10]|setting|Trigger_Setting__mdt|true|false
+16:02:47.119 (1454098311)|VARIABLE_ASSIGNMENT|[10]|setting|{"IsProtected":false,"Label":"OpportunityTriggerHa (5 more) ...","MasterLabel":"OpportunityTriggerHa (5 more) ...","Is_Enabled__c":true,"SystemModstamp":"2026-08-04T22:43:49.000Z","Language":"en_US","ManageableState":"U","QualifiedApiName":"OpportunityTriggerHa (5 more) ...","Id":"m00gK00001C8Efu","DeveloperName":"OpportunityTriggerHa (5 more) ..."}|0x54700ddc
+16:02:47.119 (1454107393)|STATEMENT_EXECUTE|[11]
+16:02:47.119 (1454109863)|STATEMENT_EXECUTE|[14]
+16:02:47.119 (1454139385)|METHOD_EXIT|[18]|01pgK00000E80At|TriggerHandler.isDisabledByMetadata()
+16:02:47.119 (1454147023)|STATEMENT_EXECUTE|[18]
+16:02:47.119 (1454173851)|STATEMENT_EXECUTE|[30]
+16:02:47.119 (1454175332)|STATEMENT_EXECUTE|[31]
+16:02:47.119 (1454198191)|METHOD_ENTRY|[31]|01pgK00000E864z|OpportunityTriggerHandler.afterUpdate()
+16:02:47.119 (1454208753)|VARIABLE_SCOPE_BEGIN|[20]|this|OpportunityTriggerHandler|true|false
+16:02:47.119 (1454296281)|VARIABLE_ASSIGNMENT|[20]|this|{}|0x5a3fb611
+16:02:47.119 (1454318989)|HEAP_ALLOCATE|[21]|Bytes:5
+16:02:47.119 (1454325757)|STATEMENT_EXECUTE|[20]
+16:02:47.119 (1454327306)|STATEMENT_EXECUTE|[21]
+16:02:47.119 (1454360645)|VARIABLE_SCOPE_BEGIN|[21]|oldMap|Map<Id,Opportunity>|true|false
+16:02:47.119 (1454888778)|VARIABLE_ASSIGNMENT|[21]|oldMap|{"006gK00000MbxR3QAJ":{"LastModifiedDate":"2026-08-14T14:02:47.000Z","AccountId":"001gK00001L793ZQAR","HasOpportunityLineItem":true,"ForecastCategory":"Pipeline","IsClosed":false,"CloseDate":"2026-08-19T00:00:00.000Z","Name":"DEBUG2 Opp","HasOpenActivity":false,"TotalOpportunityQuantity":1.00,"LastAmountChangedHistoryId":"008gK00000dx1ZWQAY","ExpectedRevenue":2000.00,"CreatedById":"005gK000064ym2nQAA","OwnerId":"005gK000064ym2nQAA","IsWon":false,"IsDeleted":false,"StageName":"Prospecting","Has_Car_Conflict__c":false,"Amount":20000.00,"Probability":10,"SystemModstamp":"2026-08-14T14:02:47.000Z","CreatedDate":"2026-08-14T14:02:47.000Z","HasOverdueTask":false,"Pricebook2Id":"01sgK000007udzeQAA","Id":"006gK00000MbxR3QAJ","ForecastCategoryName":"Pipeline","IsPrivate":false,"LastModifiedById":"005gK000064ym2nQAA"}}|0x751907f1
+16:02:47.119 (1454899913)|STATEMENT_EXECUTE|[22]
+16:02:47.119 (1454937587)|VARIABLE_SCOPE_BEGIN|[22]|newList|List<Opportunity>|true|false
+16:02:47.119 (1455234544)|VARIABLE_ASSIGNMENT|[22]|newList|[{"LastModifiedDate":"2026-08-14T14:02:47.000Z","AccountId":"001gK00001L793ZQAR","HasOpportunityLineItem":true,"ForecastCategory":"Omitted","IsClosed":false,"CloseDate":"2026-08-19T00:00:00.000Z","Name":"DEBUG2 Opp","HasOpenActivity":false,"TotalOpportunityQuantity":1.00,"LastAmountChangedHistoryId":"008gK00000dx1ZWQAY","ExpectedRevenue":0.00,"CreatedById":"005gK000064ym2nQAA","OwnerId":"005gK000064ym2nQAA","IsWon":false,"IsDeleted":false,"StageName":"Close Won","Has_Car_Conflict__c":false,"Amount":20000.00,"Probability":0,"SystemModstamp":"2026-08-14T14:02:47.000Z","LastStageChangeDate":"2026-08-14T14:02:47.000Z","CreatedDate":"2026-08-14T14:02:47.000Z","HasOverdueTask":false,"Pricebook2Id":"01sgK000007udzeQAA","Id":"006gK00000MbxR3QAJ","ForecastCategoryName":"Omitted","IsPrivate":false,"LastModifiedById":"005gK000064ym2nQAA"}]|0x20c842a4
+16:02:47.119 (1455244326)|STATEMENT_EXECUTE|[24]
+16:02:47.119 (1455257427)|HEAP_ALLOCATE|[24]|Bytes:4
+16:02:47.119 (1455287327)|VARIABLE_SCOPE_BEGIN|[24]|relevantOppIds|Set<Id>|true|false
+16:02:47.119 (1455318582)|VARIABLE_ASSIGNMENT|[24]|relevantOppIds|[]|0x62013cc8
+16:02:47.119 (1455358092)|HEAP_ALLOCATE|[25]|Bytes:5
+16:02:47.119 (1455382821)|VARIABLE_SCOPE_BEGIN|[25]|opp|Opportunity|true|false
+16:02:47.119 (1455730918)|VARIABLE_ASSIGNMENT|[25]|opp|{"LastModifiedDate":"2026-08-14T14:02:47.000Z","AccountId":"001gK00001L793ZQAR","HasOpportunityLineItem":true,"ForecastCategory":"Omitted","IsClosed":false,"CloseDate":"2026-08-19T00:00:00.000Z","Name":"DEBUG2 Opp","HasOpenActivity":false,"TotalOpportunityQuantity":1.00,"LastAmountChangedHistoryId":"008gK00000dx1ZWQAY","ExpectedRevenue":0.00,"CreatedById":"005gK000064ym2nQAA","OwnerId":"005gK000064ym2nQAA","IsWon":false,"IsDeleted":false,"StageName":"Close Won","Has_Car_Conflict__c":false,"Amount":20000.00,"Probability":0,"SystemModstamp":"2026-08-14T14:02:47.000Z","LastStageChangeDate":"2026-08-14T14:02:47.000Z","CreatedDate":"2026-08-14T14:02:47.000Z","HasOverdueTask":false,"Pricebook2Id":"01sgK000007udzeQAA","Id":"006gK00000MbxR3QAJ","ForecastCategoryName":"Omitted","IsPrivate":false,"LastModifiedById":"005gK000064ym2nQAA"}|0x36cbd3b9
+16:02:47.119 (1455745604)|STATEMENT_EXECUTE|[25]
+16:02:47.119 (1455747760)|STATEMENT_EXECUTE|[26]
+16:02:47.119 (1455778223)|VARIABLE_SCOPE_BEGIN|[26]|oldOpp|Opportunity|true|false
+16:02:47.119 (1455989053)|VARIABLE_ASSIGNMENT|[26]|oldOpp|{"LastModifiedDate":"2026-08-14T14:02:47.000Z","AccountId":"001gK00001L793ZQAR","HasOpportunityLineItem":true,"ForecastCategory":"Pipeline","IsClosed":false,"CloseDate":"2026-08-19T00:00:00.000Z","Name":"DEBUG2 Opp","HasOpenActivity":false,"TotalOpportunityQuantity":1.00,"LastAmountChangedHistoryId":"008gK00000dx1ZWQAY","ExpectedRevenue":2000.00,"CreatedById":"005gK000064ym2nQAA","OwnerId":"005gK000064ym2nQAA","IsWon":false,"IsDeleted":false,"StageName":"Prospecting","Has_Car_Conflict__c":false,"Amount":20000.00,"Probability":10,"SystemModstamp":"2026-08-14T14:02:47.000Z","CreatedDate":"2026-08-14T14:02:47.000Z","HasOverdueTask":false,"Pricebook2Id":"01sgK000007udzeQAA","Id":"006gK00000MbxR3QAJ","ForecastCategoryName":"Pipeline","IsPrivate":false,"LastModifiedById":"005gK000064ym2nQAA"}|0xbd07c1e
+16:02:47.119 (1455997730)|STATEMENT_EXECUTE|[27]
+16:02:47.119 (1456031735)|VARIABLE_SCOPE_BEGIN|[27]|becameClosedWon|Boolean|false|false
+16:02:47.119 (1456040832)|HEAP_ALLOCATE|[27]|Bytes:5
+16:02:47.119 (1456094594)|VARIABLE_ASSIGNMENT|[27]|becameClosedWon|true
+16:02:47.119 (1456097760)|STATEMENT_EXECUTE|[28]
+16:02:47.119 (1456103403)|VARIABLE_SCOPE_BEGIN|[28]|wasClosedWon|Boolean|false|false
+16:02:47.119 (1456107447)|HEAP_ALLOCATE|[28]|Bytes:5
+16:02:47.119 (1456135979)|VARIABLE_ASSIGNMENT|[28]|wasClosedWon|false
+16:02:47.119 (1456139013)|STATEMENT_EXECUTE|[29]
+16:02:47.119 (1456237525)|VARIABLE_SCOPE_BEGIN|[29]|closeDateChangedWhileWon|Boolean|false|false
+16:02:47.119 (1456242226)|HEAP_ALLOCATE|[29]|Bytes:5
+16:02:47.119 (1456248051)|VARIABLE_ASSIGNMENT|[29]|closeDateChangedWhileWon|false
+16:02:47.119 (1456252832)|STATEMENT_EXECUTE|[31]
+16:02:47.119 (1456254320)|STATEMENT_EXECUTE|[32]
+16:02:47.119 (1456289795)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:4
+16:02:47.119 (1456304926)|HEAP_ALLOCATE|[25]|Bytes:5
+16:02:47.119 (1456315629)|VARIABLE_ASSIGNMENT|[25]|opp|null|
+16:02:47.119 (1456327253)|STATEMENT_EXECUTE|[36]
+16:02:47.119 (1456328778)|STATEMENT_EXECUTE|[37]
+16:02:47.119 (1456351722)|HEAP_ALLOCATE|[37]|Bytes:4
+16:02:47.119 (1456362288)|VARIABLE_SCOPE_BEGIN|[37]|carTypesByOppId|Map<Id,Set<String>>|true|false
+16:02:47.119 (1456413828)|VARIABLE_ASSIGNMENT|[37]|carTypesByOppId|{}|0x6a5d09d5
+16:02:47.119 (1456421453)|HEAP_ALLOCATE|[38]|Bytes:114
+16:02:47.119 (1456434522)|HEAP_ALLOCATE|[38]|Bytes:4
+16:02:47.119 (1456440413)|HEAP_ALLOCATE|[38]|Bytes:7
+16:02:47.119 (1501351389)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:8
+16:02:47.119 (1501669518)|HEAP_ALLOCATE|[38]|Bytes:54
+16:02:47.119 (1501685643)|HEAP_ALLOCATE|[38]|Bytes:8
+16:02:47.119 (1501710826)|SYSTEM_METHOD_ENTRY|[7]|QueryLocatorIterator.QueryLocatorIterator()
+16:02:47.119 (1501724025)|STATEMENT_EXECUTE|[7]
+16:02:47.119 (1501742115)|SYSTEM_METHOD_EXIT|[7]|QueryLocatorIterator
+16:02:47.119 (1502109282)|HEAP_ALLOCATE|[38]|Bytes:28
+16:02:47.119 (1502172309)|HEAP_ALLOCATE|[38]|Bytes:8
+16:02:47.119 (1502199641)|HEAP_ALLOCATE|[38]|Bytes:8
+16:02:47.119 (1502204073)|HEAP_ALLOCATE|[38]|Bytes:8
+16:02:47.119 (1502212159)|VARIABLE_SCOPE_BEGIN|[15]|this|Database.QueryLocatorIterator|true|false
+16:02:47.119 (1502360220)|VARIABLE_ASSIGNMENT|[15]|this|{}|0x786806ce
+16:02:47.119 (1502368888)|VARIABLE_SCOPE_BEGIN|[15]|values|List<SObject>|true|false
+16:02:47.119 (1503157051)|VARIABLE_ASSIGNMENT|[15]|values|[{"Id":"00kgK00000609ZJQAY","OpportunityId":"006gK00000MbxR3QAJ","PricebookEntryId":"01ugK000004uosfQAA","PricebookEntry":{"Product2":{"Condition__c":"New","Id":"01tgK00000DjrIPQAZ"},"Id":"01ugK000004uosfQAA","Product2Id":"01tgK00000DjrIPQAZ"}}]|0x1bd83b64
+16:02:47.119 (1503183451)|VARIABLE_SCOPE_BEGIN|[15]|ql|Database.QueryLocator|true|false
+16:02:47.119 (1503239724)|VARIABLE_ASSIGNMENT|[15]|ql|{"query":"SELECT OpportunityId (94 more) ..."}|0x707dfdde
+16:02:47.119 (1503246340)|VARIABLE_SCOPE_BEGIN|[15]|totalNumRecords|Integer|false|false
+16:02:47.119 (1503259242)|VARIABLE_ASSIGNMENT|[15]|totalNumRecords|1
+16:02:47.119 (1503263720)|VARIABLE_SCOPE_BEGIN|[15]|queryMoreSize|Integer|false|false
+16:02:47.119 (1503271800)|VARIABLE_ASSIGNMENT|[15]|queryMoreSize|49998
+16:02:47.119 (1503385050)|HEAP_ALLOCATE|[38]|Bytes:28
+16:02:47.119 (1503439335)|METHOD_ENTRY|[38]||Database.QueryLocatorIterator.hasNext()
+16:02:47.119 (1503508739)|METHOD_EXIT|[38]||Database.QueryLocatorIterator.hasNext()
+16:02:47.119 (1503518535)|METHOD_ENTRY|[38]||Database.QueryLocatorIterator.next()
+16:02:47.119 (1503620302)|METHOD_EXIT|[38]||Database.QueryLocatorIterator.next()
+16:02:47.119 (1503630250)|VARIABLE_SCOPE_BEGIN|[38]|oli|OpportunityLineItem|true|false
+16:02:47.119 (1503753767)|VARIABLE_ASSIGNMENT|[38]|oli|{"Id":"00kgK00000609ZJQAY","OpportunityId":"006gK00000MbxR3QAJ","PricebookEntryId":"01ugK000004uosfQAA","PricebookEntry":{"Product2":{"Condition__c":"New","Id":"01tgK00000DjrIPQAZ"},"Id":"01ugK000004uosfQAA","Product2Id":"01tgK00000DjrIPQAZ"}}|0x555103c6
+16:02:47.119 (1503764618)|STATEMENT_EXECUTE|[42]
+16:02:47.119 (1503842060)|STATEMENT_EXECUTE|[43]
+16:02:47.119 (1503910376)|STATEMENT_EXECUTE|[46]
+16:02:47.119 (1503912489)|STATEMENT_EXECUTE|[47]
+16:02:47.119 (1503934441)|HEAP_ALLOCATE|[47]|Bytes:4
+16:02:47.119 (1504018191)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:-4
+16:02:47.119 (1504027764)|STATEMENT_EXECUTE|[49]
+16:02:47.119 (1504080300)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:4
+16:02:47.119 (1504095494)|METHOD_ENTRY|[38]||Database.QueryLocatorIterator.hasNext()
+16:02:47.119 (1504124373)|METHOD_EXIT|[38]||Database.QueryLocatorIterator.hasNext()
+16:02:47.119 (1504142476)|VARIABLE_ASSIGNMENT|[38]|oli|null|
+16:02:47.119 (1504171786)|STATEMENT_EXECUTE|[52]
+16:02:47.119 (1504178933)|HEAP_ALLOCATE|[52]|Bytes:4
+16:02:47.119 (1504206305)|VARIABLE_SCOPE_BEGIN|[52]|affectedKeys|Set<String>|true|false
+16:02:47.119 (1504234878)|VARIABLE_ASSIGNMENT|[52]|affectedKeys|[]|0x6d3721d4
+16:02:47.119 (1504315335)|HEAP_ALLOCATE|[53]|Bytes:5
+16:02:47.119 (1504357439)|HEAP_ALLOCATE|[53]|Bytes:4
+16:02:47.119 (1504361660)|VARIABLE_SCOPE_BEGIN|[53]|oppId|Id|false|false
+16:02:47.119 (1504481301)|VARIABLE_ASSIGNMENT|[53]|oppId|"006gK00000MbxR3QAJ"
+16:02:47.119 (1504487989)|STATEMENT_EXECUTE|[53]
+16:02:47.119 (1504489951)|STATEMENT_EXECUTE|[54]
+16:02:47.119 (1504585409)|VARIABLE_SCOPE_BEGIN|[54]|opp|Opportunity|true|false
+16:02:47.119 (1505116522)|VARIABLE_ASSIGNMENT|[54]|opp|{"LastModifiedDate":"2026-08-14T14:02:47.000Z","AccountId":"001gK00001L793ZQAR","HasOpportunityLineItem":true,"ForecastCategory":"Omitted","IsClosed":false,"CloseDate":"2026-08-19T00:00:00.000Z","Name":"DEBUG2 Opp","HasOpenActivity":false,"TotalOpportunityQuantity":1.00,"LastAmountChangedHistoryId":"008gK00000dx1ZWQAY","ExpectedRevenue":0.00,"CreatedById":"005gK000064ym2nQAA","OwnerId":"005gK000064ym2nQAA","IsWon":false,"IsDeleted":false,"StageName":"Close Won","Has_Car_Conflict__c":false,"Amount":20000.00,"Probability":0,"SystemModstamp":"2026-08-14T14:02:47.000Z","LastStageChangeDate":"2026-08-14T14:02:47.000Z","CreatedDate":"2026-08-14T14:02:47.000Z","HasOverdueTask":false,"Pricebook2Id":"01sgK000007udzeQAA","Id":"006gK00000MbxR3QAJ","ForecastCategoryName":"Omitted","IsPrivate":false,"LastModifiedById":"005gK000064ym2nQAA"}|0x36cbd3b9
+16:02:47.119 (1505144889)|STATEMENT_EXECUTE|[55]
+16:02:47.119 (1505206928)|VARIABLE_SCOPE_BEGIN|[55]|oldOpp|Opportunity|true|false
+16:02:47.119 (1505548172)|VARIABLE_ASSIGNMENT|[55]|oldOpp|{"LastModifiedDate":"2026-08-14T14:02:47.000Z","AccountId":"001gK00001L793ZQAR","HasOpportunityLineItem":true,"ForecastCategory":"Pipeline","IsClosed":false,"CloseDate":"2026-08-19T00:00:00.000Z","Name":"DEBUG2 Opp","HasOpenActivity":false,"TotalOpportunityQuantity":1.00,"LastAmountChangedHistoryId":"008gK00000dx1ZWQAY","ExpectedRevenue":2000.00,"CreatedById":"005gK000064ym2nQAA","OwnerId":"005gK000064ym2nQAA","IsWon":false,"IsDeleted":false,"StageName":"Prospecting","Has_Car_Conflict__c":false,"Amount":20000.00,"Probability":10,"SystemModstamp":"2026-08-14T14:02:47.000Z","CreatedDate":"2026-08-14T14:02:47.000Z","HasOverdueTask":false,"Pricebook2Id":"01sgK000007udzeQAA","Id":"006gK00000MbxR3QAJ","ForecastCategoryName":"Pipeline","IsPrivate":false,"LastModifiedById":"005gK000064ym2nQAA"}|0xbd07c1e
+16:02:47.119 (1505558561)|STATEMENT_EXECUTE|[56]
+16:02:47.119 (1505592415)|VARIABLE_SCOPE_BEGIN|[56]|carTypes|Set<String>|true|false
+16:02:47.119 (1505607470)|VARIABLE_ASSIGNMENT|[56]|carTypes|["New"]|0x28e2ac33
+16:02:47.119 (1505611297)|STATEMENT_EXECUTE|[57]
+16:02:47.119 (1505686046)|HEAP_ALLOCATE|[60]|Bytes:5
+16:02:47.119 (1505699745)|VARIABLE_SCOPE_BEGIN|[60]|carType|String|false|false
+16:02:47.119 (1505707952)|VARIABLE_ASSIGNMENT|[60]|carType|"New"
+16:02:47.119 (1505710988)|STATEMENT_EXECUTE|[60]
+16:02:47.119 (1505721240)|STATEMENT_EXECUTE|[61]
+16:02:47.119 (1505722305)|STATEMENT_EXECUTE|[62]
+16:02:47.119 (1505744144)|METHOD_ENTRY|[62]|01pgK00000E864z|OpportunityTriggerHandler.buildKey(Date, String)
+16:02:47.119 (1505758970)|VARIABLE_SCOPE_BEGIN|[103]|this|OpportunityTriggerHandler|true|false
+16:02:47.119 (1505821942)|VARIABLE_ASSIGNMENT|[103]|this|{}|0x5a3fb611
+16:02:47.119 (1505829548)|VARIABLE_SCOPE_BEGIN|[103]|d|Date|false|false
+16:02:47.119 (1505841031)|VARIABLE_ASSIGNMENT|[103]|d|"2026-08-19T00:00:00.000Z"
+16:02:47.119 (1505845765)|VARIABLE_SCOPE_BEGIN|[103]|carType|String|false|false
+16:02:47.119 (1505854092)|VARIABLE_ASSIGNMENT|[103]|carType|"New"
+16:02:47.119 (1505866670)|HEAP_ALLOCATE|[104]|Bytes:5
+16:02:47.119 (1505870587)|STATEMENT_EXECUTE|[103]
+16:02:47.119 (1505871633)|STATEMENT_EXECUTE|[104]
+16:02:47.119 (1505963758)|HEAP_ALLOCATE|[104]|Bytes:4
+16:02:47.119 (1505973393)|HEAP_ALLOCATE|[104]|Bytes:1
+16:02:47.119 (1506012584)|HEAP_ALLOCATE|[104]|Bytes:1
+16:02:47.119 (1506036950)|HEAP_ALLOCATE|[104]|Bytes:10
+16:02:47.119 (1506052087)|METHOD_EXIT|[62]|01pgK00000E864z|OpportunityTriggerHandler.buildKey(Date, String)
+16:02:47.119 (1506066668)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:4
+16:02:47.119 (1506112755)|STATEMENT_EXECUTE|[64]
+16:02:47.119 (1506121905)|HEAP_ALLOCATE|[60]|Bytes:5
+16:02:47.119 (1506137466)|VARIABLE_ASSIGNMENT|[60]|carType|null
+16:02:47.119 (1506146969)|HEAP_ALLOCATE|[53]|Bytes:5
+16:02:47.119 (1506155956)|VARIABLE_ASSIGNMENT|[53]|oppId|null
+16:02:47.119 (1506177028)|STATEMENT_EXECUTE|[70]
+16:02:47.119 (1506178688)|STATEMENT_EXECUTE|[71]
+16:02:47.119 (1524122964)|HEAP_ALLOCATE|[71]|Bytes:28
+16:02:47.119 (1524143936)|HEAP_ALLOCATE|[71]|Bytes:17
+16:02:47.119 (1524181429)|METHOD_ENTRY|[1]|01pgK00000E8650|PlannedSalesService.PlannedSalesService()
+16:02:47.119 (1524190838)|STATEMENT_EXECUTE|[1]
+16:02:47.119 (1524200535)|STATEMENT_EXECUTE|[1]
+16:02:47.119 (1524211489)|HEAP_ALLOCATE|[71]|Bytes:5
+16:02:47.119 (1524214606)|STATEMENT_EXECUTE|[3]
+16:02:47.119 (1524224868)|METHOD_EXIT|[1]|PlannedSalesService
+16:02:47.119 (1524263955)|METHOD_ENTRY|[71]|01pgK00000E8650|PlannedSalesService.recalculateForKeys(Set<String>)
+16:02:47.119 (1524310115)|VARIABLE_SCOPE_BEGIN|[14]|keys|Set<String>|true|false
+16:02:47.119 (1524354772)|VARIABLE_ASSIGNMENT|[14]|keys|["2026-8-New"]|0x6d3721d4
+16:02:47.119 (1524364824)|HEAP_ALLOCATE|[15]|Bytes:5
+16:02:47.119 (1524368383)|STATEMENT_EXECUTE|[14]
+16:02:47.119 (1524413440)|STATEMENT_EXECUTE|[15]
+16:02:47.119 (1524414990)|STATEMENT_EXECUTE|[18]
+16:02:47.119 (1524416824)|HEAP_ALLOCATE|[18]|Bytes:63
+16:02:47.119 (1524429829)|HEAP_ALLOCATE|[18]|Bytes:4
+16:02:47.119 (1574351394)|HEAP_ALLOCATE|[18]|Bytes:28
+16:02:47.119 (1574403006)|HEAP_ALLOCATE|[18]|Bytes:853
+16:02:47.119 (1574606603)|HEAP_ALLOCATE|[18]|Bytes:28
+16:02:47.119 (1574633994)|VARIABLE_SCOPE_BEGIN|[18]|allPlannedSales|List<Planned_Sales__c>|true|false
+16:02:47.119 (1574765012)|VARIABLE_ASSIGNMENT|[18]|allPlannedSales|"List of size 6 too large to display"|0x27530de6
+16:02:47.119 (1574776288)|STATEMENT_EXECUTE|[22]
+16:02:47.119 (1574789617)|HEAP_ALLOCATE|[22]|Bytes:4
+16:02:47.119 (1574915515)|VARIABLE_SCOPE_BEGIN|[22]|toRecalc|List<Planned_Sales__c>|true|false
+16:02:47.119 (1574966843)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:4
+16:02:47.119 (1575046920)|VARIABLE_ASSIGNMENT|[22]|toRecalc|[]|0x74c50c49
+16:02:47.119 (1575234873)|HEAP_ALLOCATE|[23]|Bytes:5
+16:02:47.119 (1575289802)|HEAP_ALLOCATE|[23]|Bytes:20
+16:02:47.119 (1575300384)|VARIABLE_SCOPE_BEGIN|[23]|ps|Planned_Sales__c|true|false
+16:02:47.119 (1575465882)|VARIABLE_ASSIGNMENT|[23]|ps|{"Car_Type__c":"New","Id":"a07gK00000k0H1iQAE","Month__c":9,"Year__c":2026}|0x68631b54
+16:02:47.119 (1575474051)|STATEMENT_EXECUTE|[23]
+16:02:47.119 (1575531084)|HEAP_ALLOCATE|[24]|Bytes:28
+16:02:47.119 (1575582404)|METHOD_ENTRY|[24]|01pgK00000E8650|PlannedSalesService.buildKey(Decimal, Decimal, String)
+16:02:47.119 (1575615316)|VARIABLE_SCOPE_BEGIN|[99]|year|Decimal|false|false
+16:02:47.119 (1575645880)|VARIABLE_ASSIGNMENT|[99]|year|2026
+16:02:47.119 (1575652351)|VARIABLE_SCOPE_BEGIN|[99]|month|Decimal|false|false
+16:02:47.119 (1575662286)|VARIABLE_ASSIGNMENT|[99]|month|9
+16:02:47.119 (1575667835)|VARIABLE_SCOPE_BEGIN|[99]|carType|String|false|false
+16:02:47.119 (1575677042)|VARIABLE_ASSIGNMENT|[99]|carType|"New"
+16:02:47.119 (1575690392)|HEAP_ALLOCATE|[100]|Bytes:5
+16:02:47.119 (1575700729)|STATEMENT_EXECUTE|[99]
+16:02:47.119 (1575702605)|STATEMENT_EXECUTE|[100]
+16:02:47.119 (1575801086)|METHOD_ENTRY|[100]|01pgK00000E8650|PlannedSalesService.buildKey(Integer, Integer, String)
+16:02:47.119 (1575873806)|VARIABLE_SCOPE_BEGIN|[103]|year|Integer|false|false
+16:02:47.119 (1575908348)|VARIABLE_ASSIGNMENT|[103]|year|2026
+16:02:47.119 (1575935466)|VARIABLE_SCOPE_BEGIN|[103]|month|Integer|false|false
+16:02:47.119 (1575949361)|VARIABLE_ASSIGNMENT|[103]|month|9
+16:02:47.119 (1575955523)|VARIABLE_SCOPE_BEGIN|[103]|carType|String|false|false
+16:02:47.119 (1575963888)|VARIABLE_ASSIGNMENT|[103]|carType|"New"
+16:02:47.119 (1575973591)|HEAP_ALLOCATE|[104]|Bytes:5
+16:02:47.119 (1575978052)|STATEMENT_EXECUTE|[103]
+16:02:47.119 (1575979822)|STATEMENT_EXECUTE|[104]
+16:02:47.119 (1576001496)|HEAP_ALLOCATE|[104]|Bytes:4
+16:02:47.119 (1576032355)|HEAP_ALLOCATE|[104]|Bytes:1
+16:02:47.119 (1576056928)|HEAP_ALLOCATE|[104]|Bytes:10
+16:02:47.119 (1576085688)|METHOD_EXIT|[100]|01pgK00000E8650|PlannedSalesService.buildKey(Integer, Integer, String)
+16:02:47.119 (1576109019)|METHOD_EXIT|[24]|01pgK00000E8650|PlannedSalesService.buildKey(Decimal, Decimal, String)
+16:02:47.119 (1576136926)|STATEMENT_EXECUTE|[24]
+16:02:47.119 (1576148814)|HEAP_ALLOCATE|[23]|Bytes:5
+16:02:47.119 (1576170085)|HEAP_ALLOCATE|[23]|Bytes:20
+16:02:47.119 (1576178233)|VARIABLE_SCOPE_BEGIN|[23]|ps|Planned_Sales__c|true|false
+16:02:47.119 (1576249838)|VARIABLE_ASSIGNMENT|[23]|ps|{"Car_Type__c":"Used","Id":"a07gK00000k0b3cQAA","Month__c":8,"Year__c":2026}|0x40bdaf81
+16:02:47.119 (1576256473)|STATEMENT_EXECUTE|[23]
+16:02:47.119 (1576276031)|HEAP_ALLOCATE|[24]|Bytes:28
+16:02:47.119 (1576287598)|METHOD_ENTRY|[24]|01pgK00000E8650|PlannedSalesService.buildKey(Decimal, Decimal, String)
+16:02:47.119 (1576295365)|VARIABLE_SCOPE_BEGIN|[99]|year|Decimal|false|false
+16:02:47.119 (1576308811)|VARIABLE_ASSIGNMENT|[99]|year|2026
+16:02:47.119 (1576313687)|VARIABLE_SCOPE_BEGIN|[99]|month|Decimal|false|false
+16:02:47.119 (1576321587)|VARIABLE_ASSIGNMENT|[99]|month|8
+16:02:47.119 (1576325566)|VARIABLE_SCOPE_BEGIN|[99]|carType|String|false|false
+16:02:47.119 (1576332769)|VARIABLE_ASSIGNMENT|[99]|carType|"Used"
+16:02:47.119 (1576340717)|HEAP_ALLOCATE|[100]|Bytes:5
+16:02:47.119 (1576344132)|STATEMENT_EXECUTE|[99]
+16:02:47.119 (1576345836)|STATEMENT_EXECUTE|[100]
+16:02:47.119 (1576415226)|METHOD_ENTRY|[100]|01pgK00000E8650|PlannedSalesService.buildKey(Integer, Integer, String)
+16:02:47.119 (1576421579)|VARIABLE_SCOPE_BEGIN|[103]|year|Integer|false|false
+16:02:47.119 (1576428751)|VARIABLE_ASSIGNMENT|[103]|year|2026
+16:02:47.119 (1576433122)|VARIABLE_SCOPE_BEGIN|[103]|month|Integer|false|false
+16:02:47.119 (1576439668)|VARIABLE_ASSIGNMENT|[103]|month|8
+16:02:47.119 (1576443904)|VARIABLE_SCOPE_BEGIN|[103]|carType|String|false|false
+16:02:47.119 (1576451205)|VARIABLE_ASSIGNMENT|[103]|carType|"Used"
+16:02:47.119 (1576457459)|HEAP_ALLOCATE|[104]|Bytes:5
+16:02:47.119 (1576460924)|STATEMENT_EXECUTE|[103]
+16:02:47.119 (1576462257)|STATEMENT_EXECUTE|[104]
+16:02:47.119 (1576470339)|HEAP_ALLOCATE|[104]|Bytes:4
+16:02:47.119 (1576484012)|HEAP_ALLOCATE|[104]|Bytes:1
+16:02:47.119 (1576498440)|HEAP_ALLOCATE|[104]|Bytes:11
+16:02:47.119 (1576503556)|METHOD_EXIT|[100]|01pgK00000E8650|PlannedSalesService.buildKey(Integer, Integer, String)
+16:02:47.119 (1576508224)|METHOD_EXIT|[24]|01pgK00000E8650|PlannedSalesService.buildKey(Decimal, Decimal, String)
+16:02:47.119 (1576531501)|STATEMENT_EXECUTE|[24]
+16:02:47.119 (1576537219)|HEAP_ALLOCATE|[23]|Bytes:5
+16:02:47.119 (1576545211)|HEAP_ALLOCATE|[23]|Bytes:20
+16:02:47.119 (1576549046)|VARIABLE_SCOPE_BEGIN|[23]|ps|Planned_Sales__c|true|false
+16:02:47.119 (1576581703)|VARIABLE_ASSIGNMENT|[23]|ps|{"Car_Type__c":"New","Id":"a07gK00000k0bYBQAY","Month__c":8,"Year__c":2026}|0xda5ef50
+16:02:47.119 (1576585366)|STATEMENT_EXECUTE|[23]
+16:02:47.119 (1576592893)|HEAP_ALLOCATE|[24]|Bytes:28
+16:02:47.119 (1576598839)|METHOD_ENTRY|[24]|01pgK00000E8650|PlannedSalesService.buildKey(Decimal, Decimal, String)
+16:02:47.119 (1576602514)|VARIABLE_SCOPE_BEGIN|[99]|year|Decimal|false|false
+16:02:47.119 (1576606751)|VARIABLE_ASSIGNMENT|[99]|year|2026
+16:02:47.119 (1576608967)|VARIABLE_SCOPE_BEGIN|[99]|month|Decimal|false|false
+16:02:47.119 (1576613233)|VARIABLE_ASSIGNMENT|[99]|month|8
+16:02:47.119 (1576616419)|VARIABLE_SCOPE_BEGIN|[99]|carType|String|false|false
+16:02:47.119 (1576620509)|VARIABLE_ASSIGNMENT|[99]|carType|"New"
+16:02:47.119 (1576624059)|HEAP_ALLOCATE|[100]|Bytes:5
+16:02:47.119 (1576626004)|STATEMENT_EXECUTE|[99]
+16:02:47.119 (1576626779)|STATEMENT_EXECUTE|[100]
+16:02:47.119 (1576641626)|METHOD_ENTRY|[100]|01pgK00000E8650|PlannedSalesService.buildKey(Integer, Integer, String)
+16:02:47.119 (1576645187)|VARIABLE_SCOPE_BEGIN|[103]|year|Integer|false|false
+16:02:47.119 (1576648979)|VARIABLE_ASSIGNMENT|[103]|year|2026
+16:02:47.119 (1576651389)|VARIABLE_SCOPE_BEGIN|[103]|month|Integer|false|false
+16:02:47.119 (1576655584)|VARIABLE_ASSIGNMENT|[103]|month|8
+16:02:47.119 (1576657779)|VARIABLE_SCOPE_BEGIN|[103]|carType|String|false|false
+16:02:47.119 (1576661680)|VARIABLE_ASSIGNMENT|[103]|carType|"New"
+16:02:47.119 (1576664594)|HEAP_ALLOCATE|[104]|Bytes:5
+16:02:47.119 (1576666382)|STATEMENT_EXECUTE|[103]
+16:02:47.119 (1576667212)|STATEMENT_EXECUTE|[104]
+16:02:47.119 (1576671301)|HEAP_ALLOCATE|[104]|Bytes:4
+16:02:47.119 (1576678597)|HEAP_ALLOCATE|[104]|Bytes:1
+16:02:47.119 (1576684837)|HEAP_ALLOCATE|[104]|Bytes:10
+16:02:47.119 (1576688496)|METHOD_EXIT|[100]|01pgK00000E8650|PlannedSalesService.buildKey(Integer, Integer, String)
+16:02:47.119 (1576692637)|METHOD_EXIT|[24]|01pgK00000E8650|PlannedSalesService.buildKey(Decimal, Decimal, String)
+16:02:47.119 (1576699979)|STATEMENT_EXECUTE|[24]
+16:02:47.119 (1576700963)|STATEMENT_EXECUTE|[25]
+16:02:47.119 (1576726039)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:4
+16:02:47.119 (1576733947)|HEAP_ALLOCATE|[23]|Bytes:5
+16:02:47.119 (1576739612)|HEAP_ALLOCATE|[23]|Bytes:20
+16:02:47.119 (1576742450)|VARIABLE_SCOPE_BEGIN|[23]|ps|Planned_Sales__c|true|false
+16:02:47.119 (1576765699)|VARIABLE_ASSIGNMENT|[23]|ps|{"Car_Type__c":"New","Id":"a07gK00000k8fAqQAI","Month__c":9,"Year__c":2026}|0x6c605a28
+16:02:47.119 (1576769013)|STATEMENT_EXECUTE|[23]
+16:02:47.119 (1576773842)|HEAP_ALLOCATE|[24]|Bytes:28
+16:02:47.119 (1576779232)|METHOD_ENTRY|[24]|01pgK00000E8650|PlannedSalesService.buildKey(Decimal, Decimal, String)
+16:02:47.119 (1576782919)|VARIABLE_SCOPE_BEGIN|[99]|year|Decimal|false|false
+16:02:47.119 (1576787397)|VARIABLE_ASSIGNMENT|[99]|year|2026
+16:02:47.119 (1576789741)|VARIABLE_SCOPE_BEGIN|[99]|month|Decimal|false|false
+16:02:47.119 (1576793543)|VARIABLE_ASSIGNMENT|[99]|month|9
+16:02:47.119 (1576795694)|VARIABLE_SCOPE_BEGIN|[99]|carType|String|false|false
+16:02:47.119 (1576799389)|VARIABLE_ASSIGNMENT|[99]|carType|"New"
+16:02:47.119 (1576802876)|HEAP_ALLOCATE|[100]|Bytes:5
+16:02:47.119 (1576804796)|STATEMENT_EXECUTE|[99]
+16:02:47.119 (1576805517)|STATEMENT_EXECUTE|[100]
+16:02:47.119 (1576830298)|METHOD_ENTRY|[100]|01pgK00000E8650|PlannedSalesService.buildKey(Integer, Integer, String)
+16:02:47.119 (1576834507)|VARIABLE_SCOPE_BEGIN|[103]|year|Integer|false|false
+16:02:47.119 (1576838974)|VARIABLE_ASSIGNMENT|[103]|year|2026
+16:02:47.119 (1576841596)|VARIABLE_SCOPE_BEGIN|[103]|month|Integer|false|false
+16:02:47.119 (1576845379)|VARIABLE_ASSIGNMENT|[103]|month|9
+16:02:47.119 (1576847789)|VARIABLE_SCOPE_BEGIN|[103]|carType|String|false|false
+16:02:47.119 (1576851912)|VARIABLE_ASSIGNMENT|[103]|carType|"New"
+16:02:47.119 (1576857453)|HEAP_ALLOCATE|[104]|Bytes:5
+16:02:47.119 (1576859844)|STATEMENT_EXECUTE|[103]
+16:02:47.119 (1576860746)|STATEMENT_EXECUTE|[104]
+16:02:47.119 (1576864934)|HEAP_ALLOCATE|[104]|Bytes:4
+16:02:47.119 (1576873028)|HEAP_ALLOCATE|[104]|Bytes:1
+16:02:47.119 (1576880167)|HEAP_ALLOCATE|[104]|Bytes:10
+16:02:47.119 (1576884816)|METHOD_EXIT|[100]|01pgK00000E8650|PlannedSalesService.buildKey(Integer, Integer, String)
+16:02:47.119 (1576889695)|METHOD_EXIT|[24]|01pgK00000E8650|PlannedSalesService.buildKey(Decimal, Decimal, String)
+16:02:47.119 (1576901096)|STATEMENT_EXECUTE|[24]
+16:02:47.119 (1576905889)|HEAP_ALLOCATE|[23]|Bytes:5
+16:02:47.119 (1576911384)|HEAP_ALLOCATE|[23]|Bytes:20
+16:02:47.119 (1576914939)|VARIABLE_SCOPE_BEGIN|[23]|ps|Planned_Sales__c|true|false
+16:02:47.119 (1576935317)|VARIABLE_ASSIGNMENT|[23]|ps|{"Car_Type__c":"New","Id":"a07gK00000k8oH6QAI","Month__c":8,"Year__c":2026}|0x1c29454b
+16:02:47.119 (1576938704)|STATEMENT_EXECUTE|[23]
+16:02:47.119 (1576943327)|HEAP_ALLOCATE|[24]|Bytes:28
+16:02:47.119 (1576948800)|METHOD_ENTRY|[24]|01pgK00000E8650|PlannedSalesService.buildKey(Decimal, Decimal, String)
+16:02:47.119 (1576952424)|VARIABLE_SCOPE_BEGIN|[99]|year|Decimal|false|false
+16:02:47.119 (1576956786)|VARIABLE_ASSIGNMENT|[99]|year|2026
+16:02:47.119 (1576959339)|VARIABLE_SCOPE_BEGIN|[99]|month|Decimal|false|false
+16:02:47.119 (1576963631)|VARIABLE_ASSIGNMENT|[99]|month|8
+16:02:47.119 (1576966264)|VARIABLE_SCOPE_BEGIN|[99]|carType|String|false|false
+16:02:47.119 (1576970628)|VARIABLE_ASSIGNMENT|[99]|carType|"New"
+16:02:47.119 (1576974309)|HEAP_ALLOCATE|[100]|Bytes:5
+16:02:47.119 (1576976677)|STATEMENT_EXECUTE|[99]
+16:02:47.119 (1576977446)|STATEMENT_EXECUTE|[100]
+16:02:47.119 (1576992353)|METHOD_ENTRY|[100]|01pgK00000E8650|PlannedSalesService.buildKey(Integer, Integer, String)
+16:02:47.119 (1576995730)|VARIABLE_SCOPE_BEGIN|[103]|year|Integer|false|false
+16:02:47.119 (1576999767)|VARIABLE_ASSIGNMENT|[103]|year|2026
+16:02:47.119 (1577002443)|VARIABLE_SCOPE_BEGIN|[103]|month|Integer|false|false
+16:02:47.119 (1577007110)|VARIABLE_ASSIGNMENT|[103]|month|8
+16:02:47.119 (1577009644)|VARIABLE_SCOPE_BEGIN|[103]|carType|String|false|false
+16:02:47.119 (1577038117)|VARIABLE_ASSIGNMENT|[103]|carType|"New"
+16:02:47.119 (1577042417)|HEAP_ALLOCATE|[104]|Bytes:5
+16:02:47.119 (1577044963)|STATEMENT_EXECUTE|[103]
+16:02:47.119 (1577045813)|STATEMENT_EXECUTE|[104]
+16:02:47.119 (1577051454)|HEAP_ALLOCATE|[104]|Bytes:4
+16:02:47.119 (1577060478)|HEAP_ALLOCATE|[104]|Bytes:1
+16:02:47.119 (1577067854)|HEAP_ALLOCATE|[104]|Bytes:10
+16:02:47.119 (1577073261)|METHOD_EXIT|[100]|01pgK00000E8650|PlannedSalesService.buildKey(Integer, Integer, String)
+16:02:47.119 (1577078595)|METHOD_EXIT|[24]|01pgK00000E8650|PlannedSalesService.buildKey(Decimal, Decimal, String)
+16:02:47.119 (1577086095)|STATEMENT_EXECUTE|[24]
+16:02:47.119 (1577087075)|STATEMENT_EXECUTE|[25]
+16:02:47.119 (1577091106)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:4
+16:02:47.119 (1577133884)|HEAP_ALLOCATE|[23]|Bytes:5
+16:02:47.119 (1577142760)|HEAP_ALLOCATE|[23]|Bytes:20
+16:02:47.119 (1577147975)|VARIABLE_SCOPE_BEGIN|[23]|ps|Planned_Sales__c|true|false
+16:02:47.119 (1577202500)|VARIABLE_ASSIGNMENT|[23]|ps|{"Car_Type__c":"New","Id":"a07gK00000k9M6vQAE","Month__c":8,"Year__c":2026}|0x31c520e8
+16:02:47.119 (1577206376)|STATEMENT_EXECUTE|[23]
+16:02:47.119 (1577212850)|HEAP_ALLOCATE|[24]|Bytes:28
+16:02:47.119 (1577219815)|METHOD_ENTRY|[24]|01pgK00000E8650|PlannedSalesService.buildKey(Decimal, Decimal, String)
+16:02:47.119 (1577224123)|VARIABLE_SCOPE_BEGIN|[99]|year|Decimal|false|false
+16:02:47.119 (1577228780)|VARIABLE_ASSIGNMENT|[99]|year|2026
+16:02:47.119 (1577231235)|VARIABLE_SCOPE_BEGIN|[99]|month|Decimal|false|false
+16:02:47.119 (1577235395)|VARIABLE_ASSIGNMENT|[99]|month|8
+16:02:47.119 (1577237975)|VARIABLE_SCOPE_BEGIN|[99]|carType|String|false|false
+16:02:47.119 (1577242142)|VARIABLE_ASSIGNMENT|[99]|carType|"New"
+16:02:47.119 (1577246411)|HEAP_ALLOCATE|[100]|Bytes:5
+16:02:47.119 (1577251881)|STATEMENT_EXECUTE|[99]
+16:02:47.119 (1577252730)|STATEMENT_EXECUTE|[100]
+16:02:47.119 (1577274342)|METHOD_ENTRY|[100]|01pgK00000E8650|PlannedSalesService.buildKey(Integer, Integer, String)
+16:02:47.119 (1577290615)|VARIABLE_SCOPE_BEGIN|[103]|year|Integer|false|false
+16:02:47.119 (1577294790)|VARIABLE_ASSIGNMENT|[103]|year|2026
+16:02:47.119 (1577297535)|VARIABLE_SCOPE_BEGIN|[103]|month|Integer|false|false
+16:02:47.119 (1577301355)|VARIABLE_ASSIGNMENT|[103]|month|8
+16:02:47.119 (1577303845)|VARIABLE_SCOPE_BEGIN|[103]|carType|String|false|false
+16:02:47.119 (1577307951)|VARIABLE_ASSIGNMENT|[103]|carType|"New"
+16:02:47.119 (1577311511)|HEAP_ALLOCATE|[104]|Bytes:5
+16:02:47.119 (1577313692)|STATEMENT_EXECUTE|[103]
+16:02:47.119 (1577314560)|STATEMENT_EXECUTE|[104]
+16:02:47.119 (1577334877)|HEAP_ALLOCATE|[104]|Bytes:4
+16:02:47.119 (1577344847)|HEAP_ALLOCATE|[104]|Bytes:1
+16:02:47.119 (1577353528)|HEAP_ALLOCATE|[104]|Bytes:10
+16:02:47.119 (1577364077)|METHOD_EXIT|[100]|01pgK00000E8650|PlannedSalesService.buildKey(Integer, Integer, String)
+16:02:47.119 (1577370214)|METHOD_EXIT|[24]|01pgK00000E8650|PlannedSalesService.buildKey(Decimal, Decimal, String)
+16:02:47.119 (1577378901)|STATEMENT_EXECUTE|[24]
+16:02:47.119 (1577379821)|STATEMENT_EXECUTE|[25]
+16:02:47.119 (1577401811)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:4
+16:02:47.119 (1577415951)|HEAP_ALLOCATE|[23]|Bytes:5
+16:02:47.119 (1577423373)|VARIABLE_ASSIGNMENT|[23]|ps|null|
+16:02:47.119 (1577427271)|STATEMENT_EXECUTE|[28]
+16:02:47.119 (1577439011)|METHOD_ENTRY|[28]|01pgK00000E8650|PlannedSalesService.recalculate(List<Planned_Sales__c>)
+16:02:47.119 (1577467379)|VARIABLE_SCOPE_BEGIN|[31]|plannedSalesList|List<Planned_Sales__c>|true|false
+16:02:47.119 (1577534107)|VARIABLE_ASSIGNMENT|[31]|plannedSalesList|[{"Car_Type__c":"New","Id":"a07gK00000k0bYBQAY","Month__c":8,"Year__c":2026},{"Car_Type__c":"New","Id":"a07gK00000k8oH6QAI","Month__c":8,"Year__c":2026},{"Car_Type__c":"New","Id":"a07gK00000k9M6vQAE","Month__c":8,"Year__c":2026}]|0x74c50c49
+16:02:47.119 (1577543635)|HEAP_ALLOCATE|[32]|Bytes:5
+16:02:47.119 (1577546760)|STATEMENT_EXECUTE|[31]
+16:02:47.119 (1577562314)|STATEMENT_EXECUTE|[32]
+16:02:47.119 (1577563526)|STATEMENT_EXECUTE|[36]
+16:02:47.119 (1577565875)|HEAP_ALLOCATE|[36]|Bytes:145
+16:02:47.119 (1577583369)|HEAP_ALLOCATE|[36]|Bytes:4
+16:02:47.119 (1617541953)|HEAP_ALLOCATE|[36]|Bytes:8
+16:02:47.119 (1617584944)|HEAP_ALLOCATE|[36]|Bytes:349
+16:02:47.119 (1617627895)|HEAP_ALLOCATE|[36]|Bytes:8
+16:02:47.119 (1617646470)|VARIABLE_SCOPE_BEGIN|[36]|lineItems|List<OpportunityLineItem>|true|false
+16:02:47.119 (1618053673)|VARIABLE_ASSIGNMENT|[36]|lineItems|[{"Id":"00kgK00000609ZJQAY","OpportunityId":"006gK00000MbxR3QAJ","PricebookEntryId":"01ugK000004uosfQAA","PricebookEntry":{"Product2":{"Condition__c":"New","Id":"01tgK00000DjrIPQAZ"},"Id":"01ugK000004uosfQAA","Product2Id":"01tgK00000DjrIPQAZ"},"TotalPrice":20000.00,"Opportunity":{"CloseDate":"2026-08-19T00:00:00.000Z","Id":"006gK00000MbxR3QAJ"}}]|0xfa8ef86
+16:02:47.119 (1618071176)|STATEMENT_EXECUTE|[42]
+16:02:47.119 (1618092498)|HEAP_ALLOCATE|[42]|Bytes:4
+16:02:47.119 (1618116091)|VARIABLE_SCOPE_BEGIN|[42]|countMap|Map<String,Integer>|true|false
+16:02:47.119 (1618130311)|VARIABLE_ASSIGNMENT|[42]|countMap|{}|0x4659119d
+16:02:47.119 (1618133511)|STATEMENT_EXECUTE|[43]
+16:02:47.119 (1618140946)|HEAP_ALLOCATE|[43]|Bytes:4
+16:02:47.119 (1618145873)|VARIABLE_SCOPE_BEGIN|[43]|amountMap|Map<String,Decimal>|true|false
+16:02:47.119 (1618152993)|VARIABLE_ASSIGNMENT|[43]|amountMap|{}|0x3632b9da
+16:02:47.119 (1618255159)|HEAP_ALLOCATE|[45]|Bytes:5
+16:02:47.119 (1618303287)|HEAP_ALLOCATE|[45]|Bytes:28
+16:02:47.119 (1618311317)|VARIABLE_SCOPE_BEGIN|[45]|oli|OpportunityLineItem|true|false
+16:02:47.119 (1618415842)|VARIABLE_ASSIGNMENT|[45]|oli|{"Id":"00kgK00000609ZJQAY","OpportunityId":"006gK00000MbxR3QAJ","PricebookEntryId":"01ugK000004uosfQAA","PricebookEntry":{"Product2":{"Condition__c":"New","Id":"01tgK00000DjrIPQAZ"},"Id":"01ugK000004uosfQAA","Product2Id":"01tgK00000DjrIPQAZ"},"TotalPrice":20000.00,"Opportunity":{"CloseDate":"2026-08-19T00:00:00.000Z","Id":"006gK00000MbxR3QAJ"}}|0x55917947
+16:02:47.119 (1618423104)|STATEMENT_EXECUTE|[45]
+16:02:47.119 (1618470321)|STATEMENT_EXECUTE|[46]
+16:02:47.119 (1618471445)|STATEMENT_EXECUTE|[49]
+16:02:47.119 (1618583863)|METHOD_ENTRY|[49]|01pgK00000E8650|PlannedSalesService.buildKey(Integer, Integer, String)
+16:02:47.119 (1618604942)|VARIABLE_SCOPE_BEGIN|[103]|year|Integer|false|false
+16:02:47.119 (1618613834)|VARIABLE_ASSIGNMENT|[103]|year|2026
+16:02:47.119 (1618617684)|VARIABLE_SCOPE_BEGIN|[103]|month|Integer|false|false
+16:02:47.119 (1618621581)|VARIABLE_ASSIGNMENT|[103]|month|8
+16:02:47.119 (1618624412)|VARIABLE_SCOPE_BEGIN|[103]|carType|String|false|false
+16:02:47.119 (1618628624)|VARIABLE_ASSIGNMENT|[103]|carType|"New"
+16:02:47.119 (1618638192)|HEAP_ALLOCATE|[104]|Bytes:5
+16:02:47.119 (1618640977)|STATEMENT_EXECUTE|[103]
+16:02:47.119 (1618642008)|STATEMENT_EXECUTE|[104]
+16:02:47.119 (1618660508)|HEAP_ALLOCATE|[104]|Bytes:4
+16:02:47.119 (1618669840)|HEAP_ALLOCATE|[104]|Bytes:1
+16:02:47.119 (1618685395)|HEAP_ALLOCATE|[104]|Bytes:10
+16:02:47.119 (1618733188)|METHOD_EXIT|[49]|01pgK00000E8650|PlannedSalesService.buildKey(Integer, Integer, String)
+16:02:47.119 (1618737552)|VARIABLE_SCOPE_BEGIN|[49]|key|String|false|false
+16:02:47.119 (1618743099)|VARIABLE_ASSIGNMENT|[49]|key|"2026-8-New"
+16:02:47.119 (1618745467)|STATEMENT_EXECUTE|[54]
+16:02:47.119 (1618773337)|HEAP_ALLOCATE|[54]|Bytes:4
+16:02:47.119 (1618777488)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:-4
+16:02:47.119 (1618781949)|STATEMENT_EXECUTE|[55]
+16:02:47.119 (1618806521)|VARIABLE_SCOPE_BEGIN|[55]|price|Decimal|false|false
+16:02:47.119 (1618817227)|VARIABLE_ASSIGNMENT|[55]|price|20000.00
+16:02:47.119 (1618819531)|STATEMENT_EXECUTE|[56]
+16:02:47.119 (1618838427)|HEAP_ALLOCATE|[56]|Bytes:28
+16:02:47.119 (1618840624)|HEAP_ALLOCATE|[56]|Bytes:28
+16:02:47.119 (1618858957)|HEAP_ALLOCATE|[56]|Bytes:28
+16:02:47.119 (1618866083)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:-4
+16:02:47.119 (1618873655)|HEAP_ALLOCATE|[45]|Bytes:5
+16:02:47.119 (1618880382)|VARIABLE_ASSIGNMENT|[45]|oli|null|
+16:02:47.119 (1618883815)|STATEMENT_EXECUTE|[59]
+16:02:47.119 (1618892671)|HEAP_ALLOCATE|[59]|Bytes:4
+16:02:47.119 (1618926550)|VARIABLE_SCOPE_BEGIN|[59]|toUpdate|List<Planned_Sales__c>|true|false
+16:02:47.119 (1618932457)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:4
+16:02:47.119 (1618937750)|VARIABLE_ASSIGNMENT|[59]|toUpdate|[]|0x10faaef4
+16:02:47.119 (1618955312)|HEAP_ALLOCATE|[60]|Bytes:5
+16:02:47.119 (1618962724)|HEAP_ALLOCATE|[60]|Bytes:20
+16:02:47.119 (1618966311)|VARIABLE_SCOPE_BEGIN|[60]|ps|Planned_Sales__c|true|false
+16:02:47.119 (1619012329)|VARIABLE_ASSIGNMENT|[60]|ps|{"Car_Type__c":"New","Id":"a07gK00000k0bYBQAY","Month__c":8,"Year__c":2026}|0xda5ef50
+16:02:47.119 (1619016634)|STATEMENT_EXECUTE|[60]
+16:02:47.119 (1619017695)|STATEMENT_EXECUTE|[61]
+16:02:47.119 (1619025046)|HEAP_ALLOCATE|[61]|Bytes:28
+16:02:47.119 (1619035149)|METHOD_ENTRY|[61]|01pgK00000E8650|PlannedSalesService.buildKey(Decimal, Decimal, String)
+16:02:47.119 (1619043775)|VARIABLE_SCOPE_BEGIN|[99]|year|Decimal|false|false
+16:02:47.119 (1619049006)|VARIABLE_ASSIGNMENT|[99]|year|2026
+16:02:47.119 (1619052827)|VARIABLE_SCOPE_BEGIN|[99]|month|Decimal|false|false
+16:02:47.119 (1619058871)|VARIABLE_ASSIGNMENT|[99]|month|8
+16:02:47.119 (1619062041)|VARIABLE_SCOPE_BEGIN|[99]|carType|String|false|false
+16:02:47.119 (1619069503)|VARIABLE_ASSIGNMENT|[99]|carType|"New"
+16:02:47.119 (1619097207)|HEAP_ALLOCATE|[100]|Bytes:5
+16:02:47.119 (1619100372)|STATEMENT_EXECUTE|[99]
+16:02:47.119 (1619101654)|STATEMENT_EXECUTE|[100]
+16:02:47.119 (1619126379)|METHOD_ENTRY|[100]|01pgK00000E8650|PlannedSalesService.buildKey(Integer, Integer, String)
+16:02:47.119 (1619132956)|VARIABLE_SCOPE_BEGIN|[103]|year|Integer|false|false
+16:02:47.119 (1619138741)|VARIABLE_ASSIGNMENT|[103]|year|2026
+16:02:47.119 (1619141657)|VARIABLE_SCOPE_BEGIN|[103]|month|Integer|false|false
+16:02:47.119 (1619145422)|VARIABLE_ASSIGNMENT|[103]|month|8
+16:02:47.119 (1619147886)|VARIABLE_SCOPE_BEGIN|[103]|carType|String|false|false
+16:02:47.119 (1619151671)|VARIABLE_ASSIGNMENT|[103]|carType|"New"
+16:02:47.119 (1619154984)|HEAP_ALLOCATE|[104]|Bytes:5
+16:02:47.119 (1619157106)|STATEMENT_EXECUTE|[103]
+16:02:47.119 (1619158062)|STATEMENT_EXECUTE|[104]
+16:02:47.119 (1619163169)|HEAP_ALLOCATE|[104]|Bytes:4
+16:02:47.119 (1619170482)|HEAP_ALLOCATE|[104]|Bytes:1
+16:02:47.119 (1619180230)|HEAP_ALLOCATE|[104]|Bytes:10
+16:02:47.119 (1619184866)|METHOD_EXIT|[100]|01pgK00000E8650|PlannedSalesService.buildKey(Integer, Integer, String)
+16:02:47.119 (1619188789)|METHOD_EXIT|[61]|01pgK00000E8650|PlannedSalesService.buildKey(Decimal, Decimal, String)
+16:02:47.119 (1619192358)|VARIABLE_SCOPE_BEGIN|[61]|key|String|false|false
+16:02:47.119 (1619196907)|VARIABLE_ASSIGNMENT|[61]|key|"2026-8-New"
+16:02:47.119 (1619199251)|STATEMENT_EXECUTE|[62]
+16:02:47.119 (1619216247)|HEAP_ALLOCATE|[62]|Bytes:4
+16:02:47.119 (1619341133)|VARIABLE_ASSIGNMENT|[62]|this.Id|"a07gK00000k0bYBQAY"|0x4691d8ff
+16:02:47.119 (1619383958)|HEAP_ALLOCATE|[62]|Bytes:28
+16:02:47.119 (1619386643)|HEAP_ALLOCATE|[62]|Bytes:28
+16:02:47.119 (1619409323)|VARIABLE_ASSIGNMENT|[62]|this.Count_of_Cars_Sold__c|1|0x4691d8ff
+16:02:47.119 (1619425137)|HEAP_ALLOCATE|[65]|Bytes:28
+16:02:47.119 (1619439739)|VARIABLE_ASSIGNMENT|[62]|this.Total_Amount_Earned__c|20000.00|0x4691d8ff
+16:02:47.119 (1619469030)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:4
+16:02:47.119 (1619477530)|HEAP_ALLOCATE|[60]|Bytes:5
+16:02:47.119 (1619485111)|HEAP_ALLOCATE|[60]|Bytes:20
+16:02:47.119 (1619489573)|VARIABLE_SCOPE_BEGIN|[60]|ps|Planned_Sales__c|true|false
+16:02:47.119 (1619518826)|VARIABLE_ASSIGNMENT|[60]|ps|{"Car_Type__c":"New","Id":"a07gK00000k8oH6QAI","Month__c":8,"Year__c":2026}|0x1c29454b
+16:02:47.119 (1619522996)|STATEMENT_EXECUTE|[60]
+16:02:47.119 (1619523966)|STATEMENT_EXECUTE|[61]
+16:02:47.119 (1619531212)|HEAP_ALLOCATE|[61]|Bytes:28
+16:02:47.119 (1619538219)|METHOD_ENTRY|[61]|01pgK00000E8650|PlannedSalesService.buildKey(Decimal, Decimal, String)
+16:02:47.119 (1619545797)|VARIABLE_SCOPE_BEGIN|[99]|year|Decimal|false|false
+16:02:47.119 (1619550363)|VARIABLE_ASSIGNMENT|[99]|year|2026
+16:02:47.119 (1619573622)|VARIABLE_SCOPE_BEGIN|[99]|month|Decimal|false|false
+16:02:47.119 (1619577905)|VARIABLE_ASSIGNMENT|[99]|month|8
+16:02:47.119 (1619580502)|VARIABLE_SCOPE_BEGIN|[99]|carType|String|false|false
+16:02:47.119 (1619584886)|VARIABLE_ASSIGNMENT|[99]|carType|"New"
+16:02:47.119 (1619589697)|HEAP_ALLOCATE|[100]|Bytes:5
+16:02:47.119 (1619591999)|STATEMENT_EXECUTE|[99]
+16:02:47.119 (1619592829)|STATEMENT_EXECUTE|[100]
+16:02:47.119 (1619607721)|METHOD_ENTRY|[100]|01pgK00000E8650|PlannedSalesService.buildKey(Integer, Integer, String)
+16:02:47.119 (1619611504)|VARIABLE_SCOPE_BEGIN|[103]|year|Integer|false|false
+16:02:47.119 (1619615919)|VARIABLE_ASSIGNMENT|[103]|year|2026
+16:02:47.119 (1619618467)|VARIABLE_SCOPE_BEGIN|[103]|month|Integer|false|false
+16:02:47.119 (1619622202)|VARIABLE_ASSIGNMENT|[103]|month|8
+16:02:47.119 (1619624385)|VARIABLE_SCOPE_BEGIN|[103]|carType|String|false|false
+16:02:47.119 (1619628137)|VARIABLE_ASSIGNMENT|[103]|carType|"New"
+16:02:47.119 (1619631665)|HEAP_ALLOCATE|[104]|Bytes:5
+16:02:47.119 (1619633455)|STATEMENT_EXECUTE|[103]
+16:02:47.119 (1619634325)|STATEMENT_EXECUTE|[104]
+16:02:47.119 (1619638501)|HEAP_ALLOCATE|[104]|Bytes:4
+16:02:47.119 (1619645404)|HEAP_ALLOCATE|[104]|Bytes:1
+16:02:47.119 (1619653174)|HEAP_ALLOCATE|[104]|Bytes:10
+16:02:47.119 (1619657292)|METHOD_EXIT|[100]|01pgK00000E8650|PlannedSalesService.buildKey(Integer, Integer, String)
+16:02:47.119 (1619660832)|METHOD_EXIT|[61]|01pgK00000E8650|PlannedSalesService.buildKey(Decimal, Decimal, String)
+16:02:47.119 (1619663468)|VARIABLE_SCOPE_BEGIN|[61]|key|String|false|false
+16:02:47.119 (1619667967)|VARIABLE_ASSIGNMENT|[61]|key|"2026-8-New"
+16:02:47.119 (1619670115)|STATEMENT_EXECUTE|[62]
+16:02:47.119 (1619678526)|HEAP_ALLOCATE|[62]|Bytes:4
+16:02:47.119 (1619697509)|VARIABLE_ASSIGNMENT|[62]|this.Id|"a07gK00000k8oH6QAI"|0x206c1073
+16:02:47.119 (1619709759)|HEAP_ALLOCATE|[62]|Bytes:28
+16:02:47.119 (1619711720)|HEAP_ALLOCATE|[62]|Bytes:28
+16:02:47.119 (1619721533)|VARIABLE_ASSIGNMENT|[62]|this.Count_of_Cars_Sold__c|1|0x206c1073
+16:02:47.119 (1619729723)|HEAP_ALLOCATE|[65]|Bytes:28
+16:02:47.119 (1619739770)|VARIABLE_ASSIGNMENT|[62]|this.Total_Amount_Earned__c|20000.00|0x206c1073
+16:02:47.119 (1619747214)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:4
+16:02:47.119 (1619752971)|HEAP_ALLOCATE|[60]|Bytes:5
+16:02:47.119 (1619758522)|HEAP_ALLOCATE|[60]|Bytes:20
+16:02:47.119 (1619761664)|VARIABLE_SCOPE_BEGIN|[60]|ps|Planned_Sales__c|true|false
+16:02:47.119 (1619779680)|VARIABLE_ASSIGNMENT|[60]|ps|{"Car_Type__c":"New","Id":"a07gK00000k9M6vQAE","Month__c":8,"Year__c":2026}|0x31c520e8
+16:02:47.119 (1619783088)|STATEMENT_EXECUTE|[60]
+16:02:47.119 (1619784125)|STATEMENT_EXECUTE|[61]
+16:02:47.119 (1619788575)|HEAP_ALLOCATE|[61]|Bytes:28
+16:02:47.119 (1619793588)|METHOD_ENTRY|[61]|01pgK00000E8650|PlannedSalesService.buildKey(Decimal, Decimal, String)
+16:02:47.119 (1619796646)|VARIABLE_SCOPE_BEGIN|[99]|year|Decimal|false|false
+16:02:47.119 (1619800838)|VARIABLE_ASSIGNMENT|[99]|year|2026
+16:02:47.119 (1619803108)|VARIABLE_SCOPE_BEGIN|[99]|month|Decimal|false|false
+16:02:47.119 (1619806924)|VARIABLE_ASSIGNMENT|[99]|month|8
+16:02:47.119 (1619809149)|VARIABLE_SCOPE_BEGIN|[99]|carType|String|false|false
+16:02:47.119 (1619812907)|VARIABLE_ASSIGNMENT|[99]|carType|"New"
+16:02:47.119 (1619816177)|HEAP_ALLOCATE|[100]|Bytes:5
+16:02:47.119 (1619817972)|STATEMENT_EXECUTE|[99]
+16:02:47.119 (1619818795)|STATEMENT_EXECUTE|[100]
+16:02:47.119 (1619831995)|METHOD_ENTRY|[100]|01pgK00000E8650|PlannedSalesService.buildKey(Integer, Integer, String)
+16:02:47.119 (1619835382)|VARIABLE_SCOPE_BEGIN|[103]|year|Integer|false|false
+16:02:47.119 (1619839160)|VARIABLE_ASSIGNMENT|[103]|year|2026
+16:02:47.119 (1619841600)|VARIABLE_SCOPE_BEGIN|[103]|month|Integer|false|false
+16:02:47.119 (1619845380)|VARIABLE_ASSIGNMENT|[103]|month|8
+16:02:47.119 (1619847545)|VARIABLE_SCOPE_BEGIN|[103]|carType|String|false|false
+16:02:47.119 (1619851275)|VARIABLE_ASSIGNMENT|[103]|carType|"New"
+16:02:47.119 (1619854530)|HEAP_ALLOCATE|[104]|Bytes:5
+16:02:47.119 (1619856340)|STATEMENT_EXECUTE|[103]
+16:02:47.119 (1619857141)|STATEMENT_EXECUTE|[104]
+16:02:47.119 (1619860841)|HEAP_ALLOCATE|[104]|Bytes:4
+16:02:47.119 (1619867490)|HEAP_ALLOCATE|[104]|Bytes:1
+16:02:47.119 (1619872932)|HEAP_ALLOCATE|[104]|Bytes:10
+16:02:47.119 (1619876093)|METHOD_EXIT|[100]|01pgK00000E8650|PlannedSalesService.buildKey(Integer, Integer, String)
+16:02:47.119 (1619879567)|METHOD_EXIT|[61]|01pgK00000E8650|PlannedSalesService.buildKey(Decimal, Decimal, String)
+16:02:47.119 (1619882865)|VARIABLE_SCOPE_BEGIN|[61]|key|String|false|false
+16:02:47.119 (1619889216)|VARIABLE_ASSIGNMENT|[61]|key|"2026-8-New"
+16:02:47.119 (1619892392)|STATEMENT_EXECUTE|[62]
+16:02:47.119 (1619898835)|HEAP_ALLOCATE|[62]|Bytes:4
+16:02:47.119 (1619920546)|VARIABLE_ASSIGNMENT|[62]|this.Id|"a07gK00000k9M6vQAE"|0x3c721daf
+16:02:47.119 (1619936375)|HEAP_ALLOCATE|[62]|Bytes:28
+16:02:47.119 (1619939035)|HEAP_ALLOCATE|[62]|Bytes:28
+16:02:47.119 (1619953223)|VARIABLE_ASSIGNMENT|[62]|this.Count_of_Cars_Sold__c|1|0x3c721daf
+16:02:47.119 (1619964355)|HEAP_ALLOCATE|[65]|Bytes:28
+16:02:47.119 (1619974521)|VARIABLE_ASSIGNMENT|[62]|this.Total_Amount_Earned__c|20000.00|0x3c721daf
+16:02:47.119 (1619981367)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:4
+16:02:47.119 (1619986807)|HEAP_ALLOCATE|[60]|Bytes:5
+16:02:47.119 (1619992307)|VARIABLE_ASSIGNMENT|[60]|ps|null|
+16:02:47.119 (1619995531)|STATEMENT_EXECUTE|[69]
+16:02:47.119 (1620005981)|METHOD_ENTRY|[69]|01pgK00000E8650|PlannedSalesService.updateSafely(List<Planned_Sales__c>)
+16:02:47.119 (1620027133)|VARIABLE_SCOPE_BEGIN|[72]|records|List<Planned_Sales__c>|true|false
+16:02:47.119 (1620047114)|VARIABLE_ASSIGNMENT|[72]|records|[{"Id":"a07gK00000k0bYBQAY","Count_of_Cars_Sold__c":1,"Total_Amount_Earned__c":20000.00},{"Id":"a07gK00000k8oH6QAI","Count_of_Cars_Sold__c":1,"Total_Amount_Earned__c":20000.00},{"Id":"a07gK00000k9M6vQAE","Count_of_Cars_Sold__c":1,"Total_Amount_Earned__c":20000.00}]|0x10faaef4
+16:02:47.119 (1620055616)|HEAP_ALLOCATE|[73]|Bytes:5
+16:02:47.119 (1620058361)|STATEMENT_EXECUTE|[72]
+16:02:47.119 (1620069822)|STATEMENT_EXECUTE|[73]
+16:02:47.119 (1620070876)|STATEMENT_EXECUTE|[77]
+16:02:47.119 (1621194492)|HEAP_ALLOCATE|[77]|Bytes:16
+16:02:47.119 (1621214495)|VARIABLE_SCOPE_BEGIN|[77]|sp|System.Savepoint|true|false
+16:02:47.119 (1621321091)|VARIABLE_ASSIGNMENT|[77]|sp|"common.apex.runtime.impl.ApexUserSavepoint@3dc158bd"|0x3dc158bd
+16:02:47.119 (1621326016)|STATEMENT_EXECUTE|[78]
+16:02:47.119 (1621327231)|STATEMENT_EXECUTE|[78]
+16:02:47.119 (1621328068)|STATEMENT_EXECUTE|[79]
+16:02:47.119 (1621431756)|HEAP_ALLOCATE|[79]|Bytes:7
+16:02:47.119 (1621446136)|SYSTEM_METHOD_ENTRY|[7]|Security.Security()
+16:02:47.119 (1621450569)|STATEMENT_EXECUTE|[7]
+16:02:47.119 (1621459021)|SYSTEM_METHOD_EXIT|[7]|Security
+16:02:47.119 (1621474226)|METHOD_ENTRY|[79]||System.Security.stripInaccessible(System.AccessType, List<SObject>)
+16:02:47.119 (1637311344)|METHOD_EXIT|[79]||System.Security.stripInaccessible(System.AccessType, List<SObject>)
+16:02:47.119 (1637345172)|VARIABLE_SCOPE_BEGIN|[79]|decision|System.SObjectAccessDecision|true|false
+16:02:47.119 (1637503095)|VARIABLE_ASSIGNMENT|[79]|decision|{"modifiedIndexes":"0x4c76d72e","records":"0x3ed4d96b","removedFields":"0x7230043b"}|0x6db44d84
+16:02:47.119 (1637511697)|STATEMENT_EXECUTE|[80]
+16:02:47.119 (1637550003)|METHOD_ENTRY|[80]||System.SObjectAccessDecision.getRecords()
+16:02:47.119 (1637585611)|METHOD_EXIT|[80]||System.SObjectAccessDecision.getRecords()
+16:02:47.119 (1637590184)|VARIABLE_SCOPE_BEGIN|[80]|safeRecords|List<SObject>|true|false
+16:02:47.119 (1637631085)|VARIABLE_ASSIGNMENT|[80]|safeRecords|[{"Id":"a07gK00000k0bYBQAY","Count_of_Cars_Sold__c":1,"Total_Amount_Earned__c":20000.00},{"Id":"a07gK00000k8oH6QAI","Count_of_Cars_Sold__c":1,"Total_Amount_Earned__c":20000.00},{"Id":"a07gK00000k9M6vQAE","Count_of_Cars_Sold__c":1,"Total_Amount_Earned__c":20000.00}]|0x3ed4d96b
+16:02:47.119 (1637636542)|STATEMENT_EXECUTE|[82]
+16:02:47.119 (1639316040)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:16
+16:02:47.119 (1806592740)|CODE_UNIT_STARTED|[EXTERNAL]|Flow:01IgK000006U3t3
+16:02:47.119 (1917657415)|CODE_UNIT_FINISHED|Flow:01IgK000006U3t3
+16:02:48.244 (2244365944)|CODE_UNIT_STARTED|[EXTERNAL]|01qgK000005f2Pa|PlannedSalesTrigger on Planned_Sales trigger event AfterUpdate|__sfdc_trigger/PlannedSalesTrigger
+16:02:48.244 (2244440027)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:8
+16:02:48.244 (2244511704)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:8
+16:02:48.244 (2244687824)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:4
+16:02:48.244 (2244720106)|VARIABLE_SCOPE_BEGIN|[1]|this|PlannedSalesTrigger|true|false
+16:02:48.244 (2244835547)|VARIABLE_ASSIGNMENT|[1]|this|{}|0x97515f6
+16:02:48.244 (2244883858)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:4
+16:02:48.244 (2244931235)|VARIABLE_SCOPE_BEGIN|[1]|this|PlannedSalesTrigger|true|false
+16:02:48.244 (2244950357)|VARIABLE_ASSIGNMENT|[1]|this|{}|0x97515f6
+16:02:48.244 (2244955770)|STATEMENT_EXECUTE|[1]
+16:02:48.244 (2244963437)|STATEMENT_EXECUTE|[2]
+16:02:48.244 (2273391307)|VARIABLE_SCOPE_BEGIN|[7]|PlannedSalesTriggerHandler.isRecalculating|Boolean|false|true
+16:02:48.244 (2273461962)|HEAP_ALLOCATE|[2]|Bytes:9
+16:02:48.244 (2273518348)|METHOD_ENTRY|[1]|01pgK00000E8652|PlannedSalesTriggerHandler.PlannedSalesTriggerHandler()
+16:02:48.244 (2273529157)|STATEMENT_EXECUTE|[1]
+16:02:48.244 (2273538128)|STATEMENT_EXECUTE|[1]
+16:02:48.244 (2275121889)|HEAP_ALLOCATE|[7]|Bytes:5
+16:02:48.244 (2275139088)|STATEMENT_EXECUTE|[7]
+16:02:48.244 (2275148190)|HEAP_ALLOCATE|[7]|Bytes:5
+16:02:48.244 (2275233266)|VARIABLE_ASSIGNMENT|[7]|PlannedSalesTriggerHandler.isRecalculating|false
+16:02:48.244 (2275263652)|METHOD_EXIT|[1]|PlannedSalesTriggerHandler
+16:02:48.244 (2275283912)|HEAP_ALLOCATE|[2]|Bytes:4
+16:02:48.244 (2275316464)|CONSTRUCTOR_ENTRY|[2]|01pgK00000E8652|<init>()|PlannedSalesTriggerHandler
+16:02:48.244 (2275365120)|VARIABLE_SCOPE_BEGIN|[1]|this|PlannedSalesTriggerHandler|true|false
+16:02:48.244 (2275426768)|VARIABLE_ASSIGNMENT|[1]|this|{}|0x6a0dfc0b
+16:02:48.244 (2275444078)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:5
+16:02:48.244 (2275454925)|CONSTRUCTOR_ENTRY|[EXTERNAL]|01pgK00000E80At|<init>()|TriggerHandler
+16:02:48.244 (2275468329)|VARIABLE_SCOPE_BEGIN|[1]|this|TriggerHandler|true|false
+16:02:48.244 (2275484743)|VARIABLE_ASSIGNMENT|[1]|this|{}|0x6a0dfc0b
+16:02:48.244 (2275518123)|STATEMENT_EXECUTE|[1]
+16:02:48.244 (2275525769)|CONSTRUCTOR_EXIT|[EXTERNAL]|01pgK00000E80At|<init>()|TriggerHandler
+16:02:48.244 (2275534675)|STATEMENT_EXECUTE|[1]
+16:02:48.244 (2275539855)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:5
+16:02:48.244 (2275547674)|CONSTRUCTOR_EXIT|[2]|01pgK00000E8652|<init>()|PlannedSalesTriggerHandler
+16:02:48.244 (2275636656)|METHOD_ENTRY|[2]|01pgK00000E80At|TriggerHandler.run()
+16:02:48.244 (2276015260)|VARIABLE_SCOPE_BEGIN|[17]|this|TriggerHandler|true|false
+16:02:48.244 (2276064976)|VARIABLE_ASSIGNMENT|[17]|this|{}|0x6a0dfc0b
+16:02:48.244 (2276074044)|STATEMENT_EXECUTE|[17]
+16:02:48.244 (2276085393)|METHOD_ENTRY|[18]|01pgK00000E80At|TriggerHandler.isDisabledByMetadata()
+16:02:48.244 (2276091225)|VARIABLE_SCOPE_BEGIN|[9]|this|TriggerHandler|true|false
+16:02:48.244 (2276100245)|VARIABLE_ASSIGNMENT|[9]|this|{}|0x6a0dfc0b
+16:02:48.244 (2276104291)|STATEMENT_EXECUTE|[9]
+16:02:48.244 (2276105209)|STATEMENT_EXECUTE|[10]
+16:02:48.244 (2276122141)|METHOD_ENTRY|[10]|01pgK00000E8652|PlannedSalesTriggerHandler.getHandlerName()
+16:02:48.244 (2276140051)|VARIABLE_SCOPE_BEGIN|[3]|this|PlannedSalesTriggerHandler|true|false
+16:02:48.244 (2276147971)|VARIABLE_ASSIGNMENT|[3]|this|{}|0x6a0dfc0b
+16:02:48.244 (2276165402)|HEAP_ALLOCATE|[4]|Bytes:5
+16:02:48.244 (2276169039)|STATEMENT_EXECUTE|[3]
+16:02:48.244 (2276170028)|STATEMENT_EXECUTE|[4]
+16:02:48.244 (2276173739)|HEAP_ALLOCATE|[4]|Bytes:26
+16:02:48.244 (2276185423)|METHOD_EXIT|[10]|01pgK00000E8652|PlannedSalesTriggerHandler.getHandlerName()
+16:02:48.244 (2282799925)|VARIABLE_SCOPE_BEGIN|[10]|setting|Trigger_Setting__mdt|true|false
+16:02:48.244 (2282866898)|VARIABLE_ASSIGNMENT|[10]|setting|{"IsProtected":false,"Label":"PlannedSalesTriggerH (6 more) ...","MasterLabel":"PlannedSalesTriggerH (6 more) ...","Is_Enabled__c":true,"SystemModstamp":"2026-08-04T22:43:45.000Z","Language":"en_US","ManageableState":"U","QualifiedApiName":"PlannedSalesTriggerH (6 more) ...","Id":"m00gK00001C8iR3","DeveloperName":"PlannedSalesTriggerH (6 more) ..."}|0x581e72b1
+16:02:48.244 (2282875643)|STATEMENT_EXECUTE|[11]
+16:02:48.244 (2282877687)|STATEMENT_EXECUTE|[14]
+16:02:48.244 (2282905719)|METHOD_EXIT|[18]|01pgK00000E80At|TriggerHandler.isDisabledByMetadata()
+16:02:48.244 (2282913333)|STATEMENT_EXECUTE|[18]
+16:02:48.244 (2282942828)|STATEMENT_EXECUTE|[30]
+16:02:48.244 (2282944446)|STATEMENT_EXECUTE|[31]
+16:02:48.244 (2282963615)|METHOD_ENTRY|[31]|01pgK00000E8652|PlannedSalesTriggerHandler.afterUpdate()
+16:02:48.244 (2282982365)|VARIABLE_SCOPE_BEGIN|[13]|this|PlannedSalesTriggerHandler|true|false
+16:02:48.244 (2283026763)|VARIABLE_ASSIGNMENT|[13]|this|{}|0x6a0dfc0b
+16:02:48.244 (2284453644)|HEAP_ALLOCATE|[14]|Bytes:5
+16:02:48.244 (2284467317)|STATEMENT_EXECUTE|[13]
+16:02:48.244 (2284469545)|STATEMENT_EXECUTE|[14]
+16:02:48.244 (2284494844)|METHOD_ENTRY|[14]|01pgK00000E8652|PlannedSalesTriggerHandler.recalc()
+16:02:48.244 (2284570337)|VARIABLE_SCOPE_BEGIN|[17]|this|PlannedSalesTriggerHandler|true|false
+16:02:48.244 (2284614387)|VARIABLE_ASSIGNMENT|[17]|this|{}|0x6a0dfc0b
+16:02:48.244 (2284624380)|HEAP_ALLOCATE|[18]|Bytes:5
+16:02:48.244 (2284627869)|STATEMENT_EXECUTE|[17]
+16:02:48.244 (2284633786)|STATEMENT_EXECUTE|[18]
+16:02:48.244 (2284634775)|STATEMENT_EXECUTE|[22]
+16:02:48.244 (2284639036)|HEAP_ALLOCATE|[22]|Bytes:5
+16:02:48.244 (2284672695)|VARIABLE_ASSIGNMENT|[22]|PlannedSalesTriggerHandler.isRecalculating|true
+16:02:48.244 (2284676438)|STATEMENT_EXECUTE|[23]
+16:02:48.244 (2284677307)|STATEMENT_EXECUTE|[23]
+16:02:48.244 (2284678111)|STATEMENT_EXECUTE|[24]
+16:02:48.244 (2284696349)|HEAP_ALLOCATE|[24]|Bytes:4
+16:02:48.244 (2284751729)|VARIABLE_SCOPE_BEGIN|[24]|ids|Set<Id>|true|false
+16:02:48.244 (2284789453)|VARIABLE_ASSIGNMENT|[24]|ids|[]|0x2aec0928
+16:02:48.244 (2284856111)|HEAP_ALLOCATE|[25]|Bytes:5
+16:02:48.244 (2284896048)|VARIABLE_SCOPE_BEGIN|[25]|rec|SObject|true|false
+16:02:48.244 (2285938481)|VARIABLE_ASSIGNMENT|[25]|rec|{"Planned_Count__c":8,"LastModifiedDate":"2026-08-14T14:02:48.000Z","IsDeleted":false,"Total_Amount_Earned__c":20000.00,"Unique_Key_Stored__c":"2026-8-New","Planned_Total_Amount__c":300000.00,"Car_Type__c":"New","Unique_Key__c":"2026-8-New","Name":"PS-0005","SystemModstamp":"2026-08-14T14:02:48.000Z","Count_of_Cars_Sold__c":1,"OwnerId":"005gK000064ym2nQAA","CreatedById":"005gK000064ym2nQAA","Month__c":8,"Year__c":2026,"CreatedDate":"2026-07-29T15:07:14.000Z","Id":"a07gK00000k8oH6QAI","LastModifiedById":"005gK000064ym2nQAA"}|0x4ad036aa
+16:02:48.244 (2285954503)|STATEMENT_EXECUTE|[25]
+16:02:48.244 (2285956085)|STATEMENT_EXECUTE|[26]
+16:02:48.244 (2286012334)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:4
+16:02:48.244 (2286033659)|HEAP_ALLOCATE|[25]|Bytes:5
+16:02:48.244 (2286047648)|VARIABLE_ASSIGNMENT|[25]|rec|null|
+16:02:48.244 (2286051605)|STATEMENT_EXECUTE|[28]
+16:02:48.244 (2289537978)|METHOD_ENTRY|[28]|01pgK00000E8650|PlannedSalesService.recalculateForPlannedSales(Set<Id>)
+16:02:48.244 (2289595287)|VARIABLE_SCOPE_BEGIN|[5]|plannedSalesIds|Set<Id>|true|false
+16:02:48.244 (2289618250)|VARIABLE_ASSIGNMENT|[5]|plannedSalesIds|["a07gK00000k8oH6QAI"]|0x2aec0928
+16:02:48.244 (2289655009)|HEAP_ALLOCATE|[6]|Bytes:5
+16:02:48.244 (2289661510)|STATEMENT_EXECUTE|[5]
+16:02:48.244 (2289662995)|STATEMENT_EXECUTE|[6]
+16:02:48.244 (2289667313)|HEAP_ALLOCATE|[6]|Bytes:83
+16:02:48.244 (2289687950)|HEAP_ALLOCATE|[6]|Bytes:4
+16:02:48.244 (2307674846)|HEAP_ALLOCATE|[6]|Bytes:8
+16:02:48.244 (2307723250)|HEAP_ALLOCATE|[6]|Bytes:142
+16:02:48.244 (2307817784)|HEAP_ALLOCATE|[6]|Bytes:8
+16:02:48.244 (2307848055)|VARIABLE_SCOPE_BEGIN|[6]|plannedSalesList|List<Planned_Sales__c>|true|false
+16:02:48.244 (2308032307)|VARIABLE_ASSIGNMENT|[6]|plannedSalesList|[{"Car_Type__c":"New","Id":"a07gK00000k8oH6QAI","Month__c":8,"Year__c":2026}]|0x4728746
+16:02:48.244 (2308044003)|STATEMENT_EXECUTE|[11]
+16:02:48.244 (2308072094)|METHOD_ENTRY|[11]|01pgK00000E8650|PlannedSalesService.recalculate(List<Planned_Sales__c>)
+16:02:48.244 (2308298237)|VARIABLE_SCOPE_BEGIN|[31]|plannedSalesList|List<Planned_Sales__c>|true|false
+16:02:48.244 (2308366290)|VARIABLE_ASSIGNMENT|[31]|plannedSalesList|[{"Car_Type__c":"New","Id":"a07gK00000k8oH6QAI","Month__c":8,"Year__c":2026}]|0x4728746
+16:02:48.244 (2308398380)|HEAP_ALLOCATE|[32]|Bytes:5
+16:02:48.244 (2308405853)|STATEMENT_EXECUTE|[31]
+16:02:48.244 (2308431222)|STATEMENT_EXECUTE|[32]
+16:02:48.244 (2308432997)|STATEMENT_EXECUTE|[36]
+16:02:48.244 (2308456740)|HEAP_ALLOCATE|[36]|Bytes:4
+16:02:48.244 (2328596310)|HEAP_ALLOCATE|[36]|Bytes:8
+16:02:48.244 (2328653679)|HEAP_ALLOCATE|[36]|Bytes:349
+16:02:48.244 (2328730978)|HEAP_ALLOCATE|[36]|Bytes:8
+16:02:48.244 (2328755770)|VARIABLE_SCOPE_BEGIN|[36]|lineItems|List<OpportunityLineItem>|true|false
+16:02:48.244 (2329036028)|VARIABLE_ASSIGNMENT|[36]|lineItems|[{"Id":"00kgK00000609ZJQAY","OpportunityId":"006gK00000MbxR3QAJ","PricebookEntryId":"01ugK000004uosfQAA","PricebookEntry":{"Product2":{"Condition__c":"New","Id":"01tgK00000DjrIPQAZ"},"Id":"01ugK000004uosfQAA","Product2Id":"01tgK00000DjrIPQAZ"},"TotalPrice":20000.00,"Opportunity":{"CloseDate":"2026-08-19T00:00:00.000Z","Id":"006gK00000MbxR3QAJ"}}]|0x219b39b1
+16:02:48.244 (2329052380)|STATEMENT_EXECUTE|[42]
+16:02:48.244 (2329074737)|HEAP_ALLOCATE|[42]|Bytes:4
+16:02:48.244 (2329092992)|VARIABLE_SCOPE_BEGIN|[42]|countMap|Map<String,Integer>|true|false
+16:02:48.244 (2329117480)|VARIABLE_ASSIGNMENT|[42]|countMap|{}|0x5161dfa4
+16:02:48.244 (2329124171)|STATEMENT_EXECUTE|[43]
+16:02:48.244 (2329133354)|HEAP_ALLOCATE|[43]|Bytes:4
+16:02:48.244 (2329139517)|VARIABLE_SCOPE_BEGIN|[43]|amountMap|Map<String,Decimal>|true|false
+16:02:48.244 (2329149488)|VARIABLE_ASSIGNMENT|[43]|amountMap|{}|0x3a359cd
+16:02:48.244 (2329201858)|HEAP_ALLOCATE|[45]|Bytes:5
+16:02:48.244 (2329226233)|HEAP_ALLOCATE|[45]|Bytes:28
+16:02:48.244 (2329237264)|VARIABLE_SCOPE_BEGIN|[45]|oli|OpportunityLineItem|true|false
+16:02:48.244 (2329378275)|VARIABLE_ASSIGNMENT|[45]|oli|{"Id":"00kgK00000609ZJQAY","OpportunityId":"006gK00000MbxR3QAJ","PricebookEntryId":"01ugK000004uosfQAA","PricebookEntry":{"Product2":{"Condition__c":"New","Id":"01tgK00000DjrIPQAZ"},"Id":"01ugK000004uosfQAA","Product2Id":"01tgK00000DjrIPQAZ"},"TotalPrice":20000.00,"Opportunity":{"CloseDate":"2026-08-19T00:00:00.000Z","Id":"006gK00000MbxR3QAJ"}}|0x1d09b4ea
+16:02:48.244 (2329390692)|STATEMENT_EXECUTE|[45]
+16:02:48.244 (2329433257)|STATEMENT_EXECUTE|[46]
+16:02:48.244 (2329435015)|STATEMENT_EXECUTE|[49]
+16:02:48.244 (2329552250)|METHOD_ENTRY|[49]|01pgK00000E8650|PlannedSalesService.buildKey(Integer, Integer, String)
+16:02:48.244 (2329596027)|VARIABLE_SCOPE_BEGIN|[103]|year|Integer|false|false
+16:02:48.244 (2329608157)|VARIABLE_ASSIGNMENT|[103]|year|2026
+16:02:48.244 (2329613203)|VARIABLE_SCOPE_BEGIN|[103]|month|Integer|false|false
+16:02:48.244 (2329619890)|VARIABLE_ASSIGNMENT|[103]|month|8
+16:02:48.244 (2329623869)|VARIABLE_SCOPE_BEGIN|[103]|carType|String|false|false
+16:02:48.244 (2329631265)|VARIABLE_ASSIGNMENT|[103]|carType|"New"
+16:02:48.244 (2329645656)|HEAP_ALLOCATE|[104]|Bytes:5
+16:02:48.244 (2329650123)|STATEMENT_EXECUTE|[103]
+16:02:48.244 (2329651666)|STATEMENT_EXECUTE|[104]
+16:02:48.244 (2329675446)|HEAP_ALLOCATE|[104]|Bytes:4
+16:02:48.244 (2329689075)|HEAP_ALLOCATE|[104]|Bytes:1
+16:02:48.244 (2329750468)|HEAP_ALLOCATE|[104]|Bytes:10
+16:02:48.244 (2329763383)|METHOD_EXIT|[49]|01pgK00000E8650|PlannedSalesService.buildKey(Integer, Integer, String)
+16:02:48.244 (2329770256)|VARIABLE_SCOPE_BEGIN|[49]|key|String|false|false
+16:02:48.244 (2329779728)|VARIABLE_ASSIGNMENT|[49]|key|"2026-8-New"
+16:02:48.244 (2329783951)|STATEMENT_EXECUTE|[54]
+16:02:48.244 (2329803478)|HEAP_ALLOCATE|[54]|Bytes:4
+16:02:48.244 (2329811189)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:-4
+16:02:48.244 (2329817926)|STATEMENT_EXECUTE|[55]
+16:02:48.244 (2329836344)|VARIABLE_SCOPE_BEGIN|[55]|price|Decimal|false|false
+16:02:48.244 (2329847139)|VARIABLE_ASSIGNMENT|[55]|price|20000.00
+16:02:48.244 (2329851083)|STATEMENT_EXECUTE|[56]
+16:02:48.244 (2329869766)|HEAP_ALLOCATE|[56]|Bytes:28
+16:02:48.244 (2329873024)|HEAP_ALLOCATE|[56]|Bytes:28
+16:02:48.244 (2329894178)|HEAP_ALLOCATE|[56]|Bytes:28
+16:02:48.244 (2329904502)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:-4
+16:02:48.244 (2329916750)|HEAP_ALLOCATE|[45]|Bytes:5
+16:02:48.244 (2329927493)|VARIABLE_ASSIGNMENT|[45]|oli|null|
+16:02:48.244 (2329933119)|STATEMENT_EXECUTE|[59]
+16:02:48.244 (2329945557)|HEAP_ALLOCATE|[59]|Bytes:4
+16:02:48.244 (2329977128)|VARIABLE_SCOPE_BEGIN|[59]|toUpdate|List<Planned_Sales__c>|true|false
+16:02:48.244 (2329986856)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:4
+16:02:48.244 (2329994745)|VARIABLE_ASSIGNMENT|[59]|toUpdate|[]|0x5ac8d44a
+16:02:48.244 (2330013593)|HEAP_ALLOCATE|[60]|Bytes:5
+16:02:48.244 (2330025920)|HEAP_ALLOCATE|[60]|Bytes:20
+16:02:48.244 (2330031840)|VARIABLE_SCOPE_BEGIN|[60]|ps|Planned_Sales__c|true|false
+16:02:48.244 (2330112134)|VARIABLE_ASSIGNMENT|[60]|ps|{"Car_Type__c":"New","Id":"a07gK00000k8oH6QAI","Month__c":8,"Year__c":2026}|0x70ed412c
+16:02:48.244 (2330118283)|STATEMENT_EXECUTE|[60]
+16:02:48.244 (2330119873)|STATEMENT_EXECUTE|[61]
+16:02:48.244 (2330131445)|HEAP_ALLOCATE|[61]|Bytes:28
+16:02:48.244 (2330141624)|METHOD_ENTRY|[61]|01pgK00000E8650|PlannedSalesService.buildKey(Decimal, Decimal, String)
+16:02:48.244 (2330147554)|VARIABLE_SCOPE_BEGIN|[99]|year|Decimal|false|false
+16:02:48.244 (2330155439)|VARIABLE_ASSIGNMENT|[99]|year|2026
+16:02:48.244 (2330159646)|VARIABLE_SCOPE_BEGIN|[99]|month|Decimal|false|false
+16:02:48.244 (2330167243)|VARIABLE_ASSIGNMENT|[99]|month|8
+16:02:48.244 (2330171361)|VARIABLE_SCOPE_BEGIN|[99]|carType|String|false|false
+16:02:48.244 (2330178576)|VARIABLE_ASSIGNMENT|[99]|carType|"New"
+16:02:48.244 (2330199964)|HEAP_ALLOCATE|[100]|Bytes:5
+16:02:48.244 (2330203696)|STATEMENT_EXECUTE|[99]
+16:02:48.244 (2330205113)|STATEMENT_EXECUTE|[100]
+16:02:48.244 (2330231967)|METHOD_ENTRY|[100]|01pgK00000E8650|PlannedSalesService.buildKey(Integer, Integer, String)
+16:02:48.244 (2330263036)|VARIABLE_SCOPE_BEGIN|[103]|year|Integer|false|false
+16:02:48.244 (2330271259)|VARIABLE_ASSIGNMENT|[103]|year|2026
+16:02:48.244 (2330275306)|VARIABLE_SCOPE_BEGIN|[103]|month|Integer|false|false
+16:02:48.244 (2330281728)|VARIABLE_ASSIGNMENT|[103]|month|8
+16:02:48.244 (2330285752)|VARIABLE_SCOPE_BEGIN|[103]|carType|String|false|false
+16:02:48.244 (2330292354)|VARIABLE_ASSIGNMENT|[103]|carType|"New"
+16:02:48.244 (2330299054)|HEAP_ALLOCATE|[104]|Bytes:5
+16:02:48.244 (2330302229)|STATEMENT_EXECUTE|[103]
+16:02:48.244 (2330303602)|STATEMENT_EXECUTE|[104]
+16:02:48.244 (2330310731)|HEAP_ALLOCATE|[104]|Bytes:4
+16:02:48.244 (2330322857)|HEAP_ALLOCATE|[104]|Bytes:1
+16:02:48.244 (2330337100)|HEAP_ALLOCATE|[104]|Bytes:10
+16:02:48.244 (2330344741)|METHOD_EXIT|[100]|01pgK00000E8650|PlannedSalesService.buildKey(Integer, Integer, String)
+16:02:48.244 (2330351111)|METHOD_EXIT|[61]|01pgK00000E8650|PlannedSalesService.buildKey(Decimal, Decimal, String)
+16:02:48.244 (2330355600)|VARIABLE_SCOPE_BEGIN|[61]|key|String|false|false
+16:02:48.244 (2330363235)|VARIABLE_ASSIGNMENT|[61]|key|"2026-8-New"
+16:02:48.244 (2330367430)|STATEMENT_EXECUTE|[62]
+16:02:48.244 (2330410973)|HEAP_ALLOCATE|[62]|Bytes:4
+16:02:48.244 (2330504496)|VARIABLE_ASSIGNMENT|[62]|this.Id|"a07gK00000k8oH6QAI"|0x4b2349b8
+16:02:48.244 (2330532440)|HEAP_ALLOCATE|[62]|Bytes:28
+16:02:48.244 (2330535682)|HEAP_ALLOCATE|[62]|Bytes:28
+16:02:48.244 (2330559797)|VARIABLE_ASSIGNMENT|[62]|this.Count_of_Cars_Sold__c|1|0x4b2349b8
+16:02:48.244 (2330575486)|HEAP_ALLOCATE|[65]|Bytes:28
+16:02:48.244 (2330597287)|VARIABLE_ASSIGNMENT|[62]|this.Total_Amount_Earned__c|20000.00|0x4b2349b8
+16:02:48.244 (2330622454)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:4
+16:02:48.244 (2330633294)|HEAP_ALLOCATE|[60]|Bytes:5
+16:02:48.244 (2330642366)|VARIABLE_ASSIGNMENT|[60]|ps|null|
+16:02:48.244 (2330647539)|STATEMENT_EXECUTE|[69]
+16:02:48.244 (2330652621)|METHOD_ENTRY|[69]|01pgK00000E8650|PlannedSalesService.updateSafely(List<Planned_Sales__c>)
+16:02:48.244 (2330658721)|VARIABLE_SCOPE_BEGIN|[72]|records|List<Planned_Sales__c>|true|false
+16:02:48.244 (2330681936)|VARIABLE_ASSIGNMENT|[72]|records|[{"Id":"a07gK00000k8oH6QAI","Count_of_Cars_Sold__c":1,"Total_Amount_Earned__c":20000.00}]|0x5ac8d44a
+16:02:48.244 (2330692902)|HEAP_ALLOCATE|[73]|Bytes:5
+16:02:48.244 (2330697028)|STATEMENT_EXECUTE|[72]
+16:02:48.244 (2330731986)|STATEMENT_EXECUTE|[73]
+16:02:48.244 (2330733667)|STATEMENT_EXECUTE|[77]
+16:02:48.244 (2331878589)|HEAP_ALLOCATE|[77]|Bytes:16
+16:02:48.244 (2331911407)|VARIABLE_SCOPE_BEGIN|[77]|sp|System.Savepoint|true|false
+16:02:48.244 (2332039461)|VARIABLE_ASSIGNMENT|[77]|sp|"common.apex.runtime.impl.ApexUserSavepoint@57d5ae12"|0x57d5ae12
+16:02:48.244 (2332047510)|STATEMENT_EXECUTE|[78]
+16:02:48.244 (2332049423)|STATEMENT_EXECUTE|[78]
+16:02:48.244 (2332050929)|STATEMENT_EXECUTE|[79]
+16:02:48.244 (2332069036)|METHOD_ENTRY|[79]||System.Security.stripInaccessible(System.AccessType, List<SObject>)
+16:02:48.244 (2332618883)|METHOD_EXIT|[79]||System.Security.stripInaccessible(System.AccessType, List<SObject>)
+16:02:48.244 (2332628732)|VARIABLE_SCOPE_BEGIN|[79]|decision|System.SObjectAccessDecision|true|false
+16:02:48.244 (2332727964)|VARIABLE_ASSIGNMENT|[79]|decision|{"modifiedIndexes":"0x66e8da87","records":"0x1c374d76","removedFields":"0xa05334c"}|0x486641b
+16:02:48.244 (2332734508)|STATEMENT_EXECUTE|[80]
+16:02:48.244 (2332740796)|METHOD_ENTRY|[80]||System.SObjectAccessDecision.getRecords()
+16:02:48.244 (2332752553)|METHOD_EXIT|[80]||System.SObjectAccessDecision.getRecords()
+16:02:48.244 (2332757102)|VARIABLE_SCOPE_BEGIN|[80]|safeRecords|List<SObject>|true|false
+16:02:48.244 (2332780498)|VARIABLE_ASSIGNMENT|[80]|safeRecords|[{"Id":"a07gK00000k8oH6QAI","Count_of_Cars_Sold__c":1,"Total_Amount_Earned__c":20000.00}]|0x1c374d76
+16:02:48.244 (2332783721)|STATEMENT_EXECUTE|[82]
+16:02:48.244 (2332946035)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:8
+16:02:48.244 (2359815747)|CODE_UNIT_STARTED|[EXTERNAL]|01qgK000005f2Pa|PlannedSalesTrigger on Planned_Sales trigger event AfterUpdate|__sfdc_trigger/PlannedSalesTrigger
+16:02:48.244 (2359902062)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:8
+16:02:48.244 (2359986644)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:8
+16:02:48.244 (2360108336)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:4
+16:02:48.244 (2360121941)|VARIABLE_SCOPE_BEGIN|[1]|this|PlannedSalesTrigger|true|false
+16:02:48.244 (2360214239)|VARIABLE_ASSIGNMENT|[1]|this|{}|0x5b118c90
+16:02:48.244 (2360252363)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:4
+16:02:48.244 (2360258761)|VARIABLE_SCOPE_BEGIN|[1]|this|PlannedSalesTrigger|true|false
+16:02:48.244 (2360275053)|VARIABLE_ASSIGNMENT|[1]|this|{}|0x5b118c90
+16:02:48.244 (2360283873)|STATEMENT_EXECUTE|[1]
+16:02:48.244 (2360287013)|STATEMENT_EXECUTE|[2]
+16:02:48.244 (2360293034)|HEAP_ALLOCATE|[2]|Bytes:4
+16:02:48.244 (2360328848)|CONSTRUCTOR_ENTRY|[2]|01pgK00000E8652|<init>()|PlannedSalesTriggerHandler
+16:02:48.244 (2360340759)|VARIABLE_SCOPE_BEGIN|[1]|this|PlannedSalesTriggerHandler|true|false
+16:02:48.244 (2360366981)|VARIABLE_ASSIGNMENT|[1]|this|{}|0x999bfa4
+16:02:48.244 (2360395616)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:5
+16:02:48.244 (2360407488)|CONSTRUCTOR_ENTRY|[EXTERNAL]|01pgK00000E80At|<init>()|TriggerHandler
+16:02:48.244 (2360414648)|VARIABLE_SCOPE_BEGIN|[1]|this|TriggerHandler|true|false
+16:02:48.244 (2360430747)|VARIABLE_ASSIGNMENT|[1]|this|{}|0x999bfa4
+16:02:48.244 (2360458337)|STATEMENT_EXECUTE|[1]
+16:02:48.244 (2360466576)|CONSTRUCTOR_EXIT|[EXTERNAL]|01pgK00000E80At|<init>()|TriggerHandler
+16:02:48.244 (2360481153)|STATEMENT_EXECUTE|[1]
+16:02:48.244 (2360486796)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:5
+16:02:48.244 (2360496273)|CONSTRUCTOR_EXIT|[2]|01pgK00000E8652|<init>()|PlannedSalesTriggerHandler
+16:02:48.244 (2360508489)|METHOD_ENTRY|[2]|01pgK00000E80At|TriggerHandler.run()
+16:02:48.244 (2360514954)|VARIABLE_SCOPE_BEGIN|[17]|this|TriggerHandler|true|false
+16:02:48.244 (2360531251)|VARIABLE_ASSIGNMENT|[17]|this|{}|0x999bfa4
+16:02:48.244 (2360539164)|STATEMENT_EXECUTE|[17]
+16:02:48.244 (2360547198)|METHOD_ENTRY|[18]|01pgK00000E80At|TriggerHandler.isDisabledByMetadata()
+16:02:48.244 (2360552074)|VARIABLE_SCOPE_BEGIN|[9]|this|TriggerHandler|true|false
+16:02:48.244 (2360565518)|VARIABLE_ASSIGNMENT|[9]|this|{}|0x999bfa4
+16:02:48.244 (2360571882)|STATEMENT_EXECUTE|[9]
+16:02:48.244 (2360573379)|STATEMENT_EXECUTE|[10]
+16:02:48.244 (2360578321)|METHOD_ENTRY|[10]|01pgK00000E8652|PlannedSalesTriggerHandler.getHandlerName()
+16:02:48.244 (2360583619)|VARIABLE_SCOPE_BEGIN|[3]|this|PlannedSalesTriggerHandler|true|false
+16:02:48.244 (2360597640)|VARIABLE_ASSIGNMENT|[3]|this|{}|0x999bfa4
+16:02:48.244 (2360606633)|HEAP_ALLOCATE|[4]|Bytes:5
+16:02:48.244 (2360610524)|STATEMENT_EXECUTE|[3]
+16:02:48.244 (2360611834)|STATEMENT_EXECUTE|[4]
+16:02:48.244 (2360620559)|METHOD_EXIT|[10]|01pgK00000E8652|PlannedSalesTriggerHandler.getHandlerName()
+16:02:48.244 (2360831829)|VARIABLE_SCOPE_BEGIN|[10]|setting|Trigger_Setting__mdt|true|false
+16:02:48.244 (2360895304)|VARIABLE_ASSIGNMENT|[10]|setting|{"IsProtected":false,"Label":"PlannedSalesTriggerH (6 more) ...","MasterLabel":"PlannedSalesTriggerH (6 more) ...","Is_Enabled__c":true,"SystemModstamp":"2026-08-04T22:43:45.000Z","Language":"en_US","ManageableState":"U","QualifiedApiName":"PlannedSalesTriggerH (6 more) ...","Id":"m00gK00001C8iR3","DeveloperName":"PlannedSalesTriggerH (6 more) ..."}|0x192635fe
+16:02:48.244 (2360905388)|STATEMENT_EXECUTE|[11]
+16:02:48.244 (2360907097)|STATEMENT_EXECUTE|[14]
+16:02:48.244 (2360926549)|METHOD_EXIT|[18]|01pgK00000E80At|TriggerHandler.isDisabledByMetadata()
+16:02:48.244 (2360933522)|STATEMENT_EXECUTE|[18]
+16:02:48.244 (2360995286)|STATEMENT_EXECUTE|[30]
+16:02:48.244 (2360997061)|STATEMENT_EXECUTE|[31]
+16:02:48.244 (2361002128)|METHOD_ENTRY|[31]|01pgK00000E8652|PlannedSalesTriggerHandler.afterUpdate()
+16:02:48.244 (2361009291)|VARIABLE_SCOPE_BEGIN|[13]|this|PlannedSalesTriggerHandler|true|false
+16:02:48.244 (2361033714)|VARIABLE_ASSIGNMENT|[13]|this|{}|0x999bfa4
+16:02:48.244 (2361045747)|HEAP_ALLOCATE|[14]|Bytes:5
+16:02:48.244 (2361050576)|STATEMENT_EXECUTE|[13]
+16:02:48.244 (2361051971)|STATEMENT_EXECUTE|[14]
+16:02:48.244 (2361056667)|METHOD_ENTRY|[14]|01pgK00000E8652|PlannedSalesTriggerHandler.recalc()
+16:02:48.244 (2361062035)|VARIABLE_SCOPE_BEGIN|[17]|this|PlannedSalesTriggerHandler|true|false
+16:02:48.244 (2361075975)|VARIABLE_ASSIGNMENT|[17]|this|{}|0x999bfa4
+16:02:48.244 (2361084693)|HEAP_ALLOCATE|[18]|Bytes:5
+16:02:48.244 (2361088547)|STATEMENT_EXECUTE|[17]
+16:02:48.244 (2361091795)|STATEMENT_EXECUTE|[18]
+16:02:48.244 (2361093316)|STATEMENT_EXECUTE|[19]
+16:02:48.244 (2361098775)|METHOD_EXIT|[14]|01pgK00000E8652|PlannedSalesTriggerHandler.recalc()
+16:02:48.244 (2361107149)|METHOD_EXIT|[31]|01pgK00000E8652|PlannedSalesTriggerHandler.afterUpdate()
+16:02:48.244 (2361112937)|METHOD_EXIT|[2]|01pgK00000E80At|TriggerHandler.run()
+16:02:48.361 (2361123037)|CUMULATIVE_LIMIT_USAGE
+16:02:48.361 (2361123037)|LIMIT_USAGE_FOR_NS|(default)|
+  Number of SOQL queries: 6 out of 100
+  Number of query rows: 11 out of 50000
+  Number of SOSL queries: 0 out of 20
+  Number of DML statements: 10 out of 150
+  Number of Publish Immediate DML: 0 out of 150
+  Number of DML rows: 10 out of 10000
+  Maximum CPU time: 214 out of 10000
+  Maximum heap size: 0 out of 6000000
+  Number of callouts: 0 out of 100
+  Number of Email Invocations: 0 out of 10
+  Number of future calls: 0 out of 50
+  Number of queueable jobs added to the queue: 0 out of 50
+  Number of Mobile Apex push calls: 0 out of 10
+
+16:02:48.361 (2361123037)|CUMULATIVE_LIMIT_USAGE_END
+
+16:02:48.244 (2361359063)|CODE_UNIT_FINISHED|PlannedSalesTrigger on Planned_Sales trigger event AfterUpdate|__sfdc_trigger/PlannedSalesTrigger
+16:02:48.244 (2380097213)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:8
+16:02:48.244 (2380157778)|HEAP_ALLOCATE|[82]|Bytes:8
+16:02:48.244 (2380187495)|VARIABLE_SCOPE_BEGIN|[82]|results|List<Database.SaveResult>|true|false
+16:02:48.244 (2380243010)|VARIABLE_ASSIGNMENT|[82]|results|[{"success":true,"id":"a07gK00000k8oH6QAI"}]|0x5df49ee7
+16:02:48.244 (2380249892)|STATEMENT_EXECUTE|[83]
+16:02:48.244 (2380263469)|HEAP_ALLOCATE|[83]|Bytes:4
+16:02:48.244 (2380332996)|VARIABLE_SCOPE_BEGIN|[83]|errorMessages|List<String>|true|false
+16:02:48.244 (2380351603)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:4
+16:02:48.244 (2380355108)|VARIABLE_ASSIGNMENT|[83]|errorMessages|[]|0x1dce2cd8
+16:02:48.244 (2380527700)|HEAP_ALLOCATE|[84]|Bytes:5
+16:02:48.244 (2380550473)|HEAP_ALLOCATE|[84]|Bytes:4
+16:02:48.244 (2380557294)|VARIABLE_SCOPE_BEGIN|[84]|result|Database.SaveResult|true|false
+16:02:48.244 (2380567802)|VARIABLE_ASSIGNMENT|[84]|result|{"success":true,"id":"a07gK00000k8oH6QAI"}|0x10693c8
+16:02:48.244 (2380571702)|STATEMENT_EXECUTE|[84]
+16:02:48.244 (2380604305)|STATEMENT_EXECUTE|[85]
+16:02:48.244 (2380610908)|HEAP_ALLOCATE|[84]|Bytes:5
+16:02:48.244 (2380618587)|VARIABLE_ASSIGNMENT|[84]|result|null|
+16:02:48.244 (2380636371)|STATEMENT_EXECUTE|[91]
+16:02:48.244 (2380651461)|METHOD_EXIT|[69]|01pgK00000E8650|PlannedSalesService.updateSafely(List<Planned_Sales__c>)
+16:02:48.244 (2380661707)|METHOD_EXIT|[11]|01pgK00000E8650|PlannedSalesService.recalculate(List<Planned_Sales__c>)
+16:02:48.244 (2380672331)|METHOD_EXIT|[28]|01pgK00000E8650|PlannedSalesService.recalculateForPlannedSales(Set<Id>)
+16:02:48.244 (2380675465)|STATEMENT_EXECUTE|[29]
+16:02:48.244 (2380676368)|STATEMENT_EXECUTE|[30]
+16:02:48.244 (2380681924)|HEAP_ALLOCATE|[30]|Bytes:5
+16:02:48.244 (2380716906)|VARIABLE_ASSIGNMENT|[30]|PlannedSalesTriggerHandler.isRecalculating|false
+16:02:48.244 (2380723414)|METHOD_EXIT|[14]|01pgK00000E8652|PlannedSalesTriggerHandler.recalc()
+16:02:48.244 (2380731009)|METHOD_EXIT|[31]|01pgK00000E8652|PlannedSalesTriggerHandler.afterUpdate()
+16:02:48.244 (2380736129)|METHOD_EXIT|[2]|01pgK00000E80At|TriggerHandler.run()
+16:02:48.380 (2380748617)|CUMULATIVE_LIMIT_USAGE
+16:02:48.380 (2380748617)|LIMIT_USAGE_FOR_NS|(default)|
+  Number of SOQL queries: 6 out of 100
+  Number of query rows: 11 out of 50000
+  Number of SOSL queries: 0 out of 20
+  Number of DML statements: 10 out of 150
+  Number of Publish Immediate DML: 0 out of 150
+  Number of DML rows: 10 out of 10000
+  Maximum CPU time: 214 out of 10000
+  Maximum heap size: 0 out of 6000000
+  Number of callouts: 0 out of 100
+  Number of Email Invocations: 0 out of 10
+  Number of future calls: 0 out of 50
+  Number of queueable jobs added to the queue: 0 out of 50
+  Number of Mobile Apex push calls: 0 out of 10
+
+16:02:48.380 (2380748617)|CUMULATIVE_LIMIT_USAGE_END
+
+16:02:48.244 (2380958100)|CODE_UNIT_FINISHED|PlannedSalesTrigger on Planned_Sales trigger event AfterUpdate|__sfdc_trigger/PlannedSalesTrigger
+16:02:48.244 (2387752733)|CODE_UNIT_STARTED|[EXTERNAL]|Flow:01IgK000006U3t3
+16:02:48.244 (2387795220)|CODE_UNIT_FINISHED|Flow:01IgK000006U3t3
+16:02:48.244 (2388035638)|CODE_UNIT_STARTED|[EXTERNAL]|Flow:01IgK000006U3t3
+16:02:48.244 (2388046929)|CODE_UNIT_FINISHED|Flow:01IgK000006U3t3
+16:02:48.244 (2391464755)|CODE_UNIT_STARTED|[EXTERNAL]|Flow:01IgK000006U3t3
+16:02:48.244 (2396652431)|CODE_UNIT_FINISHED|Flow:01IgK000006U3t3
+16:02:48.244 (2417380777)|CODE_UNIT_STARTED|[EXTERNAL]|01qgK000005f2Pa|PlannedSalesTrigger on Planned_Sales trigger event AfterUpdate|__sfdc_trigger/PlannedSalesTrigger
+16:02:48.244 (2417447090)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:8
+16:02:48.244 (2417509923)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:8
+16:02:48.244 (2417612435)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:4
+16:02:48.244 (2417622325)|VARIABLE_SCOPE_BEGIN|[1]|this|PlannedSalesTrigger|true|false
+16:02:48.244 (2417729267)|VARIABLE_ASSIGNMENT|[1]|this|{}|0x177c5ded
+16:02:48.244 (2417767934)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:4
+16:02:48.244 (2417773483)|VARIABLE_SCOPE_BEGIN|[1]|this|PlannedSalesTrigger|true|false
+16:02:48.244 (2417787517)|VARIABLE_ASSIGNMENT|[1]|this|{}|0x177c5ded
+16:02:48.244 (2417795392)|STATEMENT_EXECUTE|[1]
+16:02:48.244 (2417799573)|STATEMENT_EXECUTE|[2]
+16:02:48.244 (2417806080)|HEAP_ALLOCATE|[2]|Bytes:4
+16:02:48.244 (2417842350)|CONSTRUCTOR_ENTRY|[2]|01pgK00000E8652|<init>()|PlannedSalesTriggerHandler
+16:02:48.244 (2417852239)|VARIABLE_SCOPE_BEGIN|[1]|this|PlannedSalesTriggerHandler|true|false
+16:02:48.244 (2417875224)|VARIABLE_ASSIGNMENT|[1]|this|{}|0x70a56155
+16:02:48.244 (2417899623)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:5
+16:02:48.244 (2417909162)|CONSTRUCTOR_ENTRY|[EXTERNAL]|01pgK00000E80At|<init>()|TriggerHandler
+16:02:48.244 (2417914888)|VARIABLE_SCOPE_BEGIN|[1]|this|TriggerHandler|true|false
+16:02:48.244 (2417927774)|VARIABLE_ASSIGNMENT|[1]|this|{}|0x70a56155
+16:02:48.244 (2417952136)|STATEMENT_EXECUTE|[1]
+16:02:48.244 (2417958817)|CONSTRUCTOR_EXIT|[EXTERNAL]|01pgK00000E80At|<init>()|TriggerHandler
+16:02:48.244 (2417970196)|STATEMENT_EXECUTE|[1]
+16:02:48.244 (2417974904)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:5
+16:02:48.244 (2417982287)|CONSTRUCTOR_EXIT|[2]|01pgK00000E8652|<init>()|PlannedSalesTriggerHandler
+16:02:48.244 (2417993115)|METHOD_ENTRY|[2]|01pgK00000E80At|TriggerHandler.run()
+16:02:48.244 (2417998064)|VARIABLE_SCOPE_BEGIN|[17]|this|TriggerHandler|true|false
+16:02:48.244 (2418010937)|VARIABLE_ASSIGNMENT|[17]|this|{}|0x70a56155
+16:02:48.244 (2418017910)|STATEMENT_EXECUTE|[17]
+16:02:48.244 (2418025368)|METHOD_ENTRY|[18]|01pgK00000E80At|TriggerHandler.isDisabledByMetadata()
+16:02:48.244 (2418029473)|VARIABLE_SCOPE_BEGIN|[9]|this|TriggerHandler|true|false
+16:02:48.244 (2418040015)|VARIABLE_ASSIGNMENT|[9]|this|{}|0x70a56155
+16:02:48.244 (2418045311)|STATEMENT_EXECUTE|[9]
+16:02:48.244 (2418047077)|STATEMENT_EXECUTE|[10]
+16:02:48.244 (2418051398)|METHOD_ENTRY|[10]|01pgK00000E8652|PlannedSalesTriggerHandler.getHandlerName()
+16:02:48.244 (2418056088)|VARIABLE_SCOPE_BEGIN|[3]|this|PlannedSalesTriggerHandler|true|false
+16:02:48.244 (2418067261)|VARIABLE_ASSIGNMENT|[3]|this|{}|0x70a56155
+16:02:48.244 (2418074850)|HEAP_ALLOCATE|[4]|Bytes:5
+16:02:48.244 (2418078461)|STATEMENT_EXECUTE|[3]
+16:02:48.244 (2418079863)|STATEMENT_EXECUTE|[4]
+16:02:48.244 (2418088501)|METHOD_EXIT|[10]|01pgK00000E8652|PlannedSalesTriggerHandler.getHandlerName()
+16:02:48.244 (2419669976)|VARIABLE_SCOPE_BEGIN|[10]|setting|Trigger_Setting__mdt|true|false
+16:02:48.244 (2419733519)|VARIABLE_ASSIGNMENT|[10]|setting|{"IsProtected":false,"Label":"PlannedSalesTriggerH (6 more) ...","MasterLabel":"PlannedSalesTriggerH (6 more) ...","Is_Enabled__c":true,"SystemModstamp":"2026-08-04T22:43:45.000Z","Language":"en_US","ManageableState":"U","QualifiedApiName":"PlannedSalesTriggerH (6 more) ...","Id":"m00gK00001C8iR3","DeveloperName":"PlannedSalesTriggerH (6 more) ..."}|0x663e242f
+16:02:48.244 (2419741880)|STATEMENT_EXECUTE|[11]
+16:02:48.244 (2419743560)|STATEMENT_EXECUTE|[14]
+16:02:48.244 (2419769944)|METHOD_EXIT|[18]|01pgK00000E80At|TriggerHandler.isDisabledByMetadata()
+16:02:48.244 (2419777919)|STATEMENT_EXECUTE|[18]
+16:02:48.244 (2419805350)|STATEMENT_EXECUTE|[30]
+16:02:48.244 (2419806258)|STATEMENT_EXECUTE|[31]
+16:02:48.244 (2419812475)|METHOD_ENTRY|[31]|01pgK00000E8652|PlannedSalesTriggerHandler.afterUpdate()
+16:02:48.244 (2419817531)|VARIABLE_SCOPE_BEGIN|[13]|this|PlannedSalesTriggerHandler|true|false
+16:02:48.244 (2419858646)|VARIABLE_ASSIGNMENT|[13]|this|{}|0x70a56155
+16:02:48.244 (2419870536)|HEAP_ALLOCATE|[14]|Bytes:5
+16:02:48.244 (2419876059)|STATEMENT_EXECUTE|[13]
+16:02:48.244 (2419876943)|STATEMENT_EXECUTE|[14]
+16:02:48.244 (2419880261)|METHOD_ENTRY|[14]|01pgK00000E8652|PlannedSalesTriggerHandler.recalc()
+16:02:48.244 (2419883800)|VARIABLE_SCOPE_BEGIN|[17]|this|PlannedSalesTriggerHandler|true|false
+16:02:48.244 (2419891751)|VARIABLE_ASSIGNMENT|[17]|this|{}|0x70a56155
+16:02:48.244 (2419896235)|HEAP_ALLOCATE|[18]|Bytes:5
+16:02:48.244 (2419898455)|STATEMENT_EXECUTE|[17]
+16:02:48.244 (2419900941)|STATEMENT_EXECUTE|[18]
+16:02:48.244 (2419901831)|STATEMENT_EXECUTE|[22]
+16:02:48.244 (2419904135)|HEAP_ALLOCATE|[22]|Bytes:5
+16:02:48.244 (2419937367)|VARIABLE_ASSIGNMENT|[22]|PlannedSalesTriggerHandler.isRecalculating|true
+16:02:48.244 (2419940296)|STATEMENT_EXECUTE|[23]
+16:02:48.244 (2419941166)|STATEMENT_EXECUTE|[23]
+16:02:48.244 (2419942232)|STATEMENT_EXECUTE|[24]
+16:02:48.244 (2419958239)|HEAP_ALLOCATE|[24]|Bytes:4
+16:02:48.244 (2419979290)|VARIABLE_SCOPE_BEGIN|[24]|ids|Set<Id>|true|false
+16:02:48.244 (2420019145)|VARIABLE_ASSIGNMENT|[24]|ids|[]|0x13589e30
+16:02:48.244 (2420064580)|HEAP_ALLOCATE|[25]|Bytes:5
+16:02:48.244 (2420094601)|VARIABLE_SCOPE_BEGIN|[25]|rec|SObject|true|false
+16:02:48.244 (2420519565)|VARIABLE_ASSIGNMENT|[25]|rec|{"Planned_Count__c":8,"LastModifiedDate":"2026-08-14T14:02:48.000Z","IsDeleted":false,"Total_Amount_Earned__c":20000.00,"Unique_Key_Stored__c":"2026-8-New","Planned_Total_Amount__c":300000.00,"Car_Type__c":"New","Unique_Key__c":"2026-8-New","Name":"PS-0005","SystemModstamp":"2026-08-14T14:02:48.000Z","Count_of_Cars_Sold__c":1,"OwnerId":"005gK000064ym2nQAA","CreatedById":"005gK000064ym2nQAA","Month__c":8,"Year__c":2026,"CreatedDate":"2026-07-29T15:07:14.000Z","Id":"a07gK00000k8oH6QAI","LastModifiedById":"005gK000064ym2nQAA"}|0x24ca978
+16:02:48.244 (2420529554)|STATEMENT_EXECUTE|[25]
+16:02:48.244 (2420530975)|STATEMENT_EXECUTE|[26]
+16:02:48.244 (2420548622)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:4
+16:02:48.244 (2420560660)|HEAP_ALLOCATE|[25]|Bytes:5
+16:02:48.244 (2420568702)|VARIABLE_ASSIGNMENT|[25]|rec|null|
+16:02:48.244 (2420572163)|STATEMENT_EXECUTE|[28]
+16:02:48.244 (2420578795)|METHOD_ENTRY|[28]|01pgK00000E8650|PlannedSalesService.recalculateForPlannedSales(Set<Id>)
+16:02:48.244 (2420583966)|VARIABLE_SCOPE_BEGIN|[5]|plannedSalesIds|Set<Id>|true|false
+16:02:48.244 (2420592840)|VARIABLE_ASSIGNMENT|[5]|plannedSalesIds|["a07gK00000k8oH6QAI"]|0x13589e30
+16:02:48.244 (2420599525)|HEAP_ALLOCATE|[6]|Bytes:5
+16:02:48.244 (2420602584)|STATEMENT_EXECUTE|[5]
+16:02:48.244 (2420603585)|STATEMENT_EXECUTE|[6]
+16:02:48.244 (2420616916)|HEAP_ALLOCATE|[6]|Bytes:4
+16:02:48.244 (2424675277)|HEAP_ALLOCATE|[6]|Bytes:8
+16:02:48.244 (2424708832)|HEAP_ALLOCATE|[6]|Bytes:142
+16:02:48.244 (2424757283)|HEAP_ALLOCATE|[6]|Bytes:8
+16:02:48.244 (2424771849)|VARIABLE_SCOPE_BEGIN|[6]|plannedSalesList|List<Planned_Sales__c>|true|false
+16:02:48.244 (2424856859)|VARIABLE_ASSIGNMENT|[6]|plannedSalesList|[{"Car_Type__c":"New","Id":"a07gK00000k8oH6QAI","Month__c":8,"Year__c":2026}]|0x78fafaec
+16:02:48.244 (2424862359)|STATEMENT_EXECUTE|[11]
+16:02:48.244 (2424873178)|METHOD_ENTRY|[11]|01pgK00000E8650|PlannedSalesService.recalculate(List<Planned_Sales__c>)
+16:02:48.244 (2424879022)|VARIABLE_SCOPE_BEGIN|[31]|plannedSalesList|List<Planned_Sales__c>|true|false
+16:02:48.244 (2424897827)|VARIABLE_ASSIGNMENT|[31]|plannedSalesList|[{"Car_Type__c":"New","Id":"a07gK00000k8oH6QAI","Month__c":8,"Year__c":2026}]|0x78fafaec
+16:02:48.244 (2424912664)|HEAP_ALLOCATE|[32]|Bytes:5
+16:02:48.244 (2424915498)|STATEMENT_EXECUTE|[31]
+16:02:48.244 (2424927700)|STATEMENT_EXECUTE|[32]
+16:02:48.244 (2424928684)|STATEMENT_EXECUTE|[36]
+16:02:48.244 (2424941061)|HEAP_ALLOCATE|[36]|Bytes:4
+16:02:48.244 (2441301716)|HEAP_ALLOCATE|[36]|Bytes:8
+16:02:48.244 (2441365553)|HEAP_ALLOCATE|[36]|Bytes:349
+16:02:48.244 (2441448744)|HEAP_ALLOCATE|[36]|Bytes:8
+16:02:48.244 (2441476314)|VARIABLE_SCOPE_BEGIN|[36]|lineItems|List<OpportunityLineItem>|true|false
+16:02:48.244 (2441828631)|VARIABLE_ASSIGNMENT|[36]|lineItems|[{"Id":"00kgK00000609ZJQAY","OpportunityId":"006gK00000MbxR3QAJ","PricebookEntryId":"01ugK000004uosfQAA","PricebookEntry":{"Product2":{"Condition__c":"New","Id":"01tgK00000DjrIPQAZ"},"Id":"01ugK000004uosfQAA","Product2Id":"01tgK00000DjrIPQAZ"},"TotalPrice":20000.00,"Opportunity":{"CloseDate":"2026-08-19T00:00:00.000Z","Id":"006gK00000MbxR3QAJ"}}]|0x16a83a0c
+16:02:48.244 (2441845511)|STATEMENT_EXECUTE|[42]
+16:02:48.244 (2441866511)|HEAP_ALLOCATE|[42]|Bytes:4
+16:02:48.244 (2441880672)|VARIABLE_SCOPE_BEGIN|[42]|countMap|Map<String,Integer>|true|false
+16:02:48.244 (2441901418)|VARIABLE_ASSIGNMENT|[42]|countMap|{}|0x4bc55c16
+16:02:48.244 (2441907638)|STATEMENT_EXECUTE|[43]
+16:02:48.244 (2441915316)|HEAP_ALLOCATE|[43]|Bytes:4
+16:02:48.244 (2441921425)|VARIABLE_SCOPE_BEGIN|[43]|amountMap|Map<String,Decimal>|true|false
+16:02:48.244 (2441931939)|VARIABLE_ASSIGNMENT|[43]|amountMap|{}|0x6d54c17e
+16:02:48.244 (2441989795)|HEAP_ALLOCATE|[45]|Bytes:5
+16:02:48.244 (2442015072)|HEAP_ALLOCATE|[45]|Bytes:28
+16:02:48.244 (2442027691)|VARIABLE_SCOPE_BEGIN|[45]|oli|OpportunityLineItem|true|false
+16:02:48.244 (2442136772)|VARIABLE_ASSIGNMENT|[45]|oli|{"Id":"00kgK00000609ZJQAY","OpportunityId":"006gK00000MbxR3QAJ","PricebookEntryId":"01ugK000004uosfQAA","PricebookEntry":{"Product2":{"Condition__c":"New","Id":"01tgK00000DjrIPQAZ"},"Id":"01ugK000004uosfQAA","Product2Id":"01tgK00000DjrIPQAZ"},"TotalPrice":20000.00,"Opportunity":{"CloseDate":"2026-08-19T00:00:00.000Z","Id":"006gK00000MbxR3QAJ"}}|0x255168ba
+16:02:48.244 (2442148260)|STATEMENT_EXECUTE|[45]
+16:02:48.244 (2442212138)|STATEMENT_EXECUTE|[46]
+16:02:48.244 (2442213898)|STATEMENT_EXECUTE|[49]
+16:02:48.244 (2442354283)|METHOD_ENTRY|[49]|01pgK00000E8650|PlannedSalesService.buildKey(Integer, Integer, String)
+16:02:48.244 (2442365902)|VARIABLE_SCOPE_BEGIN|[103]|year|Integer|false|false
+16:02:48.244 (2442379899)|VARIABLE_ASSIGNMENT|[103]|year|2026
+16:02:48.244 (2442384933)|VARIABLE_SCOPE_BEGIN|[103]|month|Integer|false|false
+16:02:48.244 (2442393252)|VARIABLE_ASSIGNMENT|[103]|month|8
+16:02:48.244 (2442398019)|VARIABLE_SCOPE_BEGIN|[103]|carType|String|false|false
+16:02:48.244 (2442406932)|VARIABLE_ASSIGNMENT|[103]|carType|"New"
+16:02:48.244 (2442421425)|HEAP_ALLOCATE|[104]|Bytes:5
+16:02:48.244 (2442426164)|STATEMENT_EXECUTE|[103]
+16:02:48.244 (2442427863)|STATEMENT_EXECUTE|[104]
+16:02:48.244 (2442454144)|HEAP_ALLOCATE|[104]|Bytes:4
+16:02:48.244 (2442470504)|HEAP_ALLOCATE|[104]|Bytes:1
+16:02:48.244 (2442499390)|HEAP_ALLOCATE|[104]|Bytes:10
+16:02:48.244 (2442512630)|METHOD_EXIT|[49]|01pgK00000E8650|PlannedSalesService.buildKey(Integer, Integer, String)
+16:02:48.244 (2442519700)|VARIABLE_SCOPE_BEGIN|[49]|key|String|false|false
+16:02:48.244 (2442530021)|VARIABLE_ASSIGNMENT|[49]|key|"2026-8-New"
+16:02:48.244 (2442534754)|STATEMENT_EXECUTE|[54]
+16:02:48.244 (2442560939)|HEAP_ALLOCATE|[54]|Bytes:4
+16:02:48.244 (2442569198)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:-4
+16:02:48.244 (2442576105)|STATEMENT_EXECUTE|[55]
+16:02:48.244 (2442610071)|VARIABLE_SCOPE_BEGIN|[55]|price|Decimal|false|false
+16:02:48.244 (2442622991)|VARIABLE_ASSIGNMENT|[55]|price|20000.00
+16:02:48.244 (2442627789)|STATEMENT_EXECUTE|[56]
+16:02:48.244 (2442648647)|HEAP_ALLOCATE|[56]|Bytes:28
+16:02:48.244 (2442652374)|HEAP_ALLOCATE|[56]|Bytes:28
+16:02:48.244 (2442675000)|HEAP_ALLOCATE|[56]|Bytes:28
+16:02:48.244 (2442686625)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:-4
+16:02:48.244 (2442697066)|HEAP_ALLOCATE|[45]|Bytes:5
+16:02:48.244 (2442708090)|VARIABLE_ASSIGNMENT|[45]|oli|null|
+16:02:48.244 (2442714427)|STATEMENT_EXECUTE|[59]
+16:02:48.244 (2442725809)|HEAP_ALLOCATE|[59]|Bytes:4
+16:02:48.244 (2442773688)|VARIABLE_SCOPE_BEGIN|[59]|toUpdate|List<Planned_Sales__c>|true|false
+16:02:48.244 (2442789741)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:4
+16:02:48.244 (2442797256)|VARIABLE_ASSIGNMENT|[59]|toUpdate|[]|0x2ba63e80
+16:02:48.244 (2442817843)|HEAP_ALLOCATE|[60]|Bytes:5
+16:02:48.244 (2442830066)|HEAP_ALLOCATE|[60]|Bytes:20
+16:02:48.244 (2442849523)|VARIABLE_SCOPE_BEGIN|[60]|ps|Planned_Sales__c|true|false
+16:02:48.244 (2442937221)|VARIABLE_ASSIGNMENT|[60]|ps|{"Car_Type__c":"New","Id":"a07gK00000k8oH6QAI","Month__c":8,"Year__c":2026}|0x7e6be808
+16:02:48.244 (2442944125)|STATEMENT_EXECUTE|[60]
+16:02:48.244 (2442945765)|STATEMENT_EXECUTE|[61]
+16:02:48.244 (2442957761)|HEAP_ALLOCATE|[61]|Bytes:28
+16:02:48.244 (2442968421)|METHOD_ENTRY|[61]|01pgK00000E8650|PlannedSalesService.buildKey(Decimal, Decimal, String)
+16:02:48.244 (2442974403)|VARIABLE_SCOPE_BEGIN|[99]|year|Decimal|false|false
+16:02:48.244 (2442983408)|VARIABLE_ASSIGNMENT|[99]|year|2026
+16:02:48.244 (2442987866)|VARIABLE_SCOPE_BEGIN|[99]|month|Decimal|false|false
+16:02:48.244 (2442996463)|VARIABLE_ASSIGNMENT|[99]|month|8
+16:02:48.244 (2443001158)|VARIABLE_SCOPE_BEGIN|[99]|carType|String|false|false
+16:02:48.244 (2443010028)|VARIABLE_ASSIGNMENT|[99]|carType|"New"
+16:02:48.244 (2443019217)|HEAP_ALLOCATE|[100]|Bytes:5
+16:02:48.244 (2443023513)|STATEMENT_EXECUTE|[99]
+16:02:48.244 (2443025106)|STATEMENT_EXECUTE|[100]
+16:02:48.244 (2443053515)|METHOD_ENTRY|[100]|01pgK00000E8650|PlannedSalesService.buildKey(Integer, Integer, String)
+16:02:48.244 (2443059018)|VARIABLE_SCOPE_BEGIN|[103]|year|Integer|false|false
+16:02:48.244 (2443250528)|VARIABLE_ASSIGNMENT|[103]|year|2026
+16:02:48.244 (2443255578)|VARIABLE_SCOPE_BEGIN|[103]|month|Integer|false|false
+16:02:48.244 (2443263706)|VARIABLE_ASSIGNMENT|[103]|month|8
+16:02:48.244 (2443267858)|VARIABLE_SCOPE_BEGIN|[103]|carType|String|false|false
+16:02:48.244 (2443277038)|VARIABLE_ASSIGNMENT|[103]|carType|"New"
+16:02:48.244 (2443285801)|HEAP_ALLOCATE|[104]|Bytes:5
+16:02:48.244 (2443289776)|STATEMENT_EXECUTE|[103]
+16:02:48.244 (2443291421)|STATEMENT_EXECUTE|[104]
+16:02:48.244 (2443301909)|HEAP_ALLOCATE|[104]|Bytes:4
+16:02:48.244 (2443315726)|HEAP_ALLOCATE|[104]|Bytes:1
+16:02:48.244 (2443331115)|HEAP_ALLOCATE|[104]|Bytes:10
+16:02:48.244 (2443340969)|METHOD_EXIT|[100]|01pgK00000E8650|PlannedSalesService.buildKey(Integer, Integer, String)
+16:02:48.244 (2443348877)|METHOD_EXIT|[61]|01pgK00000E8650|PlannedSalesService.buildKey(Decimal, Decimal, String)
+16:02:48.244 (2443354944)|VARIABLE_SCOPE_BEGIN|[61]|key|String|false|false
+16:02:48.244 (2443364322)|VARIABLE_ASSIGNMENT|[61]|key|"2026-8-New"
+16:02:48.244 (2443368961)|STATEMENT_EXECUTE|[62]
+16:02:48.244 (2443406675)|HEAP_ALLOCATE|[62]|Bytes:4
+16:02:48.244 (2443511920)|VARIABLE_ASSIGNMENT|[62]|this.Id|"a07gK00000k8oH6QAI"|0x167e42a5
+16:02:48.244 (2443544676)|HEAP_ALLOCATE|[62]|Bytes:28
+16:02:48.244 (2443548811)|HEAP_ALLOCATE|[62]|Bytes:28
+16:02:48.244 (2443577844)|VARIABLE_ASSIGNMENT|[62]|this.Count_of_Cars_Sold__c|1|0x167e42a5
+16:02:48.244 (2443595562)|HEAP_ALLOCATE|[65]|Bytes:28
+16:02:48.244 (2443620106)|VARIABLE_ASSIGNMENT|[62]|this.Total_Amount_Earned__c|20000.00|0x167e42a5
+16:02:48.244 (2443682623)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:4
+16:02:48.244 (2443701691)|HEAP_ALLOCATE|[60]|Bytes:5
+16:02:48.244 (2443713441)|VARIABLE_ASSIGNMENT|[60]|ps|null|
+16:02:48.244 (2443719619)|STATEMENT_EXECUTE|[69]
+16:02:48.244 (2443725061)|METHOD_ENTRY|[69]|01pgK00000E8650|PlannedSalesService.updateSafely(List<Planned_Sales__c>)
+16:02:48.244 (2443731011)|VARIABLE_SCOPE_BEGIN|[72]|records|List<Planned_Sales__c>|true|false
+16:02:48.244 (2443755706)|VARIABLE_ASSIGNMENT|[72]|records|[{"Id":"a07gK00000k8oH6QAI","Count_of_Cars_Sold__c":1,"Total_Amount_Earned__c":20000.00}]|0x2ba63e80
+16:02:48.244 (2443770178)|HEAP_ALLOCATE|[73]|Bytes:5
+16:02:48.244 (2443774496)|STATEMENT_EXECUTE|[72]
+16:02:48.244 (2443783121)|STATEMENT_EXECUTE|[73]
+16:02:48.244 (2443784916)|STATEMENT_EXECUTE|[77]
+16:02:48.244 (2444914260)|HEAP_ALLOCATE|[77]|Bytes:16
+16:02:48.244 (2444943953)|VARIABLE_SCOPE_BEGIN|[77]|sp|System.Savepoint|true|false
+16:02:48.244 (2445074606)|VARIABLE_ASSIGNMENT|[77]|sp|"common.apex.runtime.impl.ApexUserSavepoint@c362cd4"|0xc362cd4
+16:02:48.244 (2445083048)|STATEMENT_EXECUTE|[78]
+16:02:48.244 (2445085073)|STATEMENT_EXECUTE|[78]
+16:02:48.244 (2445086625)|STATEMENT_EXECUTE|[79]
+16:02:48.244 (2445101213)|METHOD_ENTRY|[79]||System.Security.stripInaccessible(System.AccessType, List<SObject>)
+16:02:48.244 (2445579058)|METHOD_EXIT|[79]||System.Security.stripInaccessible(System.AccessType, List<SObject>)
+16:02:48.244 (2445585053)|VARIABLE_SCOPE_BEGIN|[79]|decision|System.SObjectAccessDecision|true|false
+16:02:48.244 (2446151040)|VARIABLE_ASSIGNMENT|[79]|decision|{"modifiedIndexes":"0x23d5d59f","records":"0x1e381dbd","removedFields":"0x56bb6bb6"}|0x4795cade
+16:02:48.244 (2446157875)|STATEMENT_EXECUTE|[80]
+16:02:48.244 (2446164889)|METHOD_ENTRY|[80]||System.SObjectAccessDecision.getRecords()
+16:02:48.244 (2446177675)|METHOD_EXIT|[80]||System.SObjectAccessDecision.getRecords()
+16:02:48.244 (2446190557)|VARIABLE_SCOPE_BEGIN|[80]|safeRecords|List<SObject>|true|false
+16:02:48.244 (2446213117)|VARIABLE_ASSIGNMENT|[80]|safeRecords|[{"Id":"a07gK00000k8oH6QAI","Count_of_Cars_Sold__c":1,"Total_Amount_Earned__c":20000.00}]|0x1e381dbd
+16:02:48.244 (2446217945)|STATEMENT_EXECUTE|[82]
+16:02:48.244 (2446390534)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:8
+16:02:48.244 (2468068753)|CODE_UNIT_STARTED|[EXTERNAL]|01qgK000005f2Pa|PlannedSalesTrigger on Planned_Sales trigger event AfterUpdate|__sfdc_trigger/PlannedSalesTrigger
+16:02:48.244 (2468156369)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:8
+16:02:48.244 (2468232204)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:8
+16:02:48.244 (2468345970)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:4
+16:02:48.244 (2468358014)|VARIABLE_SCOPE_BEGIN|[1]|this|PlannedSalesTrigger|true|false
+16:02:48.244 (2468443833)|VARIABLE_ASSIGNMENT|[1]|this|{}|0x5010839b
+16:02:48.244 (2468499713)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:4
+16:02:48.244 (2468504138)|VARIABLE_SCOPE_BEGIN|[1]|this|PlannedSalesTrigger|true|false
+16:02:48.244 (2468516791)|VARIABLE_ASSIGNMENT|[1]|this|{}|0x5010839b
+16:02:48.244 (2468522834)|STATEMENT_EXECUTE|[1]
+16:02:48.244 (2468525279)|STATEMENT_EXECUTE|[2]
+16:02:48.244 (2468539867)|HEAP_ALLOCATE|[2]|Bytes:4
+16:02:48.244 (2468574594)|CONSTRUCTOR_ENTRY|[2]|01pgK00000E8652|<init>()|PlannedSalesTriggerHandler
+16:02:48.244 (2468592925)|VARIABLE_SCOPE_BEGIN|[1]|this|PlannedSalesTriggerHandler|true|false
+16:02:48.244 (2468611528)|VARIABLE_ASSIGNMENT|[1]|this|{}|0x29aceb30
+16:02:48.244 (2468642846)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:5
+16:02:48.244 (2468654479)|CONSTRUCTOR_ENTRY|[EXTERNAL]|01pgK00000E80At|<init>()|TriggerHandler
+16:02:48.244 (2468661509)|VARIABLE_SCOPE_BEGIN|[1]|this|TriggerHandler|true|false
+16:02:48.244 (2468750567)|VARIABLE_ASSIGNMENT|[1]|this|{}|0x29aceb30
+16:02:48.244 (2468789265)|STATEMENT_EXECUTE|[1]
+16:02:48.244 (2468798169)|CONSTRUCTOR_EXIT|[EXTERNAL]|01pgK00000E80At|<init>()|TriggerHandler
+16:02:48.244 (2468813153)|STATEMENT_EXECUTE|[1]
+16:02:48.244 (2468821072)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:5
+16:02:48.244 (2468830149)|CONSTRUCTOR_EXIT|[2]|01pgK00000E8652|<init>()|PlannedSalesTriggerHandler
+16:02:48.244 (2468843112)|METHOD_ENTRY|[2]|01pgK00000E80At|TriggerHandler.run()
+16:02:48.244 (2468849244)|VARIABLE_SCOPE_BEGIN|[17]|this|TriggerHandler|true|false
+16:02:48.244 (2468866493)|VARIABLE_ASSIGNMENT|[17]|this|{}|0x29aceb30
+16:02:48.244 (2468874437)|STATEMENT_EXECUTE|[17]
+16:02:48.244 (2468882909)|METHOD_ENTRY|[18]|01pgK00000E80At|TriggerHandler.isDisabledByMetadata()
+16:02:48.244 (2468900676)|VARIABLE_SCOPE_BEGIN|[9]|this|TriggerHandler|true|false
+16:02:48.244 (2468915992)|VARIABLE_ASSIGNMENT|[9]|this|{}|0x29aceb30
+16:02:48.244 (2468922953)|STATEMENT_EXECUTE|[9]
+16:02:48.244 (2468924509)|STATEMENT_EXECUTE|[10]
+16:02:48.244 (2468929985)|METHOD_ENTRY|[10]|01pgK00000E8652|PlannedSalesTriggerHandler.getHandlerName()
+16:02:48.244 (2468939480)|VARIABLE_SCOPE_BEGIN|[3]|this|PlannedSalesTriggerHandler|true|false
+16:02:48.244 (2468953439)|VARIABLE_ASSIGNMENT|[3]|this|{}|0x29aceb30
+16:02:48.244 (2468963688)|HEAP_ALLOCATE|[4]|Bytes:5
+16:02:48.244 (2468967800)|STATEMENT_EXECUTE|[3]
+16:02:48.244 (2468969288)|STATEMENT_EXECUTE|[4]
+16:02:48.244 (2468979222)|METHOD_EXIT|[10]|01pgK00000E8652|PlannedSalesTriggerHandler.getHandlerName()
+16:02:48.244 (2469256702)|VARIABLE_SCOPE_BEGIN|[10]|setting|Trigger_Setting__mdt|true|false
+16:02:48.244 (2469338163)|VARIABLE_ASSIGNMENT|[10]|setting|{"IsProtected":false,"Label":"PlannedSalesTriggerH (6 more) ...","MasterLabel":"PlannedSalesTriggerH (6 more) ...","Is_Enabled__c":true,"SystemModstamp":"2026-08-04T22:43:45.000Z","Language":"en_US","ManageableState":"U","QualifiedApiName":"PlannedSalesTriggerH (6 more) ...","Id":"m00gK00001C8iR3","DeveloperName":"PlannedSalesTriggerH (6 more) ..."}|0x3551db52
+16:02:48.244 (2469347785)|STATEMENT_EXECUTE|[11]
+16:02:48.244 (2469349665)|STATEMENT_EXECUTE|[14]
+16:02:48.244 (2469382229)|METHOD_EXIT|[18]|01pgK00000E80At|TriggerHandler.isDisabledByMetadata()
+16:02:48.244 (2469390729)|STATEMENT_EXECUTE|[18]
+16:02:48.244 (2469454072)|STATEMENT_EXECUTE|[30]
+16:02:48.244 (2469455754)|STATEMENT_EXECUTE|[31]
+16:02:48.244 (2469468246)|METHOD_ENTRY|[31]|01pgK00000E8652|PlannedSalesTriggerHandler.afterUpdate()
+16:02:48.244 (2469476304)|VARIABLE_SCOPE_BEGIN|[13]|this|PlannedSalesTriggerHandler|true|false
+16:02:48.244 (2469527478)|VARIABLE_ASSIGNMENT|[13]|this|{}|0x29aceb30
+16:02:48.244 (2469541669)|HEAP_ALLOCATE|[14]|Bytes:5
+16:02:48.244 (2469545766)|STATEMENT_EXECUTE|[13]
+16:02:48.244 (2469546522)|STATEMENT_EXECUTE|[14]
+16:02:48.244 (2469550071)|METHOD_ENTRY|[14]|01pgK00000E8652|PlannedSalesTriggerHandler.recalc()
+16:02:48.244 (2469554102)|VARIABLE_SCOPE_BEGIN|[17]|this|PlannedSalesTriggerHandler|true|false
+16:02:48.244 (2469576806)|VARIABLE_ASSIGNMENT|[17]|this|{}|0x29aceb30
+16:02:48.244 (2469584726)|HEAP_ALLOCATE|[18]|Bytes:5
+16:02:48.244 (2469588432)|STATEMENT_EXECUTE|[17]
+16:02:48.244 (2469591602)|STATEMENT_EXECUTE|[18]
+16:02:48.244 (2469620340)|STATEMENT_EXECUTE|[19]
+16:02:48.244 (2469626187)|METHOD_EXIT|[14]|01pgK00000E8652|PlannedSalesTriggerHandler.recalc()
+16:02:48.244 (2469635966)|METHOD_EXIT|[31]|01pgK00000E8652|PlannedSalesTriggerHandler.afterUpdate()
+16:02:48.244 (2469643287)|METHOD_EXIT|[2]|01pgK00000E80At|TriggerHandler.run()
+16:02:48.469 (2469667775)|CUMULATIVE_LIMIT_USAGE
+16:02:48.469 (2469667775)|LIMIT_USAGE_FOR_NS|(default)|
+  Number of SOQL queries: 6 out of 100
+  Number of query rows: 11 out of 50000
+  Number of SOSL queries: 0 out of 20
+  Number of DML statements: 10 out of 150
+  Number of Publish Immediate DML: 0 out of 150
+  Number of DML rows: 10 out of 10000
+  Maximum CPU time: 2 out of 10000
+  Maximum heap size: 0 out of 6000000
+  Number of callouts: 0 out of 100
+  Number of Email Invocations: 0 out of 10
+  Number of future calls: 0 out of 50
+  Number of queueable jobs added to the queue: 0 out of 50
+  Number of Mobile Apex push calls: 0 out of 10
+
+16:02:48.469 (2469667775)|CUMULATIVE_LIMIT_USAGE_END
+
+16:02:48.244 (2470117402)|CODE_UNIT_FINISHED|PlannedSalesTrigger on Planned_Sales trigger event AfterUpdate|__sfdc_trigger/PlannedSalesTrigger
+16:02:48.244 (2475277155)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:8
+16:02:48.244 (2475315158)|HEAP_ALLOCATE|[82]|Bytes:8
+16:02:48.244 (2475342766)|VARIABLE_SCOPE_BEGIN|[82]|results|List<Database.SaveResult>|true|false
+16:02:48.244 (2475389385)|VARIABLE_ASSIGNMENT|[82]|results|[{"success":true,"id":"a07gK00000k8oH6QAI"}]|0x1cdf6b3c
+16:02:48.244 (2475396014)|STATEMENT_EXECUTE|[83]
+16:02:48.244 (2475406635)|HEAP_ALLOCATE|[83]|Bytes:4
+16:02:48.244 (2475440908)|VARIABLE_SCOPE_BEGIN|[83]|errorMessages|List<String>|true|false
+16:02:48.244 (2475463220)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:4
+16:02:48.244 (2475466784)|VARIABLE_ASSIGNMENT|[83]|errorMessages|[]|0x671e87b0
+16:02:48.244 (2475506285)|HEAP_ALLOCATE|[84]|Bytes:5
+16:02:48.244 (2475524126)|HEAP_ALLOCATE|[84]|Bytes:4
+16:02:48.244 (2475532432)|VARIABLE_SCOPE_BEGIN|[84]|result|Database.SaveResult|true|false
+16:02:48.244 (2475542031)|VARIABLE_ASSIGNMENT|[84]|result|{"success":true,"id":"a07gK00000k8oH6QAI"}|0x50442b66
+16:02:48.244 (2475557106)|STATEMENT_EXECUTE|[84]
+16:02:48.244 (2475576199)|STATEMENT_EXECUTE|[85]
+16:02:48.244 (2475580838)|HEAP_ALLOCATE|[84]|Bytes:5
+16:02:48.244 (2475587705)|VARIABLE_ASSIGNMENT|[84]|result|null|
+16:02:48.244 (2475614005)|STATEMENT_EXECUTE|[91]
+16:02:48.244 (2475627811)|METHOD_EXIT|[69]|01pgK00000E8650|PlannedSalesService.updateSafely(List<Planned_Sales__c>)
+16:02:48.244 (2475636891)|METHOD_EXIT|[11]|01pgK00000E8650|PlannedSalesService.recalculate(List<Planned_Sales__c>)
+16:02:48.244 (2475657086)|METHOD_EXIT|[28]|01pgK00000E8650|PlannedSalesService.recalculateForPlannedSales(Set<Id>)
+16:02:48.244 (2475661316)|STATEMENT_EXECUTE|[29]
+16:02:48.244 (2475662288)|STATEMENT_EXECUTE|[30]
+16:02:48.244 (2475665541)|HEAP_ALLOCATE|[30]|Bytes:5
+16:02:48.244 (2475706858)|VARIABLE_ASSIGNMENT|[30]|PlannedSalesTriggerHandler.isRecalculating|false
+16:02:48.244 (2475714535)|METHOD_EXIT|[14]|01pgK00000E8652|PlannedSalesTriggerHandler.recalc()
+16:02:48.244 (2475722745)|METHOD_EXIT|[31]|01pgK00000E8652|PlannedSalesTriggerHandler.afterUpdate()
+16:02:48.244 (2475728137)|METHOD_EXIT|[2]|01pgK00000E80At|TriggerHandler.run()
+16:02:48.475 (2475743655)|CUMULATIVE_LIMIT_USAGE
+16:02:48.475 (2475743655)|LIMIT_USAGE_FOR_NS|(default)|
+  Number of SOQL queries: 6 out of 100
+  Number of query rows: 11 out of 50000
+  Number of SOSL queries: 0 out of 20
+  Number of DML statements: 10 out of 150
+  Number of Publish Immediate DML: 0 out of 150
+  Number of DML rows: 10 out of 10000
+  Maximum CPU time: 2 out of 10000
+  Maximum heap size: 0 out of 6000000
+  Number of callouts: 0 out of 100
+  Number of Email Invocations: 0 out of 10
+  Number of future calls: 0 out of 50
+  Number of queueable jobs added to the queue: 0 out of 50
+  Number of Mobile Apex push calls: 0 out of 10
+
+16:02:48.475 (2475743655)|CUMULATIVE_LIMIT_USAGE_END
+
+16:02:48.244 (2475928986)|CODE_UNIT_FINISHED|PlannedSalesTrigger on Planned_Sales trigger event AfterUpdate|__sfdc_trigger/PlannedSalesTrigger
+16:02:48.244 (2476196647)|CODE_UNIT_STARTED|[EXTERNAL]|Flow:01IgK000006U3t3
+16:02:48.244 (2476214897)|CODE_UNIT_FINISHED|Flow:01IgK000006U3t3
+16:02:48.244 (2476479040)|CODE_UNIT_STARTED|[EXTERNAL]|Flow:01IgK000006U3t3
+16:02:48.244 (2476493122)|CODE_UNIT_FINISHED|Flow:01IgK000006U3t3
+16:02:48.244 (2479170191)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:16
+16:02:48.244 (2479202448)|HEAP_ALLOCATE|[82]|Bytes:16
+16:02:48.244 (2479221676)|VARIABLE_SCOPE_BEGIN|[82]|results|List<Database.SaveResult>|true|false
+16:02:48.244 (2479339791)|VARIABLE_ASSIGNMENT|[82]|results|[{"success":false,"id":"a07gK00000k0bYBQAY","errors":[{"status":"DUPLICATE_VALUE","message":"duplicate value foun (78 more) ..."}]},{"success":true,"id":"a07gK00000k8oH6QAI"},{"success":false,"id":"a07gK00000k9M6vQAE","errors":[{"status":"DUPLICATE_VALUE","message":"duplicate value foun (78 more) ..."}]}]|0x661be78a
+16:02:48.244 (2479353236)|STATEMENT_EXECUTE|[83]
+16:02:48.244 (2479364835)|HEAP_ALLOCATE|[83]|Bytes:4
+16:02:48.244 (2479397734)|VARIABLE_SCOPE_BEGIN|[83]|errorMessages|List<String>|true|false
+16:02:48.244 (2479419027)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:4
+16:02:48.244 (2479423273)|VARIABLE_ASSIGNMENT|[83]|errorMessages|[]|0x75abcffe
+16:02:48.244 (2479456205)|HEAP_ALLOCATE|[84]|Bytes:5
+16:02:48.244 (2479473662)|HEAP_ALLOCATE|[84]|Bytes:4
+16:02:48.244 (2479481179)|VARIABLE_SCOPE_BEGIN|[84]|result|Database.SaveResult|true|false
+16:02:48.244 (2479492365)|VARIABLE_ASSIGNMENT|[84]|result|{"success":false,"id":"a07gK00000k0bYBQAY","errors":[{"status":"DUPLICATE_VALUE","message":"duplicate value foun (78 more) ..."}]}|0x445d536
+16:02:48.244 (2479497278)|STATEMENT_EXECUTE|[84]
+16:02:48.244 (2479514662)|STATEMENT_EXECUTE|[85]
+16:02:48.244 (2479536721)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:8
+16:02:48.244 (2479586161)|HEAP_ALLOCATE|[86]|Bytes:8
+16:02:48.244 (2479732396)|HEAP_ALLOCATE|[86]|Bytes:5
+16:02:48.244 (2479742402)|HEAP_ALLOCATE|[86]|Bytes:4
+16:02:48.244 (2479747667)|VARIABLE_SCOPE_BEGIN|[86]|err|Database.Error|true|false
+16:02:48.244 (2479910982)|VARIABLE_ASSIGNMENT|[86]|err|"Error [statusCode=DUPLICATE_VALUE, code=[xmlrpc=1272, statusCode=DUPLICATE_VALUE, exceptionCode=DUPLICATE_VALUE, scope=PublicApi, http=400], message=duplicate value found: Unique_Key_Stored__c duplicates value on record with id: a07gK00000k8oH6QAI, fields=null]"|0x279eec20
+16:02:48.244 (2479917263)|STATEMENT_EXECUTE|[86]
+16:02:48.244 (2479918556)|STATEMENT_EXECUTE|[87]
+16:02:48.244 (2479936757)|HEAP_ALLOCATE|[87]|Bytes:98
+16:02:48.244 (2479973089)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:4
+16:02:48.244 (2479981216)|HEAP_ALLOCATE|[86]|Bytes:5
+16:02:48.244 (2479988653)|VARIABLE_ASSIGNMENT|[86]|err|null|
+16:02:48.244 (2479995657)|HEAP_ALLOCATE|[84]|Bytes:5
+16:02:48.244 (2480002507)|HEAP_ALLOCATE|[84]|Bytes:4
+16:02:48.244 (2480007347)|VARIABLE_SCOPE_BEGIN|[84]|result|Database.SaveResult|true|false
+16:02:48.244 (2480016729)|VARIABLE_ASSIGNMENT|[84]|result|{"success":true,"id":"a07gK00000k8oH6QAI"}|0x200dcdfb
+16:02:48.244 (2480020336)|STATEMENT_EXECUTE|[84]
+16:02:48.244 (2480024833)|STATEMENT_EXECUTE|[85]
+16:02:48.244 (2480028606)|HEAP_ALLOCATE|[84]|Bytes:5
+16:02:48.244 (2480034317)|HEAP_ALLOCATE|[84]|Bytes:4
+16:02:48.244 (2480037759)|VARIABLE_SCOPE_BEGIN|[84]|result|Database.SaveResult|true|false
+16:02:48.244 (2480047216)|VARIABLE_ASSIGNMENT|[84]|result|{"success":false,"id":"a07gK00000k9M6vQAE","errors":[{"status":"DUPLICATE_VALUE","message":"duplicate value foun (78 more) ..."}]}|0x39cc714b
+16:02:48.244 (2480050957)|STATEMENT_EXECUTE|[84]
+16:02:48.244 (2480053958)|STATEMENT_EXECUTE|[85]
+16:02:48.244 (2480059123)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:8
+16:02:48.244 (2480071809)|HEAP_ALLOCATE|[86]|Bytes:8
+16:02:48.244 (2480080914)|HEAP_ALLOCATE|[86]|Bytes:5
+16:02:48.244 (2480086560)|HEAP_ALLOCATE|[86]|Bytes:4
+16:02:48.244 (2480090132)|VARIABLE_SCOPE_BEGIN|[86]|err|Database.Error|true|false
+16:02:48.244 (2480126019)|VARIABLE_ASSIGNMENT|[86]|err|"Error [statusCode=DUPLICATE_VALUE, code=[xmlrpc=1272, statusCode=DUPLICATE_VALUE, exceptionCode=DUPLICATE_VALUE, scope=PublicApi, http=400], message=duplicate value found: Unique_Key_Stored__c duplicates value on record with id: a07gK00000k8oH6QAI, fields=null]"|0x53ae2548
+16:02:48.244 (2480130673)|STATEMENT_EXECUTE|[86]
+16:02:48.244 (2480131534)|STATEMENT_EXECUTE|[87]
+16:02:48.244 (2480134720)|HEAP_ALLOCATE|[87]|Bytes:98
+16:02:48.244 (2480139854)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:4
+16:02:48.244 (2480145962)|HEAP_ALLOCATE|[86]|Bytes:5
+16:02:48.244 (2480151502)|VARIABLE_ASSIGNMENT|[86]|err|null|
+16:02:48.244 (2480156704)|HEAP_ALLOCATE|[84]|Bytes:5
+16:02:48.244 (2480162091)|VARIABLE_ASSIGNMENT|[84]|result|null|
+16:02:48.244 (2480171364)|STATEMENT_EXECUTE|[91]
+16:02:48.244 (2480172452)|STATEMENT_EXECUTE|[92]
+16:02:48.244 (2480491660)|HEAP_ALLOCATE|[92]|Bytes:32
+16:02:48.244 (2480503760)|HEAP_ALLOCATE|[92]|Bytes:15
+16:02:48.244 (2480508501)|HEAP_ALLOCATE|[92]|Bytes:2
+16:02:48.244 (2480584305)|HEAP_ALLOCATE|[92]|Bytes:5
+16:02:48.244 (2480589575)|HEAP_ALLOCATE|[92]|Bytes:98
+16:02:48.244 (2480593810)|HEAP_ALLOCATE|[92]|Bytes:5
+16:02:48.244 (2480597005)|HEAP_ALLOCATE|[92]|Bytes:98
+16:02:48.244 (2480600631)|HEAP_ALLOCATE|[92]|Bytes:5
+16:02:48.244 (2480604068)|HEAP_ALLOCATE|[92]|Bytes:198
+16:02:48.244 (2480615372)|HEAP_ALLOCATE|[92]|Bytes:213
+16:02:48.244 (2480654895)|CONSTRUCTOR_ENTRY|[92]|01pgK00000E8650|<init>(String)|PlannedSalesService.PlannedSalesServiceException
+16:02:48.244 (2480690764)|VARIABLE_SCOPE_BEGIN|[3]|this|PlannedSalesService.PlannedSalesServiceException|true|false
+16:02:48.244 (2480841358)|VARIABLE_ASSIGNMENT|[3]|this|"common.apex.runtime.impl.ExecutionException"|0x3517de63
+16:02:48.244 (2480856416)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:5
+16:02:48.244 (2480867228)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:43
+16:02:48.244 (2480953233)|VARIABLE_ASSIGNMENT|[EXTERNAL]|this|"common.apex.runtime.impl.ExecutionException"|0x3ffb1a94
+16:02:48.244 (2480962085)|VARIABLE_ASSIGNMENT|[EXTERNAL]|message|"Update failed: dupli (193 more) ..."
+16:02:48.244 (2480981713)|HEAP_ALLOCATE|[67]|Bytes:11
+16:02:48.244 (2480993784)|HEAP_ALLOCATE|[67]|Bytes:33
+16:02:48.244 (2480996309)|HEAP_ALLOCATE|[67]|Bytes:30
+16:02:48.244 (2480998629)|HEAP_ALLOCATE|[67]|Bytes:12
+16:02:48.244 (2481101138)|SYSTEM_METHOD_ENTRY|[EXTERNAL]|Collections.Collections()
+16:02:48.244 (2481107440)|STATEMENT_EXECUTE|[EXTERNAL]
+16:02:48.244 (2481118793)|ENTERING_MANAGED_PKG|java__util
+16:02:48.244 (2481137951)|HEAP_ALLOCATE|[4623]|Bytes:4
+16:02:48.244 (2481160684)|ENTERING_MANAGED_PKG|java__util
+16:02:48.244 (2481228669)|ENTERING_MANAGED_PKG|java__util
+16:02:48.244 (2481240616)|ENTERING_MANAGED_PKG|java__util
+16:02:48.244 (2481264163)|HEAP_ALLOCATE|[4749]|Bytes:8
+16:02:48.244 (2481270783)|ENTERING_MANAGED_PKG|java__util
+16:02:48.244 (2481279549)|ENTERING_MANAGED_PKG|java__util
+16:02:48.244 (2481287165)|ENTERING_MANAGED_PKG|java__util
+16:02:48.244 (2481322609)|HEAP_ALLOCATE|[4853]|Bytes:12
+16:02:48.244 (2481328943)|ENTERING_MANAGED_PKG|java__util
+16:02:48.244 (2481337259)|ENTERING_MANAGED_PKG|java__util
+16:02:48.244 (2481351743)|SYSTEM_METHOD_EXIT|[EXTERNAL]|Collections
+16:02:48.244 (2481371733)|ENTERING_MANAGED_PKG|java__util
+16:02:48.244 (2481463466)|HEAP_ALLOCATE|[820]|Bytes:19
+16:02:48.244 (2481467786)|HEAP_ALLOCATE|[820]|Bytes:16
+16:02:48.244 (2481470041)|HEAP_ALLOCATE|[820]|Bytes:19
+16:02:48.244 (2481479138)|HEAP_ALLOCATE|[820]|Bytes:19
+16:02:48.244 (2481481461)|HEAP_ALLOCATE|[820]|Bytes:16
+16:02:48.244 (2481483716)|HEAP_ALLOCATE|[820]|Bytes:19
+16:02:48.244 (2481486906)|HEAP_ALLOCATE|[820]|Bytes:19
+16:02:48.244 (2481489121)|HEAP_ALLOCATE|[820]|Bytes:6
+16:02:48.244 (2481491276)|HEAP_ALLOCATE|[820]|Bytes:19
+16:02:48.244 (2481494196)|HEAP_ALLOCATE|[820]|Bytes:19
+16:02:48.244 (2481500986)|HEAP_ALLOCATE|[820]|Bytes:6
+16:02:48.244 (2481503558)|HEAP_ALLOCATE|[820]|Bytes:19
+16:02:48.244 (2481506830)|HEAP_ALLOCATE|[820]|Bytes:24
+16:02:48.244 (2481509224)|HEAP_ALLOCATE|[820]|Bytes:6
+16:02:48.244 (2481511511)|HEAP_ALLOCATE|[820]|Bytes:24
+16:02:48.244 (2481514463)|HEAP_ALLOCATE|[820]|Bytes:48
+16:02:48.244 (2481516764)|HEAP_ALLOCATE|[820]|Bytes:6
+16:02:48.244 (2481519071)|HEAP_ALLOCATE|[820]|Bytes:48
+16:02:48.244 (2481522246)|HEAP_ALLOCATE|[820]|Bytes:19
+16:02:48.244 (2481524674)|HEAP_ALLOCATE|[820]|Bytes:46
+16:02:48.244 (2481526881)|HEAP_ALLOCATE|[820]|Bytes:19
+16:02:48.244 (2481529821)|HEAP_ALLOCATE|[820]|Bytes:19
+16:02:48.244 (2481532240)|HEAP_ALLOCATE|[820]|Bytes:45
+16:02:48.244 (2481534514)|HEAP_ALLOCATE|[820]|Bytes:19
+16:02:48.244 (2481537463)|HEAP_ALLOCATE|[820]|Bytes:19
+16:02:48.244 (2481539859)|HEAP_ALLOCATE|[820]|Bytes:41
+16:02:48.244 (2481542039)|HEAP_ALLOCATE|[820]|Bytes:19
+16:02:48.244 (2481545592)|HEAP_ALLOCATE|[820]|Bytes:25
+16:02:48.244 (2481547987)|HEAP_ALLOCATE|[820]|Bytes:11
+16:02:48.244 (2481550190)|HEAP_ALLOCATE|[820]|Bytes:25
+16:02:48.244 (2481553675)|HEAP_ALLOCATE|[820]|Bytes:14
+16:02:48.244 (2481556148)|HEAP_ALLOCATE|[820]|Bytes:3
+16:02:48.244 (2481558506)|HEAP_ALLOCATE|[820]|Bytes:14
+16:02:48.244 (2481562896)|HEAP_ALLOCATE|[820]|Bytes:33
+16:02:48.244 (2481565246)|HEAP_ALLOCATE|[820]|Bytes:6
+16:02:48.244 (2481567670)|HEAP_ALLOCATE|[820]|Bytes:33
+16:02:48.244 (2481594051)|STATEMENT_EXECUTE|[3]
+16:02:48.244 (2481601946)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:5
+16:02:48.244 (2481616564)|CONSTRUCTOR_EXIT|[92]|01pgK00000E8650|<init>(String)|PlannedSalesService.PlannedSalesServiceException
+16:02:48.244 (2481664720)|EXCEPTION_THROWN|[92]|PlannedSalesService.PlannedSalesServiceException: Update failed: duplicate value found: Unique_Key_Stored__c duplicates value on record with id: a07gK00000k8oH6QAI; duplicate value found: Unique_Key_Stored__c duplicates value on record with id: a07gK00000k8oH6QAI
+16:02:48.244 (2481704072)|VARIABLE_SCOPE_BEGIN|[94]|e|Exception|true|false
+16:02:48.244 (2481774011)|VARIABLE_ASSIGNMENT|[94]|e|"common.apex.runtime.impl.ExecutionException: Update failed: duplicate value found: Unique_Key_Stored__c duplicates value on record with id: a07gK00000k8oH6QAI; duplicate value found: Unique_Key_Stored__c duplicates value on record with id: a07gK00000k8oH6QAI"|0x182a48a7
+16:02:48.244 (2481779783)|STATEMENT_EXECUTE|[94]
+16:02:48.244 (2481780980)|STATEMENT_EXECUTE|[95]
+16:02:48.244 (2483918848)|STATEMENT_EXECUTE|[96]
+16:02:48.244 (2483932049)|HEAP_ALLOCATE|[96]|Bytes:32
+16:02:48.244 (2483947443)|HEAP_ALLOCATE|[96]|Bytes:32
+16:02:48.244 (2484025043)|HEAP_ALLOCATE|[96]|Bytes:245
+16:02:48.244 (2484063585)|CONSTRUCTOR_ENTRY|[96]|01pgK00000E8650|<init>(String)|PlannedSalesService.PlannedSalesServiceException
+16:02:48.244 (2484093726)|VARIABLE_SCOPE_BEGIN|[3]|this|PlannedSalesService.PlannedSalesServiceException|true|false
+16:02:48.244 (2484208979)|VARIABLE_ASSIGNMENT|[3]|this|"common.apex.runtime.impl.ExecutionException"|0xd07580f
+16:02:48.244 (2484229566)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:5
+16:02:48.244 (2484279621)|VARIABLE_ASSIGNMENT|[EXTERNAL]|this|"common.apex.runtime.impl.ExecutionException"|0x6a4fcc81
+16:02:48.244 (2484290894)|VARIABLE_ASSIGNMENT|[EXTERNAL]|message|"Failed to update Pla (225 more) ..."
+16:02:48.244 (2484326581)|HEAP_ALLOCATE|[820]|Bytes:19
+16:02:48.244 (2484332427)|HEAP_ALLOCATE|[820]|Bytes:16
+16:02:48.244 (2484335626)|HEAP_ALLOCATE|[820]|Bytes:19
+16:02:48.244 (2484344967)|HEAP_ALLOCATE|[820]|Bytes:19
+16:02:48.244 (2484348895)|HEAP_ALLOCATE|[820]|Bytes:16
+16:02:48.244 (2484352151)|HEAP_ALLOCATE|[820]|Bytes:19
+16:02:48.244 (2484356847)|HEAP_ALLOCATE|[820]|Bytes:19
+16:02:48.244 (2484360066)|HEAP_ALLOCATE|[820]|Bytes:6
+16:02:48.244 (2484363223)|HEAP_ALLOCATE|[820]|Bytes:19
+16:02:48.244 (2484367871)|HEAP_ALLOCATE|[820]|Bytes:19
+16:02:48.244 (2484371213)|HEAP_ALLOCATE|[820]|Bytes:6
+16:02:48.244 (2484374445)|HEAP_ALLOCATE|[820]|Bytes:19
+16:02:48.244 (2484379180)|HEAP_ALLOCATE|[820]|Bytes:24
+16:02:48.244 (2484382217)|HEAP_ALLOCATE|[820]|Bytes:6
+16:02:48.244 (2484385513)|HEAP_ALLOCATE|[820]|Bytes:24
+16:02:48.244 (2484390126)|HEAP_ALLOCATE|[820]|Bytes:48
+16:02:48.244 (2484393255)|HEAP_ALLOCATE|[820]|Bytes:6
+16:02:48.244 (2484396397)|HEAP_ALLOCATE|[820]|Bytes:48
+16:02:48.244 (2484401211)|HEAP_ALLOCATE|[820]|Bytes:19
+16:02:48.244 (2484404556)|HEAP_ALLOCATE|[820]|Bytes:46
+16:02:48.244 (2484407916)|HEAP_ALLOCATE|[820]|Bytes:19
+16:02:48.244 (2484412711)|HEAP_ALLOCATE|[820]|Bytes:19
+16:02:48.244 (2484416381)|HEAP_ALLOCATE|[820]|Bytes:45
+16:02:48.244 (2484419451)|HEAP_ALLOCATE|[820]|Bytes:19
+16:02:48.244 (2484423895)|HEAP_ALLOCATE|[820]|Bytes:19
+16:02:48.244 (2484427244)|HEAP_ALLOCATE|[820]|Bytes:41
+16:02:48.244 (2484430311)|HEAP_ALLOCATE|[820]|Bytes:19
+16:02:48.244 (2484435301)|HEAP_ALLOCATE|[820]|Bytes:25
+16:02:48.244 (2484438743)|HEAP_ALLOCATE|[820]|Bytes:11
+16:02:48.244 (2484442049)|HEAP_ALLOCATE|[820]|Bytes:25
+16:02:48.244 (2484446969)|HEAP_ALLOCATE|[820]|Bytes:14
+16:02:48.244 (2484450425)|HEAP_ALLOCATE|[820]|Bytes:3
+16:02:48.244 (2484453643)|HEAP_ALLOCATE|[820]|Bytes:14
+16:02:48.244 (2484458496)|HEAP_ALLOCATE|[820]|Bytes:33
+16:02:48.244 (2484461990)|HEAP_ALLOCATE|[820]|Bytes:6
+16:02:48.244 (2484465044)|HEAP_ALLOCATE|[820]|Bytes:33
+16:02:48.244 (2484486526)|STATEMENT_EXECUTE|[3]
+16:02:48.244 (2484493436)|HEAP_ALLOCATE|[EXTERNAL]|Bytes:5
+16:02:48.244 (2484514359)|CONSTRUCTOR_EXIT|[96]|01pgK00000E8650|<init>(String)|PlannedSalesService.PlannedSalesServiceException
+16:02:48.244 (2484532276)|EXCEPTION_THROWN|[96]|PlannedSalesService.PlannedSalesServiceException: Failed to update Planned Sales: Update failed: duplicate value found: Unique_Key_Stored__c duplicates value on record with id: a07gK00000k8oH6QAI; duplicate value found: Unique_Key_Stored__c duplicates value on record with id: a07gK00000k8oH6QAI
+16:02:48.244 (2484543238)|EXCEPTION_THROWN|[96]|PlannedSalesService.PlannedSalesServiceException: Failed to update Planned Sales: Update failed: duplicate value found: Unique_Key_Stored__c duplicates value on record with id: a07gK00000k8oH6QAI; duplicate value found: Unique_Key_Stored__c duplicates value on record with id: a07gK00000k8oH6QAI
+16:02:48.244 (2484550733)|METHOD_EXIT|[69]|01pgK00000E8650|PlannedSalesService.updateSafely(List<Planned_Sales__c>)
+16:02:48.244 (2484558133)|EXCEPTION_THROWN|[69]|PlannedSalesService.PlannedSalesServiceException: Failed to update Planned Sales: Update failed: duplicate value found: Unique_Key_Stored__c duplicates value on record with id: a07gK00000k8oH6QAI; duplicate value found: Unique_Key_Stored__c duplicates value on record with id: a07gK00000k8oH6QAI
+16:02:48.244 (2484562446)|METHOD_EXIT|[28]|01pgK00000E8650|PlannedSalesService.recalculate(List<Planned_Sales__c>)
+16:02:48.244 (2484569736)|EXCEPTION_THROWN|[28]|PlannedSalesService.PlannedSalesServiceException: Failed to update Planned Sales: Update failed: duplicate value found: Unique_Key_Stored__c duplicates value on record with id: a07gK00000k8oH6QAI; duplicate value found: Unique_Key_Stored__c duplicates value on record with id: a07gK00000k8oH6QAI
+16:02:48.244 (2484574676)|METHOD_EXIT|[71]|01pgK00000E8650|PlannedSalesService.recalculateForKeys(Set<String>)
+16:02:48.244 (2484581503)|EXCEPTION_THROWN|[76]|PlannedSalesService.PlannedSalesServiceException: Failed to update Planned Sales: Update failed: duplicate value found: Unique_Key_Stored__c duplicates value on record with id: a07gK00000k8oH6QAI; duplicate value found: Unique_Key_Stored__c duplicates value on record with id: a07gK00000k8oH6QAI
+16:02:48.244 (2484585941)|METHOD_EXIT|[31]|01pgK00000E864z|OpportunityTriggerHandler.afterUpdate()
+16:02:48.244 (2484589920)|METHOD_EXIT|[2]|01pgK00000E80At|TriggerHandler.run()
+16:02:48.244 (2484720841)|FATAL_ERROR|PlannedSalesService.PlannedSalesServiceException: Failed to update Planned Sales: Update failed: duplicate value found: Unique_Key_Stored__c duplicates value on record with id: a07gK00000k8oH6QAI; duplicate value found: Unique_Key_Stored__c duplicates value on record with id: a07gK00000k8oH6QAI
+
+Class.PlannedSalesService.updateSafely: line 96, column 1
+Class.PlannedSalesService.recalculate: line 69, column 1
+Class.PlannedSalesService.recalculateForKeys: line 28, column 1
+Class.OpportunityTriggerHandler.afterUpdate: line 71, column 1
+Class.TriggerHandler.run: line 31, column 1
+Trigger.OpportunityTrigger: line 2, column 1
+16:02:48.244 (2484731401)|FATAL_ERROR|PlannedSalesService.PlannedSalesServiceException: Failed to update Planned Sales: Update failed: duplicate value found: Unique_Key_Stored__c duplicates value on record with id: a07gK00000k8oH6QAI; duplicate value found: Unique_Key_Stored__c duplicates value on record with id: a07gK00000k8oH6QAI
+
+Class.PlannedSalesService.updateSafely: line 96, column 1
+Class.PlannedSalesService.recalculate: line 69, column 1
+Class.PlannedSalesService.recalculateForKeys: line 28, column 1
+Class.OpportunityTriggerHandler.afterUpdate: line 71, column 1
+Class.TriggerHandler.run: line 31, column 1
+Trigger.OpportunityTrigger: line 2, column 1
+16:02:48.484 (2484759784)|CUMULATIVE_LIMIT_USAGE
+16:02:48.484 (2484759784)|LIMIT_USAGE_FOR_NS|(default)|
+  Number of SOQL queries: 6 out of 100
+  Number of query rows: 11 out of 50000
+  Number of SOSL queries: 0 out of 20
+  Number of DML statements: 11 out of 150
+  Number of Publish Immediate DML: 0 out of 150
+  Number of DML rows: 10 out of 10000
+  Maximum CPU time: 2 out of 10000
+  Maximum heap size: 0 out of 6000000
+  Number of callouts: 0 out of 100
+  Number of Email Invocations: 0 out of 10
+  Number of future calls: 0 out of 50
+  Number of queueable jobs added to the queue: 0 out of 50
+  Number of Mobile Apex push calls: 0 out of 10
+
+16:02:48.484 (2484759784)|CUMULATIVE_LIMIT_USAGE_END
+
+16:02:48.244 (2484975976)|CODE_UNIT_FINISHED|OpportunityTrigger on Opportunity trigger event AfterUpdate|__sfdc_trigger/OpportunityTrigger
+16:02:48.244 (2542236040)|EXCEPTION_THROWN|[37]|System.DmlException: Update failed. First exception on row 0 with id 006gK00000MbxR3QAJ; first error: CANNOT_INSERT_UPDATE_ACTIVATE_ENTITY, OpportunityTrigger: execution of AfterUpdate
+
+caused by: PlannedSalesService.PlannedSalesServiceException: Failed to update Planned Sales: Update failed: duplicate value found: Unique_Key_Stored__c duplicates value on record with id: a07gK00000k8oH6QAI; duplicate value found: Unique_Key_Stored__c duplicates value on record with id: a07gK00000k8oH6QAI
+
+Class.PlannedSalesService.updateSafely: line 96, column 1
+Class.PlannedSalesService.recalculate: line 69, column 1
+Class.PlannedSalesService.recalculateForKeys: line 28, column 1
+Class.OpportunityTriggerHandler.afterUpdate: line 71, column 1
+Class.TriggerHandler.run: line 31, column 1
+Trigger.OpportunityTrigger: line 2, column 1: []
+16:02:48.244 (2545255560)|HEAP_ALLOCATE|[37]|Bytes:811
+16:02:48.244 (2545386374)|FATAL_ERROR|System.DmlException: Update failed. First exception on row 0 with id 006gK00000MbxR3QAJ; first error: CANNOT_INSERT_UPDATE_ACTIVATE_ENTITY, OpportunityTrigger: execution of AfterUpdate
+
+caused by: PlannedSalesService.PlannedSalesServiceException: Failed to update Planned Sales: Update failed: duplicate value found: Unique_Key_Stored__c duplicates value on record with id: a07gK00000k8oH6QAI; duplicate value found: Unique_Key_Stored__c duplicates value on record with id: a07gK00000k8oH6QAI
+
+Class.PlannedSalesService.updateSafely: line 96, column 1
+Class.PlannedSalesService.recalculate: line 69, column 1
+Class.PlannedSalesService.recalculateForKeys: line 28, column 1
+Class.OpportunityTriggerHandler.afterUpdate: line 71, column 1
+Class.TriggerHandler.run: line 31, column 1
+Trigger.OpportunityTrigger: line 2, column 1: []
+
+AnonymousBlock: line 37, column 1
+16:02:48.545 (2545413026)|CUMULATIVE_LIMIT_USAGE
+16:02:48.545 (2545413026)|LIMIT_USAGE_FOR_NS|(default)|
+  Number of SOQL queries: 1 out of 100
+  Number of query rows: 1 out of 50000
+  Number of SOSL queries: 0 out of 20
+  Number of DML statements: 6 out of 150
+  Number of Publish Immediate DML: 0 out of 150
+  Number of DML rows: 6 out of 10000
+  Maximum CPU time: 0 out of 10000
+  Maximum heap size: 0 out of 6000000
+  Number of callouts: 0 out of 100
+  Number of Email Invocations: 0 out of 10
+  Number of future calls: 0 out of 50
+  Number of queueable jobs added to the queue: 0 out of 50
+  Number of Mobile Apex push calls: 0 out of 10
+
+16:02:48.545 (2545413026)|CUMULATIVE_LIMIT_USAGE_END
+
+16:02:48.244 (2545483526)|CODE_UNIT_FINISHED|execute_anonymous_apex
+16:02:48.244 (2545499343)|EXECUTION_FINISHED
