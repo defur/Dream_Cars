@@ -1,0 +1,60 @@
+<apex:page standardController="Opportunity" extensions="OrderPdfController" renderAs="pdf" applyBodyTag="false" showHeader="false" standardStylesheets="false">
+<html>
+<head>
+<style>
+    body { font-family: Arial, sans-serif; font-size: 12px; color: #333; }
+    .header { text-align: center; margin-bottom: 20px; }
+    .header h1 { color: #1a3e6f; margin-bottom: 5px; }
+    .details-table { width: 100%; margin-bottom: 20px; border-collapse: collapse; }
+    .details-table td { padding: 4px 8px; }
+    .details-table .label { font-weight: bold; width: 150px; }
+    .items-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    .items-table th { background-color: #1a3e6f; color: white; padding: 8px; text-align: left; }
+    .items-table td { padding: 8px; border-bottom: 1px solid #ddd; }
+    .total-row td { font-weight: bold; border-top: 2px solid #333; }
+</style>
+</head>
+<body>
+    <div class="header">
+        <h1>Dream Cars</h1>
+        <h3>Order Confirmation</h3>
+    </div>
+
+    <table class="details-table">
+        <tr>
+            <td class="label">Opportunity Name:</td>
+            <td>{!Opportunity.Name}</td>
+            <td class="label">Close Date:</td>
+            <td>{!Opportunity.CloseDate}</td>
+        </tr>
+        <tr>
+            <td class="label">Account Name:</td>
+            <td>{!Opportunity.Account.Name}</td>
+            <td class="label">Stage:</td>
+            <td>{!Opportunity.StageName}</td>
+        </tr>
+    </table>
+
+    <table class="items-table">
+        <tr>
+            <th>Product Name</th>
+            <th>Quantity</th>
+            <th>Sales Price</th>
+            <th>Total Price</th>
+        </tr>
+        <apex:repeat value="{!lineItems}" var="item">
+            <tr>
+                <td>{!item.Product2.Name}</td>
+                <td>{!item.Quantity}</td>
+                <td><apex:outputText value="{0, number, $#,##0.00}"><apex:param value="{!item.UnitPrice}"/></apex:outputText></td>
+                <td><apex:outputText value="{0, number, $#,##0.00}"><apex:param value="{!item.TotalPrice}"/></apex:outputText></td>
+            </tr>
+        </apex:repeat>
+        <tr class="total-row">
+            <td colspan="3">Total</td>
+            <td><apex:outputText value="{0, number, $#,##0.00}"><apex:param value="{!totalAmount}"/></apex:outputText></td>
+        </tr>
+    </table>
+</body>
+</html>
+</apex:page>
